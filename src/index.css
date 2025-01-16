@@ -254,7 +254,7 @@ h1, p {
     }
     .scroll-arrow {
       position: absolute;
-      bottom: -2em;
+      bottom: -1.5em;
     }
     .table-container {
       bottom: -42em;
