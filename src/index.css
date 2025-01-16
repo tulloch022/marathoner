@@ -196,9 +196,11 @@ h1, p {
   display: flex;
   justify-content: center;  /* Center the table */
   padding: 20px;
-  bottom: -25em;
+  bottom: -45em;
   background-color: #213547;
   width: 100%;
+  height: 40em;
+  align-items: center;
 }
 
 /* Table Styling */
@@ -211,13 +213,14 @@ h1, p {
   background-color:#3a546a;
   width: 55%;
   color: white;
+  height: 85%;
 }
 
 .feature-table th,
 .feature-table td {
-  padding: 15px;
+  padding: 1em;
   text-align: left;
-  font-size: 1.2rem;
+  font-size: 1.4rem;
 }
 
 
