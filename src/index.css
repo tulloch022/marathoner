@@ -138,6 +138,7 @@ h1, p {
   text-align: center;
   transition: transform 0.3s ease-in-out; /* Smooth transition for scale effect */
   color: black;
+  font-weight: bold;
 }
 
 /* Apply scale effect on hover */
