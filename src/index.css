@@ -24,7 +24,8 @@ a:hover {
 
 body, html {
   margin: 0;
-  padding: 0;g
+  padding: 0;
+  height: 200%; /* Allow scrolling */
   overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
@@ -143,13 +144,14 @@ h1, p, .scroll-arrow {
 
 
 .app-image {
-  max-width: 25%;  /* Make sure image scales responsively */
+  max-width: 14%;  /* Make sure image scales responsively */
   height: auto;     /* Maintain aspect ratio */
-  border-radius: 7em; /* Optional: rounded corners */
+  border-radius: 0em; /* Optional: rounded corners */
+  filter: grayscale();
 }
 
 .image-container {
   text-align: center; /* Optional: center image */
   position: absolute;
-  bottom: -57em;
+  bottom: -45em;
 }

@@ -48,7 +48,9 @@ function App() {
       <h1 className="title">Marathoner.</h1>
       <p className="subtitle">Welcome to your training companion</p>
 
+
       {/* Add image */}
+      
       <div className="image-container">
         <img src={image} alt="Training Image" className="app-image" />
       </div>
