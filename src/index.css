@@ -272,9 +272,10 @@ h1, p {
     }
     .feature-table th,
 .feature-table td {
-  padding: 15px;
+  padding: 20px;
   text-align: left;
   font-size: .75em;
+  line-height: 1.2em;
 }
 .table-container {
   position: absolute;
