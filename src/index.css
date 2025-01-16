@@ -214,6 +214,7 @@ h1, p {
   width: 55%;
   color: white;
   height: 85%;
+  line-height: 1.5em;
 }
 
 .feature-table th,
