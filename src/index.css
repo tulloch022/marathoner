@@ -119,27 +119,43 @@ h1, p, .scroll-arrow {
 
 /* Box Container for three boxes side by side */
 .box-container {
-  position: absolute;
-  bottom: -20em;
   display: flex; /* Use flexbox to position items horizontally */
   justify-content: center; /* Center the boxes horizontally */
   gap: 20px; /* Adds space between boxes */
+  transition: transform 0.3s ease-in-out; /* Smooth transition for all boxes */
 }
 
+/* Box Container for three boxes side by side */
+.box-container {
+  display: flex; /* Use flexbox to position items horizontally */
+  justify-content: center; /* Center the boxes horizontally */
+  gap: 20px; /* Adds space between boxes */
+  transition: transform 0.3s ease-in-out; /* Smooth transition for all boxes */
+}
+
+/* Individual Boxes */
 .box-under-arrow {
-  padding: 0px;
+  padding: 20px;
   background-color: #e9e5e5ab;
-  border-radius: 4px; /* Optional: rounded corners */
+  border: 2px solid #000; /* Border color */
+  border-radius: 8px; /* Optional: rounded corners */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow */
   width: 200px; /* Fixed width for each box */
   text-align: center;
-  
+  transition: transform 0.3s ease-in-out; /* Smooth transition for scale effect */
+  color: black;
+  font-weight:bolder
 }
 
-.box-under-arrow p {
-  margin: 0;
-  font-size: 1.5rem;
-  color:#363636;
+/* Apply scale effect on hover */
+.box-under-arrow:hover {
+  transform: scale(1.1); /* Scale up the hovered box */
+  z-index: 2; /* Bring the hovered box on top */
+}
+
+/* Shrink other boxes when one is hovered */
+.box-container:hover .box-under-arrow:not(:hover) {
+  transform: scale(0.9); /* Shrink the non-hovered boxes */
 }
 
 
@@ -150,7 +166,7 @@ h1, p, .scroll-arrow {
   display: flex;
   justify-content: center;  /* Center the table */
   padding: 20px;
-  bottom: -43em;
+  bottom: -25em;
 }
 
 /* Table Styling */
@@ -162,7 +178,7 @@ h1, p, .scroll-arrow {
   border-style: dotted;
   overflow: hidden;  /* Hide any content that overflows */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* Optional: Add subtle shadow */
-  background-color:#213547
+  background-color:#213547;
 }
 
 .feature-table th,
