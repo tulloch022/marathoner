@@ -258,6 +258,19 @@ h1, p {
       bottom: -42em;
       font-size: 1em;
     }
+    .title {
+      padding-top: 1em;
+      line-height: 0em;
+      font-size: 3.5rem; /* Initial large size for the title */
+      z-index: 2;
+    }
+    
+    .subtitle {
+      font-size: .75em;
+      line-height: 5em ;
+      z-index: 2;
+    }
+    
 }
 
 
