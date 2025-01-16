@@ -45,6 +45,11 @@ function App() {
 
   return (
     <div className="main">
+      
+
+      {/* Login Button */}
+      <button className="login-btn">Login</button>
+
       <h1 className="title">Marathoner.</h1>
       <p className="subtitle">Welcome to your training companion</p>
 
