@@ -270,6 +270,16 @@ h1, p {
       line-height: 5em ;
       z-index: 2;
     }
+    .feature-table th,
+.feature-table td {
+  padding: 15px;
+  text-align: left;
+  font-size: .5rem;
+}
+.table-container {
+  position: absolute;
+  bottom: -20em;
+}
     
 }
 
