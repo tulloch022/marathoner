@@ -203,8 +203,6 @@ h1, p {
   width: 100%;  /* Adjust width as necessary */
   border-collapse: collapse;  /* Make borders collapse into one line */
   border-radius: 12px;  /* Smooth corners */
-  border:#000000;
-  border-style: dotted;
   overflow: hidden;  /* Hide any content that overflows */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* Optional: Add subtle shadow */
   background-color:#213547;
@@ -217,12 +215,7 @@ h1, p {
   font-size: 1.2rem;
 }
 
-.feature-table th {
-  background-color: #201d1d;  /* Light gray for header */
-  color: black;
-  font-weight: bold;
-  border-bottom: 2px solid #ddd;  /* Bottom border for header */
-}
+
 
 .feature-table td {
   border-bottom: 1px solid #ddd;  /* Border between rows */
@@ -251,6 +244,8 @@ h1, p {
       justify-content: center;  /* Center the table */
       padding: 20px;
       bottom: -50em;
+      width: 100%;
+      border-radius: 0;
     }
     .scroll-arrow {
       position: absolute;
@@ -268,8 +263,8 @@ h1, p {
     }
     
     .subtitle {
-      font-size: .75em;
-      line-height: 5em ;
+      font-size: 1.15em;
+      line-height: 3.9em ;
       z-index: 2;
     }
     .feature-table th,
@@ -278,10 +273,18 @@ h1, p {
   text-align: left;
   font-size: .75em;
   line-height: 1.2em;
+  border-radius: 0;
 }
 .table-container {
   position: absolute;
   bottom: -21em;
+  background-color: #213547
+}
+
+.feature-table {
+  border-radius: 0;
+  width: 75%;
+  background-color: #334e65
 }
     
 }
