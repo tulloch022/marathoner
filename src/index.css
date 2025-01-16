@@ -24,8 +24,7 @@ a:hover {
 
 body, html {
   margin: 0;
-  padding: 0;
-  height: 200%; /* Allow scrolling */
+  padding: 0;g
   overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
@@ -98,10 +97,10 @@ h1, p, .scroll-arrow {
 
 .scroll-arrow {
   position: absolute;
-  bottom: 10px; /* Position at the bottom of the screen */
+  bottom: 0px; /* Position at the bottom of the screen */
   
   font-size: 6rem; /* Arrow size */
-  animation: bounce 2.5s infinite; /* Bouncing animation */
+  animation: bounce 1.5s infinite; /* Bouncing animation */
 }
 
 @keyframes bounce {
@@ -117,3 +116,40 @@ h1, p, .scroll-arrow {
 }
 
 
+/* Box Container for three boxes side by side */
+.box-container {
+  position: absolute;
+  bottom: -20em;
+  display: flex; /* Use flexbox to position items horizontally */
+  justify-content: center; /* Center the boxes horizontally */
+  gap: 20px; /* Adds space between boxes */
+}
+
+.box-under-arrow {
+  padding: 0px;
+  background-color: #e9e5e5ab;
+  border-radius: 4px; /* Optional: rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Optional: subtle shadow */
+  width: 200px; /* Fixed width for each box */
+  text-align: center;
+  
+}
+
+.box-under-arrow p {
+  margin: 0;
+  font-size: 1.5rem;
+  color:#363636;
+}
+
+
+.app-image {
+  max-width: 25%;  /* Make sure image scales responsively */
+  height: auto;     /* Maintain aspect ratio */
+  border-radius: 7em; /* Optional: rounded corners */
+}
+
+.image-container {
+  text-align: center; /* Optional: center image */
+  position: absolute;
+  bottom: -57em;
+}

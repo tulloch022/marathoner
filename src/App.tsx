@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import image from "./assets/IMG_0437.jpg";  // Import the image file
 
 function App() {
   const [isContentVisible, setIsContentVisible] = useState(false);
@@ -47,20 +48,30 @@ function App() {
       <h1 className="title">Marathoner.</h1>
       <p className="subtitle">Welcome to your training companion</p>
 
+      {/* Add image */}
+      <div className="image-container">
+        <img src={image} alt="Training Image" className="app-image" />
+      </div>
 
       {/* Scroll Down Arrow */}
       <div className="scroll-arrow">
         <span>&#8595;</span> {/* Unicode for downward arrow */}
       </div>
 
-      {/* Box under the arrow */}
-      <div className="box-under-arrow">
-        <p>This is the box under the arrow.</p>
+      {/* Box Container with Three Boxes Side by Side */}
+      <div className={`box-container ${isContentVisible ? "visible" : ""}`}>
+        <div className="box-under-arrow">
+          <p>Plan</p>
+        </div>
+        <div className="box-under-arrow">
+          <p>Track</p>
+        </div>
+        <div className="box-under-arrow">
+          <p>Analyze</p>
+        </div>
       </div>
     </div>
-    
   );
 }
-
 
 export default App;
