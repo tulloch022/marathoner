@@ -1,6 +1,6 @@
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  line-height: 3.5;
   font-weight: 400;
 
   color-scheme: light dark;
@@ -25,16 +25,11 @@ a:hover {
 body, html {
   margin: 0;
   padding: 0;
-  height: 100%; /* Ensure body takes full height */
-  justify-content: center;
-  display: flex;
+  height: 200%; /* Allow scrolling */
+  overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 0;
-  
-}
+
 
 button {
   border-radius: 8px;
@@ -74,8 +69,40 @@ button:focus-visible {
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column; /* Stack elements vertically */
-  height: 100vh;
+  flex-direction: column;
+  height: 100vh; /* Title and subtitle area */
   width: 100%;
   text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+h1, p {
+  margin: 0;
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+}
+
+.title {
+  line-height: 0;
+  font-size: 4.5rem; /* Initial large size for the title */
+  z-index: 2;
+}
+
+.subtitle {
+  font-size: 1.5em;
+  z-index: 2;
+}
+
+.content {
+  padding: 20px;
+  font-size: 1.2rem;
+  z-index: 0;
+  position: relative;
+  opacity: 0; /* Initially hidden */
+  transition: opacity 0.3s ease-in-out;
+  margin-top: 20px; /* Provide space between title/subtitle and content */
+}
+
+.content.visible {
+  opacity: 1; /* Fade in when title disappears */
 }
