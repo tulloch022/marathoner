@@ -209,6 +209,7 @@ h1, p {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* Optional: Add subtle shadow */
   background-color:#3a546a;
   width: 55%;
+  color: white;
 }
 
 .feature-table th,
