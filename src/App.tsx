@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import image from "./assets/IMG_0437.jpg";  // Import the image file
+import { useEffect, useState } from "react";
 
 function App() {
   const [isContentVisible, setIsContentVisible] = useState(false);
