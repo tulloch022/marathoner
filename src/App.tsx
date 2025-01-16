@@ -1,6 +1,6 @@
 function App() {
   return (
-    <div>
+    <div className="main">
       <h1>Marathoner</h1>
       <p>Welcome to your training companion!</p>
     </div>
