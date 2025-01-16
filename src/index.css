@@ -104,6 +104,8 @@ h1, p, .scroll-arrow {
   animation: bounce 1.5s infinite; /* Bouncing animation */
 }
 
+
+
 @keyframes bounce {
   0%, 20%, 50%, 80%, 100% {
     transform: translateY(0);
@@ -125,14 +127,6 @@ h1, p, .scroll-arrow {
   transition: transform 0.3s ease-in-out; /* Smooth transition for all boxes */
 }
 
-/* Box Container for three boxes side by side */
-.box-container {
-  display: flex; /* Use flexbox to position items horizontally */
-  justify-content: center; /* Center the boxes horizontally */
-  gap: 20px; /* Adds space between boxes */
-  transition: transform 0.3s ease-in-out; /* Smooth transition for all boxes */
-}
-
 /* Individual Boxes */
 .box-under-arrow {
   padding: 20px;
@@ -144,7 +138,6 @@ h1, p, .scroll-arrow {
   text-align: center;
   transition: transform 0.3s ease-in-out; /* Smooth transition for scale effect */
   color: black;
-  font-weight:bolder
 }
 
 /* Apply scale effect on hover */
@@ -156,6 +149,39 @@ h1, p, .scroll-arrow {
 /* Shrink other boxes when one is hovered */
 .box-container:hover .box-under-arrow:not(:hover) {
   transform: scale(0.9); /* Shrink the non-hovered boxes */
+}
+
+/* Media Query for Tablets and Smaller Screens */
+@media (max-width: 768px) {
+  .box-container {
+    flex-direction: column; /* Stack the boxes vertically on smaller screens */
+    align-items: center; /* Center the boxes horizontally */
+    width: 40%;
+  }
+
+  /* Adjust the size of the boxes for smaller screens */
+  .box-under-arrow {
+    width: 100%; /* Make the boxes take up more space on smaller screens */
+    margin-bottom: 20px; /* Add space between stacked boxes */
+  }
+
+  /* Adjust hover scaling effect for smaller screens */
+  .box-under-arrow:hover {
+    transform: scale(1.05); /* Slightly smaller scale for mobile */
+  }
+
+  /* Optional: Reduce the shrinking effect on mobile */
+  .box-container:hover .box-under-arrow:not(:hover) {
+    transform: scale(0.95); /* Make non-hovered boxes a little bigger on mobile */
+  }
+
+}
+
+/* Media Query for Small Mobile Screens */
+@media (max-width: 480px) {
+  .box-under-arrow {
+    width: 100%; /* Make the boxes take up full width on very small screens */
+  }
 }
 
 
