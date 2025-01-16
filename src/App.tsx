@@ -6,7 +6,7 @@ function App() {
   useEffect(() => {
     const handleScroll = () => {
       const scrollY = window.scrollY;
-      const scale = 1 + scrollY / 500; // Adjust the divisor to control speed of scaling
+      const scale = 1 + scrollY / 350; // Adjust the divisor to control speed of scaling
       const opacity = Math.max(1 - scrollY / 500, 0); // Adjust the opacity based on scroll position
 
       const title = document.querySelector(".title") as HTMLElement;
@@ -46,12 +46,19 @@ function App() {
     <div className="main">
       <h1 className="title">Marathoner.</h1>
       <p className="subtitle">Welcome to your training companion</p>
-      <div className={`content ${isContentVisible ? "visible" : ""}`}>
-        {/* Your app content */}
-        {/* <p>Here's some content that will appear as the title fades out.</p> */}
-        {/* <p>More content to fill the space and make scrolling happen.</p> */}
+
+
+      {/* Scroll Down Arrow */}
+      <div className="scroll-arrow">
+        <span>&#8595;</span> {/* Unicode for downward arrow */}
+      </div>
+
+      {/* Box under the arrow */}
+      <div className="box-under-arrow">
+        <p>This is the box under the arrow.</p>
       </div>
     </div>
+    
   );
 }
 

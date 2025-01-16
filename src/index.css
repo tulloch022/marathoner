@@ -77,7 +77,7 @@ button:focus-visible {
   z-index: 1;
 }
 
-h1, p {
+h1, p, .scroll-arrow {
   margin: 0;
   transition: transform 0.2s ease-out, opacity 0.2s ease-out;
 }
@@ -89,20 +89,31 @@ h1, p {
 }
 
 .subtitle {
-  font-size: 1.5em;
+  font-size: 1.55em;
   z-index: 2;
 }
 
-.content {
-  padding: 20px;
-  font-size: 1.2rem;
-  z-index: 0;
-  position: relative;
-  opacity: 0; /* Initially hidden */
-  transition: opacity 0.3s ease-in-out;
-  margin-top: 20px; /* Provide space between title/subtitle and content */
+
+
+
+.scroll-arrow {
+  position: absolute;
+  bottom: 10px; /* Position at the bottom of the screen */
+  
+  font-size: 6rem; /* Arrow size */
+  animation: bounce 2.5s infinite; /* Bouncing animation */
 }
 
-.content.visible {
-  opacity: 1; /* Fade in when title disappears */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
 }
+
+
