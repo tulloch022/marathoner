@@ -196,6 +196,8 @@ h1, p {
   justify-content: center;  /* Center the table */
   padding: 20px;
   bottom: -25em;
+  background-color: #213547;
+  width: 100%;
 }
 
 /* Table Styling */
@@ -205,7 +207,8 @@ h1, p {
   border-radius: 12px;  /* Smooth corners */
   overflow: hidden;  /* Hide any content that overflows */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* Optional: Add subtle shadow */
-  background-color:#213547;
+  background-color:#3a546a;
+  width: 55%;
 }
 
 .feature-table th,
