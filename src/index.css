@@ -143,15 +143,57 @@ h1, p, .scroll-arrow {
 }
 
 
-.app-image {
-  max-width: 14%;  /* Make sure image scales responsively */
-  height: auto;     /* Maintain aspect ratio */
-  border-radius: 0em; /* Optional: rounded corners */
-  filter: grayscale();
+
+/* Styling for the Table Container */
+.table-container {
+  position: absolute;
+  display: flex;
+  justify-content: center;  /* Center the table */
+  padding: 20px;
+  bottom: -43em;
 }
 
-.image-container {
-  text-align: center; /* Optional: center image */
-  position: absolute;
-  bottom: -45em;
+/* Table Styling */
+.feature-table {
+  width: 100%;  /* Adjust width as necessary */
+  border-collapse: collapse;  /* Make borders collapse into one line */
+  border-radius: 12px;  /* Smooth corners */
+  border:#000000;
+  border-style: dotted;
+  overflow: hidden;  /* Hide any content that overflows */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* Optional: Add subtle shadow */
+  background-color:#213547
+}
+
+.feature-table th,
+.feature-table td {
+  padding: 15px;
+  text-align: left;
+  font-size: 1.2rem;
+}
+
+.feature-table th {
+  background-color: #201d1d;  /* Light gray for header */
+  color: black;
+  font-weight: bold;
+  border-bottom: 2px solid #ddd;  /* Bottom border for header */
+}
+
+.feature-table td {
+  border-bottom: 1px solid #ddd;  /* Border between rows */
+}
+
+.feature-table tr:last-child td {
+  border-bottom: none;  /* Remove bottom border for the last row */
+}
+
+/* Smooth Border Effect */
+.feature-table td,
+.feature-table th {
+  transition: border-color 0.3s ease-in-out;  /* Smooth transition for borders */
+}
+
+.feature-table td:hover,
+.feature-table th:hover {
+  border-color: #000000;  /* Change border color on hover */
 }

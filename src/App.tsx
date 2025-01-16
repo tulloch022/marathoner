@@ -49,12 +49,6 @@ function App() {
       <p className="subtitle">Welcome to your training companion</p>
 
 
-      {/* Add image */}
-      
-      <div className="image-container">
-        <img src={image} alt="Training Image" className="app-image" />
-      </div>
-
       {/* Scroll Down Arrow */}
       <div className="scroll-arrow">
         <span>&#8595;</span> {/* Unicode for downward arrow */}
@@ -72,6 +66,27 @@ function App() {
           <p>Analyze</p>
         </div>
       </div>
+
+            {/* Table Section */}
+      <div className="table-container">
+        <table className="feature-table">
+          <tbody>
+            <tr>
+              <td>Plan</td>
+              <td>Create and customize your marathon training schedule.</td>
+            </tr>
+            <tr>
+              <td>Track</td>
+              <td>Monitor your progress with detailed performance metrics.</td>
+            </tr>
+            <tr>
+              <td>Analyze</td>
+              <td>Review your performance and identify areas for improvement.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
     </div>
   );
 }
