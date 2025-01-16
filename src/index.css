@@ -157,13 +157,15 @@ h1, p {
   .box-container {
     flex-direction: column; /* Stack the boxes vertically on smaller screens */
     align-items: center; /* Center the boxes horizontally */
-    width: 40%;
+    width: 30%;
   }
 
   /* Adjust the size of the boxes for smaller screens */
   .box-under-arrow {
     width: 100%; /* Make the boxes take up more space on smaller screens */
-    margin-bottom: 20px; /* Add space between stacked boxes */
+    margin-bottom: 0px; /* Add space between stacked boxes */
+    font-size: 1.5em;
+    line-height: .5em;
   }
 
   /* Adjust hover scaling effect for smaller screens */
