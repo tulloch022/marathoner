@@ -287,13 +287,14 @@ h1, p {
 .table-container {
   position: absolute;
   bottom: -21em;
-  background-color: #213547
+  background-color: #213547;
+  bottom: -50em;
 }
 
 .feature-table {
   border-radius: 0;
   width: 75%;
-  background-color: #334e65
+  background-color: #334e65;
 }
     
 }
