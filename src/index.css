@@ -11,7 +11,7 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgb(40, 40, 40);
+  background-color: rgb(78, 77, 77);
 }
 
 a {
@@ -102,7 +102,6 @@ h1, p {
   bottom: -50px; /* Position at the bottom of the screen */
   
   font-size: 6rem; /* Arrow size */
-  animation: bounce 1.5s infinite; /* Bouncing animation */
 }
 
 
