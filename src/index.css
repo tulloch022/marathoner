@@ -100,8 +100,9 @@ h1, p {
 .scroll-arrow {
   position: absolute;
   bottom: -50px; /* Position at the bottom of the screen */
-  
   font-size: 6rem; /* Arrow size */
+  transform: translateX(-50%);
+  animation: bounce 1.5s ease-in-out infinite;
 }
 
 
