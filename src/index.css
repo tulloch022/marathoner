@@ -195,6 +195,7 @@ h1, p {
   font-size: 1.4rem;
   border-bottom: 1px solid #ddd;
   transition: border-color 0.3s ease-in-out;
+  font-weight: 100;
 }
 
 .feature-table td:hover,
@@ -250,4 +251,8 @@ h1, p {
 .login-btn:hover {
   background-color: #000000;
   color: white;
+}
+
+.heading {
+  font-weight: 500 !important;
 }

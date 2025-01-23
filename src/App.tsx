@@ -74,15 +74,15 @@ function App() {
         <table className="feature-table">
           <tbody>
             <tr>
-              <td>Plan</td>
+              <td className="heading">Plan</td>
               <td>Create and customize your marathon training schedule.</td>
             </tr>
             <tr>
-              <td>Track</td>
+              <td className="heading">Track</td>
               <td>Monitor your progress with detailed performance metrics.</td>
             </tr>
             <tr>
-              <td>Analyze</td>
+              <td className="heading">Analyze</td>
               <td>Review your performance and identify areas for improvement.</td>
             </tr>
           </tbody>
