@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import LoginButton from "./components/LoginButton.tsx";
 import Title from "./components/Title.tsx"
 import Subtitle from "./components/Subtitle.tsx"
+import ScrollDownArrow from "./components/ScrollDownArrow.tsx"
 
 function App() {
   const [isContentVisible, setIsContentVisible] = useState(false);
@@ -22,7 +23,7 @@ function App() {
         title.style.opacity = `${opacity}`;
       }
       if (subtitle) {
-        subtitle.style.transform = `scale(${scale})`;
+        subtitle.style.transform = `scale(${scale})`
         subtitle.style.opacity = `${opacity}`;
       }
 
@@ -53,6 +54,7 @@ function App() {
       <LoginButton />
       <Title />
       <Subtitle />
+      <ScrollDownArrow />
 
 
       {/* Scroll Down Arrow */}
