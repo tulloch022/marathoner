@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import LoginButton from "./components/LoginButton.tsx";
 
 function App() {
   const [isContentVisible, setIsContentVisible] = useState(false);
@@ -47,7 +48,7 @@ function App() {
       
 
       {/* Login Button */}
-      <button className="login-btn">Login</button>
+      <LoginButton />
 
       <h1 className="title">Marathoner.</h1>
       <p className="subtitle">Welcome to your training companion</p>

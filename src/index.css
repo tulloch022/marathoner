@@ -19,6 +19,10 @@ body, html {
   overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
+body {
+  text-rendering: optimizeLegibility;
+}
+
 a {
   font-weight: 500;
   color: #646cff;
@@ -83,6 +87,7 @@ h1, p {
 .subtitle {
   font-size: 1.55em;
 }
+
 
 .scroll-arrow {
   position: absolute;
