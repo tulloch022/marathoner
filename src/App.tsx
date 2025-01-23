@@ -56,12 +56,6 @@ function App() {
       <Subtitle />
       <ScrollDownArrow />
 
-
-      {/* Scroll Down Arrow */}
-      <div className="scroll-arrow">
-        <span>&#8595;</span> {/* Unicode for downward arrow */}
-      </div>
-
       {/* Box Container with Three Boxes Side by Side */}
       <div className={`box-container ${isContentVisible ? "visible" : ""}`}>
         <div className="box-under-arrow">
