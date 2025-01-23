@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import LoginButton from "./components/LoginButton.tsx";
 import Title from "./components/Title.tsx"
+import Subtitle from "./components/Subtitle.tsx"
 
 function App() {
   const [isContentVisible, setIsContentVisible] = useState(false);
@@ -51,7 +52,7 @@ function App() {
       {/* Login Button */}
       <LoginButton />
       <Title />
-      <p className="subtitle">Welcome to your training companion</p>
+      <Subtitle />
 
 
       {/* Scroll Down Arrow */}
