@@ -314,7 +314,6 @@ h1, p {
   display: grid;
   grid-template-columns: repeat(7, 1fr); /* 7 days in a week */
   gap: 10px;
-  margin-top: 20px;
   width: 100%;
   max-width: 800px; /* Limit width for better appearance */
 }
