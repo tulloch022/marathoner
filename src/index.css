@@ -214,7 +214,7 @@ h1, p {
 
 @media (max-width: 768px) {
   .table-container {
-    bottom: -42em;
+    bottom: 100vh;
   }
 
   .title {
