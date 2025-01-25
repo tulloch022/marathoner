@@ -243,8 +243,8 @@ h1, p {
   right: 20px;
   padding: 10px 20px;
   font-size: 1rem;
-  background-color: #b8b8b8;
-  color: rgb(0, 0, 0);
+  background-color: black;
+  color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -254,29 +254,29 @@ h1, p {
 }
 
 .login-btn:hover {
-  background-color: #000000;
-  color: white;
+  background-color: white;
+  color: black;
 }
 
 .signup-btn {
   position: absolute;
-  top: 22px;
-  right: 120px;
+  top: 20px;
+  left: 20px;
   padding: 10px 20px;
-  font-size: .85rem;
-  background-color: #b8b8b8;
-  color: rgb(0, 0, 0);
+  font-size: 1rem;
+  background-color: #000000;
+  color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   transition: background-color 0.3s ease, color 0.3s ease;
-  font-weight: 750;
+  font-weight: 600;
 }
 
 .signup-btn:hover {
-  background-color: #000000;
-  color: white;
+  background-color: #white;
+  color: black;
 }
 
 
