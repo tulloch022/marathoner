@@ -90,6 +90,7 @@ h1, p {
 
 
 .scroll-arrow {
+  display: none;
   position: absolute;
   bottom: -50px;
   font-size: 6rem;
