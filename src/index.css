@@ -296,21 +296,21 @@ h1, p {
 /* Container for the Calendar Component */
 .calendar-container {
   position: absolute;
-  display: flex;
+
   flex-direction: column;
   color: white;
   text-align: center;
   top: 220vh;
   justify-content: center;
   align-items: center;
-  width: 100%; /* Full-width for centering */
+  width: 75%; /* Full-width for centering */
   margin: 0 auto; /* Center within parent */
 }
 
 /* Grid Layout for the Calendar */
 .calendar-grid {
   background-color: rgb(204, 203, 203);
-
+  border: solid 5px;
   display: grid;
   grid-template-columns: repeat(7, 1fr); /* 7 days in a week */
   gap: .75em;
@@ -333,6 +333,7 @@ h1, p {
   font-weight: 500;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   transition: transform 0.2s ease, background-color 0.3s ease;
+  border: solid;
 }
 
 /* Hover Effect for Day Squares */
@@ -347,9 +348,10 @@ h1, p {
   padding-right: .75em;
   font-size: 2rem;
   font-weight: 750;
-  background-color: rgb(162, 159, 159);
+  background-color: rgb(212, 212, 212);
   border-radius: 12px;
-  color: rgb(35, 34, 34);
+  color: rgb(21, 19, 19);
+  padding-bottom: 10vh;
 }
 
 /* Responsiveness for Smaller Screens */
