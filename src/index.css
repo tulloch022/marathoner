@@ -238,6 +238,7 @@ h1, p {
 }
 
 .login-btn {
+  width: 7em;
   position: absolute;
   top: 20px;
   right: 20px;
@@ -259,6 +260,7 @@ h1, p {
 }
 
 .signup-btn {
+  width: 7em;
   position: absolute;
   top: 20px;
   left: 20px;
