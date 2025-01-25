@@ -235,6 +235,10 @@ h1, p {
     font-size: 0.75em;
     line-height: 1.2em;
   }
+
+  .box-under-arrow {
+    width: 7em;
+  }
 }
 
 .login-btn {
