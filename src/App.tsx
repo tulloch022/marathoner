@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import LoginButton from "./components/LoginButton.tsx";
 import Title from "./components/Title.tsx"
 import Subtitle from "./components/Subtitle.tsx"
@@ -7,6 +7,17 @@ import Calendar from "./components/Calendar.tsx"
 
 function App() {
   const [isContentVisible, setIsContentVisible] = useState(false);
+
+
+  const calendarRef = useRef<HTMLDivElement>(null);
+
+  // Function to scroll to the Calendar
+  const scrollToCalendar = () => {
+    if (calendarRef.current) {
+      calendarRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -52,23 +63,27 @@ function App() {
       
 
       {/* Login Button */}
+      
       <LoginButton />
       <Title />
       <Subtitle />
       <ScrollDownArrow />
+    
+      <div className="calendar-container" ref={calendarRef}>
       <Calendar />
+      </div>
 
       {/* Box Container with Three Boxes Side by Side */}
       <div className={`box-container ${isContentVisible ? "visible" : ""}`}>
-        <div className="box-under-arrow">
+      <button className="box-under-arrow" onClick={scrollToCalendar}>
           <p>Plan</p>
-        </div>
-        <div className="box-under-arrow">
+        </button>
+        <button className="box-under-arrow">
           <p>Track</p>
-        </div>
-        <div className="box-under-arrow">
+        </button>
+        <button className="box-under-arrow">
           <p>Analyze</p>
-        </div>
+        </button>
       </div>
 
             {/* Table Section */}
