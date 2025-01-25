@@ -3,6 +3,7 @@ import LoginButton from "./components/LoginButton.tsx";
 import Title from "./components/Title.tsx"
 import Subtitle from "./components/Subtitle.tsx"
 import ScrollDownArrow from "./components/ScrollDownArrow.tsx"
+import Calendar from "./components/Calendar.tsx"
 
 function App() {
   const [isContentVisible, setIsContentVisible] = useState(false);
@@ -55,6 +56,7 @@ function App() {
       <Title />
       <Subtitle />
       <ScrollDownArrow />
+      <Calendar />
 
       {/* Box Container with Three Boxes Side by Side */}
       <div className={`box-container ${isContentVisible ? "visible" : ""}`}>

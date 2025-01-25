@@ -256,3 +256,77 @@ h1, p {
 .heading {
   font-weight: 500 !important;
 }
+
+
+/* Container for the Calendar Component */
+.calendar-container {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 3rem; /* Adjust spacing to appear below the blue section */
+  padding: 20px;
+  background-color: #1a1a1a; /* Match the dark theme */
+  color: white;
+  text-align: center;
+  border-radius: 12px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  top: 200vh;
+}
+
+/* Grid Layout for the Calendar */
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 7 days in a week */
+  gap: 10px;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 800px; /* Limit width for better appearance */
+}
+
+/* Individual Day Squares */
+.calendar-day {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+  background-color: #213547;
+  color: #ffffff;
+  border: 1px solid #334e65;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+/* Hover Effect for Day Squares */
+.calendar-day:hover {
+  transform: scale(1.05);
+  background-color: #3a546a;
+}
+
+/* Heading for the Calendar */
+.calendar-heading {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* Responsiveness for Smaller Screens */
+@media (max-width: 768px) {
+  .calendar-grid {
+    grid-template-columns: repeat(3, 1fr); /* Reduce columns on smaller screens */
+  }
+
+  .calendar-heading {
+    font-size: 1.5rem;
+  }
+
+  .calendar-day {
+    font-size: 0.8rem;
+    padding: 10px;
+  }
+}
