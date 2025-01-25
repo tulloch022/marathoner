@@ -157,6 +157,10 @@ h1, p {
   .box-container:hover .box-under-arrow:not(:hover) {
     transform: scale(0.95);
   }
+
+  .scroll-arrow {
+    display: none;
+  }
 }
 
 @media (max-width: 480px) {
