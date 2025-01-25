@@ -257,6 +257,27 @@ h1, p {
   color: white;
 }
 
+.signup-btn {
+  position: absolute;
+  top: 24px;
+  right: 120px;
+  padding: 10px 20px;
+  font-size: .75rem;
+  background-color: #b8b8b8;
+  color: rgb(0, 0, 0);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.signup-btn:hover {
+  background-color: #000000;
+  color: white;
+}
+
+
 .heading {
   font-weight: 500 !important;
 }

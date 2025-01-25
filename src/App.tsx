@@ -4,6 +4,7 @@ import Title from "./components/Title.tsx"
 import Subtitle from "./components/Subtitle.tsx"
 import ScrollDownArrow from "./components/ScrollDownArrow.tsx"
 import Calendar from "./components/Calendar.tsx"
+import SignUpButton from "./components/SignUpButton.tsx"
 
 function App() {
   const [isContentVisible, setIsContentVisible] = useState(false);
@@ -65,6 +66,7 @@ function App() {
       {/* Login Button */}
       
       <LoginButton />
+      <SignUpButton />
       <Title />
       <Subtitle />
       <ScrollDownArrow />
