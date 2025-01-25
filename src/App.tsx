@@ -28,7 +28,6 @@ function App() {
 
       const title = document.querySelector(".title") as HTMLElement;
       const subtitle = document.querySelector(".subtitle") as HTMLElement;
-      const content = document.querySelector(".content");
 
       // Apply styles dynamically based on scroll position
       if (title) {
@@ -38,15 +37,6 @@ function App() {
       if (subtitle) {
         subtitle.style.transform = `scale(${scale})`
         subtitle.style.opacity = `${opacity}`;
-      }
-
-      // Show the content when the title fades out (opacity <= 0)
-      if (content) {
-        if (opacity <= 0) {
-          setIsContentVisible(true); // Show content when title fades out
-        } else {
-          setIsContentVisible(false); // Hide content when title is still visible
-        }
       }
     };
 
