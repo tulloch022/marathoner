@@ -177,7 +177,6 @@ h1, p {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
   width: 100%;
   background-color: #213547;
 }
@@ -233,8 +232,8 @@ h1, p {
 
   .feature-table th,
   .feature-table td {
-    font-size: 0.75em;
-    line-height: 1.2em;
+    font-size: 1.25em;
+    line-height: 2em;
   }
 
   .box-under-arrow {
