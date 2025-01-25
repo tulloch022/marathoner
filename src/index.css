@@ -173,12 +173,12 @@ h1, p {
 .table-container {
   position: absolute;
   top: 100vh;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
   width: 100%;
-  height: 40em;
   background-color: #213547;
 }
 
@@ -214,7 +214,7 @@ h1, p {
 
 @media (max-width: 768px) {
   .table-container {
-    bottom: 100vh;
+    bottom: 100;
   }
 
   .title {
