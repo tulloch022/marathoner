@@ -6,7 +6,7 @@ const Calendar = () => {
   
     return (
       <div className="calendar-container">
-        <h2 className="calendar-heading">30-Day Training Plan</h2>
+        <h2 className="calendar-heading">1-Month Sample Training Plan</h2>
         <div className="calendar-grid">
           {days.map((activity, index) => (
             <div key={index} className="calendar-day">

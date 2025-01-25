@@ -287,11 +287,11 @@ h1, p {
 
 /* Individual Day Squares */
 .calendar-day {
-  display: flex;
+  display: block;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 15px;
+  padding: .5em;
   background-color: #213547;
   color: #ffffff;
   border: 1px solid #334e65;
