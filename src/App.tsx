@@ -7,9 +7,6 @@ import Calendar from "./components/Calendar.tsx"
 import SignUpButton from "./components/SignUpButton.tsx"
 
 function App() {
-  const [isContentVisible] = useState(false);
-
-
   const calendarRef = useRef<HTMLDivElement>(null);
 
   // Function to scroll to the Calendar
@@ -66,7 +63,7 @@ function App() {
       </div>
 
       {/* Box Container with Three Boxes Side by Side */}
-      <div className={`box-container ${isContentVisible ? "visible" : ""}`}>
+      <div className='box-container'>
       <button className="box-under-arrow" onClick={scrollToCalendar}>
           <p>Plan</p>
         </button>
