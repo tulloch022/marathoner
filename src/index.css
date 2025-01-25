@@ -302,7 +302,7 @@ h1, p {
   color: white;
   text-align: center;
   border-radius: 12px;
-  top: 200vh;
+  top: 220vh;
   justify-content: center;
   align-items: center;
   width: 100%; /* Full-width for centering */
@@ -315,7 +315,6 @@ h1, p {
   grid-template-columns: repeat(7, 1fr); /* 7 days in a week */
   gap: 10px;
   width: 100%;
-  max-width: 800px; /* Limit width for better appearance */
 }
 
 /* Individual Day Squares */
