@@ -7,7 +7,7 @@ import Calendar from "./components/Calendar.tsx"
 import SignUpButton from "./components/SignUpButton.tsx"
 
 function App() {
-  const [isContentVisible, setIsContentVisible] = useState(false);
+  const [isContentVisible] = useState(false);
 
 
   const calendarRef = useRef<HTMLDivElement>(null);
