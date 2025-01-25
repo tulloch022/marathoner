@@ -15,7 +15,7 @@ function App() {
   // Function to scroll to the Calendar
   const scrollToCalendar = () => {
     if (calendarRef.current) {
-      calendarRef.current.scrollIntoView({ behavior: "smooth" });
+      calendarRef.current.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
   };
 
