@@ -172,7 +172,7 @@ h1, p {
 
 .table-container {
   position: absolute;
-  bottom: -45em;
+  top: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
