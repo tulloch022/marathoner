@@ -267,11 +267,9 @@ h1, p {
   position: absolute;
   display: flex;
   flex-direction: column;
-  background-color: #1a1a1a; /* Match the dark theme */
   color: white;
   text-align: center;
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   top: 200vh;
   justify-content: center;
   align-items: center;
