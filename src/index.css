@@ -301,7 +301,6 @@ h1, p {
   flex-direction: column;
   color: white;
   text-align: center;
-  border-radius: 12px;
   top: 220vh;
   justify-content: center;
   align-items: center;
@@ -311,10 +310,13 @@ h1, p {
 
 /* Grid Layout for the Calendar */
 .calendar-grid {
+  background-color: rgb(204, 203, 203);
+
   display: grid;
   grid-template-columns: repeat(7, 1fr); /* 7 days in a week */
-  gap: 10px;
+  gap: .75em;
   width: 100%;
+  border-radius: 12px;
 }
 
 /* Individual Day Squares */
@@ -324,7 +326,7 @@ h1, p {
   justify-content: center;
   align-items: center;
   padding: .5em;
-  background-color: #213547;
+  background-color: #494e52;
   color: #ffffff;
   border: 1px solid #334e65;
   border-radius: 8px;
@@ -343,8 +345,10 @@ h1, p {
 /* Heading for the Calendar */
 .calendar-heading {
   font-size: 2rem;
-  font-weight: 600;
-  margin-bottom: 1rem;
+  font-weight: 750;
+  background-color: rgb(162, 159, 159);
+  border-radius: 12px;
+  color: rgb(35, 34, 34);
 }
 
 /* Responsiveness for Smaller Screens */
