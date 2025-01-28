@@ -310,7 +310,7 @@ h1, p {
 /* Grid Layout for the Calendar */
 .calendar-grid {
   background-color: rgb(204, 203, 203);
-  border: solid 5px;
+  border: solid .1em;
   display: grid;
   grid-template-columns: repeat(7, 1fr); /* 7 days in a week */
   gap: .75em;
@@ -327,7 +327,7 @@ h1, p {
   padding: .5em;
   background-color: #494e52;
   color: #ffffff;
-  border: 1px solid #334e65;
+
   border-radius: 8px;
   font-size: 0.9rem;
   font-weight: 500;
