@@ -57,10 +57,7 @@ function App() {
       <Title />
       <Subtitle />
       <ScrollDownArrow />
-    
-      <div className="calendar-container" ref={calendarRef}>
-      <Calendar />
-      </div>
+  
 
       {/* Box Container with Three Boxes Side by Side */}
       <div className='box-container'>
@@ -93,6 +90,10 @@ function App() {
             </tr>
           </tbody>
         </table>
+      </div>
+
+      <div className="calendar-container" ref={calendarRef}>
+      <Calendar />
       </div>
 
     </div>
