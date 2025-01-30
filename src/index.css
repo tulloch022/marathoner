@@ -381,3 +381,26 @@ h1, p {
   background-color: #3a546a;
   width: 100%;
 }
+
+
+.w-full {
+  background-color: white;
+  color: black;
+  height: 3em;
+  margin: 1em;
+}
+
+
+.shoe-selector {
+  height: 3em;
+  background-color: white;
+  color: black;
+  font-weight: 1000;
+}
+
+.space-y-3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}

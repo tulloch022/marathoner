@@ -42,12 +42,12 @@ export default function RunTracker() {
   };
 
   return (
-    <div className="p-4 max-w-md mx-auto bg-white shadow-lg rounded-xl">
+    <div className="tracker">
       <h2 className="text-xl font-semibold mb-4">Run Tracker</h2>
       <form onSubmit={handleSubmit} className="space-y-3">
         <input name="miles" type="number" step="0.1" placeholder="Miles" required className="w-full p-2 border rounded" />
         <input name="time" type="text" placeholder="Time (e.g. 45:30)" required className="w-full p-2 border rounded" />
-        <select name="shoe" required className="w-full p-2 border rounded">
+        <select name="shoe" required className="shoe-selector">
           <option value="">Select Shoes</option>
           {Object.keys(shoes).map((shoe) => (
             <option key={shoe} value={shoe}>
