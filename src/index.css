@@ -98,7 +98,12 @@ h1, p {
 }
 
 .text-xl {
-  font-size: 5em;
+  font-size: 4em;
+  background-color: rgb(200, 200, 200);
+  color: rgb(24, 23, 23);
+  width: 75%;
+  margin: 0 auto;
+  border-radius: .25em;
 }
 
 @keyframes bounce {
@@ -388,6 +393,7 @@ h1, p {
   color: black;
   height: 3em;
   margin: 1em;
+  border-radius: .5em;
 }
 
 

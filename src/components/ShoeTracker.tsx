@@ -43,7 +43,7 @@ export default function RunTracker() {
 
   return (
     <div className="tracker">
-      <h2 className="text-xl font-semibold mb-4">Run Tracker</h2>
+      <h2 className="text-xl">Run Tracker</h2>
       <form onSubmit={handleSubmit} className="space-y-3">
         <input name="miles" type="number" step="0.1" placeholder="Miles" required className="w-full p-2 border rounded" />
         <input name="time" type="text" placeholder="Time (e.g. 45:30)" required className="w-full p-2 border rounded" />
@@ -64,13 +64,13 @@ export default function RunTracker() {
         <h3 className="text-lg font-medium">Add New Shoes</h3>
         <div className="flex space-x-2 mt-2">
           <input
+            className="w-full"
             type="text"
             value={newShoe}
             onChange={(e) => setNewShoe(e.target.value)}
             placeholder="Shoe Name"
-            className="flex-grow p-2 border rounded"
           />
-          <button onClick={handleAddShoe} className="p-2 bg-green-500 text-white rounded">
+          <button onClick={handleAddShoe} className="w-full">
             Add
           </button>
         </div>
