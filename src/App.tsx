@@ -5,6 +5,7 @@ import Subtitle from "./components/Subtitle.tsx"
 import ScrollDownArrow from "./components/ScrollDownArrow.tsx"
 import Calendar from "./components/Calendar.tsx"
 import SignUpButton from "./components/SignUpButton.tsx"
+import RunTracker from "./components/ShoeTracker.tsx"
 
 function App() {
   const calendarRef = useRef<HTMLDivElement>(null);
@@ -95,7 +96,9 @@ function App() {
       <div className="calendar-container" ref={calendarRef}>
       <Calendar />
       </div>
-
+      <div className="tracker-container">
+      <RunTracker />
+      </div>
     </div>
   );
 }

@@ -97,6 +97,10 @@ h1, p {
   animation: bounce 1.5s ease-in-out infinite;
 }
 
+.text-xl {
+  font-size: 5em;
+}
+
 @keyframes bounce {
   0%, 20%, 50%, 80%, 100% {
     transform: translateY(0);
@@ -296,7 +300,6 @@ h1, p {
 /* Container for the Calendar Component */
 .calendar-container {
   position: absolute;
-
   flex-direction: column;
   color: white;
   text-align: center;
@@ -368,4 +371,13 @@ h1, p {
     font-size: 0.8rem;
     padding: 10px;
   }
+}
+
+
+
+.tracker-container {
+  position: absolute;
+  top: 350vh;
+  background-color: #3a546a;
+  width: 100%;
 }
