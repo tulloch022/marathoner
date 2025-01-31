@@ -24,7 +24,7 @@ function App() {
 
       {/* Box Container with Three Boxes Side by Side */}
       <div className='box-container'>
-      <button className="box-under-arrow" onClick={'ok'}>
+      <button className="box-under-arrow">
           <p>Plan</p>
         </button>
         <button className="box-under-arrow">
