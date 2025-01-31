@@ -1,5 +1,6 @@
 import { useState } from "react";
 
+
 type Run = {
   miles: number;
   time: string;
@@ -43,59 +44,53 @@ export default function RunTracker() {
 
   return (
     <div className="tracker">
-      <h2 className="text-xl">Run Tracker</h2>
-      <form onSubmit={handleSubmit} className="space-y-3">
-        <input name="miles" type="number" step="0.1" placeholder="Miles" required className="w-full p-2 border rounded" />
-        <input name="time" type="text" placeholder="Time (e.g. 45:30)" required className="w-full p-2 border rounded" />
-        <select name="shoe" required className="shoe-selector">
-          <option value="">Select Shoes</option>
-          {Object.keys(shoes).map((shoe) => (
-            <option key={shoe} value={shoe}>
-              {shoe} ({shoes[shoe]} mi)
-            </option>
-          ))}
-        </select>
-        <button type="submit" className="w-full p-2 bg-blue-500 text-white rounded">
-          Log Run
-        </button>
-      </form>
+      {/* Left Side: Run Entry Form */}
+      <div className="entry">
+        <h2 className="text-xl">Run Tracker</h2>
+        <form onSubmit={handleSubmit} className="space-y-3">
+          <input name="miles" type="number" step="0.1" placeholder="Miles" required />
+          <input name="time" type="text" placeholder="Time (e.g. 45:30)" required />
+          <select name="shoe" required>
+            <option value="">Select Shoes</option>
+            {Object.keys(shoes).map((shoe) => (
+              <option key={shoe} value={shoe}>
+                {shoe} ({shoes[shoe]} mi)
+              </option>
+            ))}
+          </select>
+          <button type="submit">Log Run</button>
+        </form>
 
-      <div className="mt-4">
-        <h3 className="text-lg font-medium">Add New Shoes</h3>
-        <div className="flex space-x-2 mt-2">
-          <input
-            className="w-full"
-            type="text"
-            value={newShoe}
-            onChange={(e) => setNewShoe(e.target.value)}
-            placeholder="Shoe Name"
-          />
-          <button onClick={handleAddShoe} className="w-full">
-            Add
-          </button>
+        <div className="mt-4">
+          <h3 className="text-lg font-medium">Logged Runs</h3>
+          <ul>
+            {runs.map((run, index) => (
+              <li key={index}>
+                {run.miles} mi in {run.time} wearing {run.shoe}
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 
-      <div className="mt-4">
-        <h3 className="text-lg font-medium">Shoe Mileage</h3>
-        <ul className="mt-2 space-y-1">
-          {Object.entries(shoes).map(([shoe, miles]) => (
-            <li key={shoe} className="text-gray-700">
-              {shoe}: {miles} mi
-            </li>
-          ))}
-        </ul>
-      </div>
+      {/* Right Side: Shoe Management */}
+      <div className="shoe-tracking">
+        <h3 className="text-lg font-medium">Add New Shoes</h3>
+        <div className="flex space-x-2 mt-2">
+          <input type="text" value={newShoe} onChange={(e) => setNewShoe(e.target.value)} placeholder="Shoe Name" />
+          <button onClick={handleAddShoe}>Add</button>
+        </div>
 
-      <div className="mt-4">
-        <h3 className="text-lg font-medium">Logged Runs</h3>
-        <ul className="mt-2 space-y-1">
-          {runs.map((run, index) => (
-            <li key={index} className="text-gray-700">
-              {run.miles} mi in {run.time} wearing {run.shoe}
-            </li>
-          ))}
-        </ul>
+        <div className="mt-4">
+          <h3 className="text-lg font-medium">Shoe Mileage</h3>
+          <ul>
+            {Object.entries(shoes).map(([shoe, miles]) => (
+              <li key={shoe}>
+                {shoe}: {miles} mi
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );
