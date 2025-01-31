@@ -33,7 +33,7 @@ function App() {
               animate={
                 activeSection === section
                   ? { width: "80em", height: "100vh" }
-                  : { width: "25vw", height: "100%" } // Default size when not active
+                  : { width: "15vw", height: "100%" } // Default size when not active
               }
               
               style={{ overflow: "hidden", position: "relative", zIndex: 1 }}

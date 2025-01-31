@@ -141,8 +141,8 @@ h1, p {
   }
 
   .box-under-arrow {
-    width: 2em;
-    font-size: 1.5em;
+    width: 7em !important;
+    font-size: 1em;
     line-height: 0.5em;
   }
 
@@ -378,6 +378,7 @@ h1, p {
   height: 3em;
   margin: 1em;
   border-radius: .5em;
+  border: solid black;
 }
 
 
