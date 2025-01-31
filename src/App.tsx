@@ -15,7 +15,7 @@ function App() {
       className="main flex flex-col items-center justify-center h-screen"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 5, ease: "easeOut" }}
+      transition={{ duration: 3, ease: "easeOut" }}
     >
       {/* Login & Signup Buttons - Hidden when a section is active */}
       {!activeSection && (
@@ -33,12 +33,13 @@ function App() {
           <motion.button
             key={section}
             className="box-under-arrow"
+            initial={{ width: "50vw"}}
             onClick={() => setActiveSection(section as "plan" | "track" | "analyze")}
             animate={{
               width: activeSection === section ? "80vw" : "10vw",
               height: activeSection === section ? "100vh" : "2em",
             }}
-            transition={{ duration: 3 }}
+            transition={{ duration: .5 }}
             style={{ overflow: "hidden", position: "relative", zIndex: 1 }}
           >
             {activeSection === section ? (
@@ -60,7 +61,7 @@ function SectionContent({ section, onClose }: { section: "plan" | "track" | "ana
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 1 }}
     >
       <button onClick={(e) => { e.stopPropagation(); onClose(); }} className="absolute top-4 right-4 text-2xl">X</button>
       <h1 className="text-3xl font-bold">
