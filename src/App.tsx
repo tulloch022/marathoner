@@ -58,7 +58,7 @@ function SectionContent({ section, onClose }: { section: "plan" | "track" | "ana
     <div className="relative z-10">
       <button onClick={(e) => { e.stopPropagation(); onClose(); }} className="absolute top-4 right-4 text-2xl">X</button>
       <h1 className="text-3xl font-bold">
-        {section === "plan" && "Plan Your Run"}
+        {section === "plan" && "Plan Your Runs"}
         {section === "track" && "Track Your Progress"}
         {section === "analyze" && "Analyze Your Progress"}
       </h1>
