@@ -142,7 +142,7 @@ h1, p {
   }
 
   .box-under-arrow {
-    width: 7em !important;
+    width: 75% !important;
     font-size: 1em;
     line-height: 0.5em;
   }
