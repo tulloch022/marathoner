@@ -15,7 +15,6 @@
 body, html {
   margin: 0;
   padding: 0;
-  height: 200%; /* Allow scrolling */
   overflow-x: hidden; /* Prevent horizontal scrolling */
 }
 
@@ -308,10 +307,9 @@ h1, p {
   flex-direction: column;
   color: white;
   text-align: center;
-  top: 220vh;
   justify-content: center;
   align-items: center;
-  width: 75%; /* Full-width for centering */
+  width: 100%; /* Full-width for centering */
   margin: 0 auto; /* Center within parent */
 }
 
