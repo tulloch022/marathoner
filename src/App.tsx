@@ -22,30 +22,27 @@ function App() {
         </>
       )}
 
-      {/* Main Buttons - Hide other buttons when a section is active */}
+      {/* Main Buttons */}
       <div className="box-container flex gap-4 relative">
-        {["plan", "track", "analyze"].map((section) =>
-          activeSection === null || activeSection === section ? ( // Only show the active or null section
-            <motion.button
-              key={section}
-              className="box-under-arrow"
-              onClick={() => setActiveSection(section as "plan" | "track" | "analyze")}
-              animate={
-                activeSection === section
-                  ? { width: "80em", height: "100vh" }
-                  : { width: "15vw", height: "100%" } // Default size when not active
-              }
-              
-              style={{ overflow: "hidden", position: "relative", zIndex: 1 }}
-            >
-              {activeSection === section ? (
-                <SectionContent section={section} onClose={() => setActiveSection(null)} />
-              ) : (
-                <p>{section.charAt(0).toUpperCase() + section.slice(1)}</p>
-              )}
-            </motion.button>
-          ) : null
-        )}
+        {["plan", "track", "analyze"].map((section) => (
+          <motion.button
+            key={section}
+            className="box-under-arrow"
+            onClick={() => setActiveSection(section as "plan" | "track" | "analyze")}
+            animate={{
+              width: activeSection === section ? "80vw" : "10vw", // Larger when active
+              height: activeSection === section ? "100vh" : "10%", // Adjust height as needed
+            }}
+            transition={{ duration: .75, ease: "linear" }}
+            style={{ overflow: "hidden", position: "relative", zIndex: 1 }}
+          >
+            {activeSection === section ? (
+              <SectionContent section={section} onClose={() => setActiveSection(null)} />
+            ) : (
+              <p>{section.charAt(0).toUpperCase() + section.slice(1)}</p>
+            )}
+          </motion.button>
+        ))}
       </div>
     </div>
   );
@@ -56,8 +53,8 @@ function SectionContent({ section, onClose }: { section: "plan" | "track" | "ana
     <div className="relative z-10">
       <button onClick={(e) => { e.stopPropagation(); onClose(); }} className="absolute top-4 right-4 text-2xl">X</button>
       <h1 className="text-3xl font-bold">
-        {section === "plan"}
-        {section === "track"}
+        {section === "plan" && "Plan Your Run"}
+        {section === "track" && "Track Your Progress"}
         {section === "analyze" && "Analyze Your Progress"}
       </h1>
       {section === "plan" && <Calendar />}
