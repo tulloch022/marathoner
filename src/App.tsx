@@ -8,44 +8,6 @@ import SignUpButton from "./components/SignUpButton.tsx"
 import RunTracker from "./components/ShoeTracker.tsx"
 
 function App() {
-  const calendarRef = useRef<HTMLDivElement>(null);
-
-  // Function to scroll to the Calendar
-  const scrollToCalendar = () => {
-    if (calendarRef.current) {
-      calendarRef.current.scrollIntoView({ behavior: "smooth"});
-    }
-  };
-
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const scale = 1 + scrollY / 350; // Adjust the divisor to control speed of scaling
-      const opacity = Math.max(1 - scrollY / 500, 0); // Adjust the opacity based on scroll position
-
-      const title = document.querySelector(".title") as HTMLElement;
-      const subtitle = document.querySelector(".subtitle") as HTMLElement;
-
-      // Apply styles dynamically based on scroll position
-      if (title) {
-        title.style.transform = `scale(${scale})`;
-        title.style.opacity = `${opacity}`;
-      }
-      if (subtitle) {
-        subtitle.style.transform = `scale(${scale})`
-        subtitle.style.opacity = `${opacity}`;
-      }
-    };
-
-    // Add scroll event listener
-    window.addEventListener("scroll", handleScroll);
-
-    // Clean up the event listener when the component unmounts
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   return (
     <div className="main">
@@ -62,7 +24,7 @@ function App() {
 
       {/* Box Container with Three Boxes Side by Side */}
       <div className='box-container'>
-      <button className="box-under-arrow" onClick={scrollToCalendar}>
+      <button className="box-under-arrow" onClick={'ok'}>
           <p>Plan</p>
         </button>
         <button className="box-under-arrow">
@@ -71,33 +33,6 @@ function App() {
         <button className="box-under-arrow">
           <p>Analyze</p>
         </button>
-      </div>
-
-            {/* Table Section */}
-      <div className="table-container">
-        <table className="feature-table">
-          <tbody>
-            <tr>
-              <td className="heading">Plan</td>
-              <td>Create and customize your marathon training schedule.</td>
-            </tr>
-            <tr>
-              <td className="heading">Track</td>
-              <td>Monitor your progress with detailed performance metrics.</td>
-            </tr>
-            <tr>
-              <td className="heading">Analyze</td>
-              <td>Review your performance and identify areas for improvement.</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div className="calendar-container" ref={calendarRef}>
-      <Calendar />
-      </div>
-      <div className="tracker-container">
-      <RunTracker />
       </div>
     </div>
   );
