@@ -8,7 +8,7 @@ import SignUpButton from "./components/SignUpButton.tsx";
 import { motion } from "framer-motion";
 
 function App() {
-  const [activeSection, setActiveSection] = useState<"plan" | null>(null);
+  const [activeSection, setActiveSection] = useState<"plan" | "track" | "analyze" | null>(null);
 
   return (
     <div className="main flex flex-col items-center justify-center h-screen">
@@ -21,37 +21,38 @@ function App() {
 
       {/* Main Buttons */}
       <div className="box-container flex gap-4">
-        <motion.button
-          className="box-under-arrow"
-          onClick={() => setActiveSection("plan")}
-          animate={activeSection === "plan" ? { width: "100vw", height: "100vh" } : {}}
-          transition={{ duration: 0.5, ease: "easeInOut" }}
-          style={{ overflow: "hidden", position: "relative" }}
-        >
-          {activeSection === "plan" ? (
-            <PlanSection onClose={() => setActiveSection(null)} />
-          ) : (
-            <p>Plan</p>
-          )}
-        </motion.button>
-
-        <button className="box-under-arrow">
-          <p>Track</p>
-        </button>
-        <button className="box-under-arrow">
-          <p>Analyze</p>
-        </button>
+        {["plan", "track", "analyze"].map((section) => (
+          <motion.button
+            key={section}
+            className="box-under-arrow"
+            onClick={() => setActiveSection(section as "plan" | "track" | "analyze")}
+            animate={activeSection === section ? { width: "100vw", height: "100vh" } : {}}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+            style={{ overflow: "hidden", position: "relative" }}
+          >
+            {activeSection === section ? (
+              <SectionContent section={section} onClose={() => setActiveSection(null)} />
+            ) : (
+              <p>{section.charAt(0).toUpperCase() + section.slice(1)}</p>
+            )}
+          </motion.button>
+        ))}
       </div>
     </div>
   );
 }
 
-function PlanSection({ onClose }: { onClose: () => void }) {
+function SectionContent({ section, onClose }: { section: "plan" | "track" | "analyze"; onClose: () => void }) {
   return (
     <div className="flex flex-col items-center justify-center h-full w-full bg-white">
       <button onClick={onClose} className="absolute top-4 right-4 text-2xl">✖</button>
-      <h1 className="text-3xl font-bold">Plan Your Training</h1>
-      <Calendar />
+      <h1 className="text-3xl font-bold">
+        {section === "plan" && "Plan Your Training"}
+        {section === "track" && "Track Your Runs"}
+        {section === "analyze" && "Analyze Your Progress"}
+      </h1>
+      {section === "plan" && <Calendar />}
+      {/* Add more components here for Track & Analyze if needed */}
     </div>
   );
 }
