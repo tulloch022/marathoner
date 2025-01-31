@@ -28,8 +28,8 @@ function App() {
               key={section}
               className="box-under-arrow"
               onClick={() => setActiveSection(section as "plan" | "track" | "analyze")}
-              animate={activeSection === section ? { width: "80vw", height: "100vw"} : {}}
-              transition={{ duration: 0.75, ease: "easeInOut" }}
+              animate={activeSection === section ? { width: "80vw", height: "100%"} : {}}
+              transition={{ duration: 0.3, ease: "linear" }}
               style={{ overflow: "hidden", position: "relative" }}
             >
               {activeSection === section ? (
