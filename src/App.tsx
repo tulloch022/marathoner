@@ -1,18 +1,23 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import LoginButton from "./components/LoginButton.tsx";
 import Title from "./components/Title.tsx";
 import Subtitle from "./components/Subtitle.tsx";
 import Calendar from "./components/Calendar.tsx";
 import SignUpButton from "./components/SignUpButton.tsx";
 import ShoeTracker from "./components/ShoeTracker.tsx";
-import { motion } from "framer-motion";
 
 function App() {
   const [activeSection, setActiveSection] = useState<"plan" | "track" | "analyze" | null>(null);
 
   return (
-    <div className="main flex flex-col items-center justify-center h-screen">
-      {/* Login & Signup Buttons - These will be hidden when a section is active */}
+    <motion.div
+      className="main flex flex-col items-center justify-center h-screen"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 5, ease: "easeOut" }}
+    >
+      {/* Login & Signup Buttons - Hidden when a section is active */}
       {!activeSection && (
         <>
           <LoginButton />
@@ -31,9 +36,9 @@ function App() {
             onClick={() => setActiveSection(section as "plan" | "track" | "analyze")}
             animate={{
               width: activeSection === section ? "80vw" : "10vw",
-              height: activeSection === section ? "100vh" : "10%"
+              height: activeSection === section ? "100vh" : "2em",
             }}
-            transition={{ duration: .5}}
+            transition={{ duration: 3 }}
             style={{ overflow: "hidden", position: "relative", zIndex: 1 }}
           >
             {activeSection === section ? (
@@ -44,23 +49,29 @@ function App() {
           </motion.button>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 function SectionContent({ section, onClose }: { section: "plan" | "track" | "analyze"; onClose: () => void }) {
   return (
-    <div className="relative z-10">
+    <motion.div
+      className="relative z-10"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.3 }}
+    >
       <button onClick={(e) => { e.stopPropagation(); onClose(); }} className="absolute top-4 right-4 text-2xl">X</button>
       <h1 className="text-3xl font-bold">
-        {section === "plan"}
-        {section === "track"}
+        {section === "plan" && "Plan Your Training"}
+        {section === "track" && "Track Your Runs"}
         {section === "analyze" && "Analyze Your Progress"}
       </h1>
       {section === "plan" && <Calendar />}
       {section === "track" && <ShoeTracker />}
       {section === "analyze" && <div> {/* Add analysis content here */} </div>}
-    </div>
+    </motion.div>
   );
 }
 
