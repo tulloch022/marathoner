@@ -5,6 +5,7 @@ import Subtitle from "./components/Subtitle.tsx";
 import ScrollDownArrow from "./components/ScrollDownArrow.tsx";
 import Calendar from "./components/Calendar.tsx";
 import SignUpButton from "./components/SignUpButton.tsx";
+import ShoeTracker from "./components/ShoeTracker.tsx"
 import { motion } from "framer-motion";
 
 function App() {
@@ -28,7 +29,7 @@ function App() {
               className="box-under-arrow"
               onClick={() => setActiveSection(section as "plan" | "track" | "analyze")}
               animate={activeSection === section ? { width: "100vw", height: "100vh" } : {}}
-              transition={{ duration: 0.25, ease: "easeInOut" }}
+              transition={{ duration: 0.4, ease: "easeInOut" }}
               style={{ overflow: "hidden", position: "relative" }}
             >
               {activeSection === section ? (
@@ -54,6 +55,7 @@ function SectionContent({ section, onClose }: { section: "plan" | "track" | "ana
         {section === "analyze" && "Analyze Your Progress"}
       </h1>
       {section === "plan" && <Calendar />}
+      {section === "track" && <ShoeTracker />}
       {/* Add more components here for Track & Analyze if needed */}
     </div>
   );
