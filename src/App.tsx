@@ -29,12 +29,16 @@ function App() {
 
       {/* Main Buttons */}
       <div className="box-container flex gap-4 relative">
-        {["plan", "track", "analyze"].map((section) => (
+        {(["plan", "track", "analyze"] as const).map((section) => (
           <motion.button
             key={section}
             className="box-under-arrow"
             initial={{ width: "50vw" }}
-            onClick={() => setActiveSection(activeSection === section ? null : section)}
+            onClick={() => {
+              if (activeSection !== section) {
+                setActiveSection(section);
+              }
+            }}
             animate={{
               width: activeSection === section ? "80vw" : "10vw",
               height: activeSection === section ? "90vh" : "2em",
@@ -42,7 +46,8 @@ function App() {
               color: activeSection === section ? "#ffffff" : "#000000", // White text on blue background
             }}
             transition={{ duration: 0.5 }}
-            style={{ overflow: "hidden", position: "relative", zIndex: 1 }}
+            disabled={activeSection === section} // Prevent clicking when already expanded
+            style={{ overflow: "hidden", position: "relative", zIndex: 1, cursor: activeSection === section ? "default" : "pointer" }}
           >
             {activeSection === section ? (
               <SectionContent section={section} onClose={() => setActiveSection(null)} />
@@ -75,8 +80,8 @@ function SectionContent({ section, onClose }: { section: "plan" | "track" | "ana
         X
       </button>
       <h1 className="text-3xl font-bold">
-        {section === "plan"}
-        {section === "track"}
+        {section === "plan" && "Plan Your Training"}
+        {section === "track" && "Track Your Runs"}
         {section === "analyze" && "Analyze Your Progress"}
       </h1>
       {section === "plan" && <Calendar />}
