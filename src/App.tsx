@@ -33,13 +33,15 @@ function App() {
           <motion.button
             key={section}
             className="box-under-arrow"
-            initial={{ width: "50vw"}}
-            onClick={() => setActiveSection(section as "plan" | "track" | "analyze")}
+            initial={{ width: "50vw" }}
+            onClick={() => setActiveSection(activeSection === section ? null : section)}
             animate={{
               width: activeSection === section ? "80vw" : "10vw",
               height: activeSection === section ? "90vh" : "2em",
+              backgroundColor: activeSection === section ? "#007bff" : "#ffffff", // Blue when active, white when inactive
+              color: activeSection === section ? "#ffffff" : "#000000", // White text on blue background
             }}
-            transition={{ duration: .5 }}
+            transition={{ duration: 0.5 }}
             style={{ overflow: "hidden", position: "relative", zIndex: 1 }}
           >
             {activeSection === section ? (
@@ -63,7 +65,15 @@ function SectionContent({ section, onClose }: { section: "plan" | "track" | "ana
       exit={{ opacity: 0 }}
       transition={{ duration: 1 }}
     >
-      <button onClick={(e) => { e.stopPropagation(); onClose(); }} className="absolute top-4 right-4 text-2xl">X</button>
+      <button
+        onClick={(e) => {
+          e.stopPropagation();
+          onClose();
+        }}
+        className="absolute top-4 right-4 text-2xl text-white"
+      >
+        X
+      </button>
       <h1 className="text-3xl font-bold">
         {section === "plan"}
         {section === "track"}
