@@ -430,7 +430,8 @@ button {
   border-radius: 5px;
 }
 
-input {
+input,
+select {
   background-color: white;
   color: black;
 }
