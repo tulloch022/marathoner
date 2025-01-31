@@ -21,22 +21,24 @@ function App() {
 
       {/* Main Buttons */}
       <div className="box-container flex gap-4">
-        {["plan", "track", "analyze"].map((section) => (
-          <motion.button
-            key={section}
-            className="box-under-arrow"
-            onClick={() => setActiveSection(section as "plan" | "track" | "analyze")}
-            animate={activeSection === section ? { width: "100vw", height: "100vh" } : {}}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
-            style={{ overflow: "hidden", position: "relative" }}
-          >
-            {activeSection === section ? (
-              <SectionContent section={section} onClose={() => setActiveSection(null)} />
-            ) : (
-              <p>{section.charAt(0).toUpperCase() + section.slice(1)}</p>
-            )}
-          </motion.button>
-        ))}
+        {["plan", "track", "analyze"].map((section) =>
+          activeSection === null || activeSection === section ? ( // Hide other buttons
+            <motion.button
+              key={section}
+              className="box-under-arrow"
+              onClick={() => setActiveSection(section as "plan" | "track" | "analyze")}
+              animate={activeSection === section ? { width: "100vw", height: "100vh" } : {}}
+              transition={{ duration: 0.25, ease: "easeInOut" }}
+              style={{ overflow: "hidden", position: "relative" }}
+            >
+              {activeSection === section ? (
+                <SectionContent section={section} onClose={() => setActiveSection(null)} />
+              ) : (
+                <p>{section.charAt(0).toUpperCase() + section.slice(1)}</p>
+              )}
+            </motion.button>
+          ) : null
+        )}
       </div>
     </div>
   );
