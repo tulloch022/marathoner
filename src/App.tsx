@@ -28,8 +28,8 @@ function App() {
               key={section}
               className="box-under-arrow"
               onClick={() => setActiveSection(section as "plan" | "track" | "analyze")}
-              animate={activeSection === section ? { width: "100vw", height: "100vw" } : {}}
-              transition={{ duration: 0.4, ease: "easeInOut" }}
+              animate={activeSection === section ? { width: "80vw", height: "100vw"} : {}}
+              transition={{ duration: 0.75, ease: "easeInOut" }}
               style={{ overflow: "hidden", position: "relative" }}
             >
               {activeSection === section ? (
@@ -47,11 +47,11 @@ function App() {
 
 function SectionContent({ section, onClose }: { section: "plan" | "track" | "analyze"; onClose: () => void }) {
   return (
-    <div className="flex flex-col items-center justify-center h-full w-full bg-white">
+    <div className="">
       <button onClick={onClose} className="absolute top-4 right-4 text-2xl">✖</button>
       <h1 className="text-3xl font-bold">
-        {section === "plan" && "Plan Your Training"}
-        {section === "track" && "Track Your Runs"}
+        {section === "plan"}
+        {section === "track"}
         {section === "analyze" && "Analyze Your Progress"}
       </h1>
       {section === "plan" && <Calendar />}
