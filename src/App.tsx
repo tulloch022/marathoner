@@ -37,7 +37,7 @@ function App() {
                   ? { width: "80vw", height: "100vh" }
                   : { width: "10vw", height: "100%" } // Default size when not active
               }
-              transition={{ duration: 1, ease: "easeInOut" }}
+              
               style={{ overflow: "hidden", position: "relative", zIndex: 1 }}
             >
               {activeSection === section ? (
