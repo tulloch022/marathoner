@@ -71,8 +71,8 @@ function SectionContent({ section, onClose }: { section: "plan" | "track" | "ana
       transition={{ duration: 1 }}
     >
       <button
-        onClick={(e) => {
-          e.stopPropagation();
+        onClick={() => {
+          console.log("Closed section, activeSection:", null); 
           onClose();
         }}
         className="absolute top-4 right-4 text-2xl text-white"
@@ -80,8 +80,8 @@ function SectionContent({ section, onClose }: { section: "plan" | "track" | "ana
         X
       </button>
       <h1 className="text-3xl font-bold">
-        {section === "plan" && "Plan Your Training"}
-        {section === "track" && "Track Your Runs"}
+        {section === "plan"}
+        {section === "track"}
         {section === "analyze" && "Analyze Your Progress"}
       </h1>
       {section === "plan" && <Calendar />}
