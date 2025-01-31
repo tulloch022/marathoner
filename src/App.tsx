@@ -33,7 +33,7 @@ function App() {
               width: activeSection === section ? "80vw" : "10vw",
               height: activeSection === section ? "100vh" : "10%"
             }}
-            transition={{ duration: .75, ease: "linear" }}
+            transition={{ duration: .75}}
             style={{ overflow: "hidden", position: "relative", zIndex: 1 }}
           >
             {activeSection === section ? (
