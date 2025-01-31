@@ -37,7 +37,7 @@ function App() {
             onClick={() => setActiveSection(section as "plan" | "track" | "analyze")}
             animate={{
               width: activeSection === section ? "80vw" : "10vw",
-              height: activeSection === section ? "100vh" : "2em",
+              height: activeSection === section ? "90vh" : "2em",
             }}
             transition={{ duration: .5 }}
             style={{ overflow: "hidden", position: "relative", zIndex: 1 }}
