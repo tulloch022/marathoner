@@ -88,13 +88,7 @@ h1, p {
 }
 
 
-.scroll-arrow {
-  display: none;
-  position: absolute;
-  bottom: -50px;
-  font-size: 6rem;
-  animation: bounce 1.5s ease-in-out infinite;
-}
+
 
 .text-xl {
   font-size: 4em;
@@ -125,7 +119,6 @@ h1, p {
 
 .box-under-arrow {
   padding: 20px;
-  width: 200px;
   background-color: #ffffff;
   border:  solid black;
   border-radius: 8px;
@@ -140,11 +133,11 @@ h1, p {
   .box-container {
     flex-direction: column;
     align-items: center;
-    width: 30%;
+    width: 100%;
   }
 
   .box-under-arrow {
-    width: 100%;
+    width: 2em;
     font-size: 1.5em;
     line-height: 0.5em;
   }
@@ -162,11 +155,6 @@ h1, p {
   }
 }
 
-@media (max-width: 480px) {
-  .box-under-arrow {
-    width: 100%;
-  }
-}
 
 .table-container {
   position: absolute;
@@ -210,6 +198,7 @@ h1, p {
 }
 
 @media (max-width: 768px) {
+
   .table-container {
     bottom: 100;
   }
@@ -234,9 +223,6 @@ h1, p {
     line-height: 2em;
   }
 
-  .box-under-arrow {
-    width: 7em;
-  }
 }
 
 .login-btn {
@@ -357,13 +343,19 @@ h1, p {
   }
 
   .calendar-heading {
-    font-size: 1.5rem;
+    font-size: 1rem;
   }
 
   .calendar-day {
-    font-size: 0.8rem;
-    padding: 10px;
+    font-size: 0.5rem;
+    padding: 0px;
   }
+
+  .calendar-grid {
+    gap: 0.1em;
+  }
+
+  
 }
 
 
