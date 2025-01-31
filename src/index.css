@@ -121,7 +121,6 @@ h1, p {
   display: flex;
   justify-content: center;
   gap: 20px;
-  transition: transform 0.3s ease-in-out;
 }
 
 .box-under-arrow {
@@ -134,17 +133,8 @@ h1, p {
   text-align: center;
   font-weight: bold;
   color: black;
-  transition: transform 0.3s ease-in-out;
 }
 
-.box-under-arrow:hover {
-  transform: scale(1.1);
-  z-index: 2;
-}
-
-.box-container:hover .box-under-arrow:not(:hover) {
-  transform: scale(0.9);
-}
 
 @media (max-width: 768px) {
   .box-container {
