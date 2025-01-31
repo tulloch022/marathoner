@@ -2,7 +2,6 @@ import { useState } from "react";
 import LoginButton from "./components/LoginButton.tsx";
 import Title from "./components/Title.tsx";
 import Subtitle from "./components/Subtitle.tsx";
-import ScrollDownArrow from "./components/ScrollDownArrow.tsx";
 import Calendar from "./components/Calendar.tsx";
 import SignUpButton from "./components/SignUpButton.tsx";
 import ShoeTracker from "./components/ShoeTracker.tsx";
@@ -20,7 +19,6 @@ function App() {
           <SignUpButton />
           <Title />
           <Subtitle />
-          <ScrollDownArrow />
         </>
       )}
 
