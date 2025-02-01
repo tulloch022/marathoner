@@ -75,7 +75,7 @@ function SectionContent({ section, onClose }: { section: "plan" | "track" | "ana
           console.log("Closed section, activeSection:", null); 
           onClose();
         }}
-        className="absolute top-4 right-4 text-2xl text-white"
+        className="close absolute top-4 right-4 text-2xl text-white"
       >
         X
       </button>
