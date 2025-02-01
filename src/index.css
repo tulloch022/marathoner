@@ -129,6 +129,13 @@ h1, p {
   .box-container:hover .box-under-arrow:not(:hover) {
     transform: scale(0.95);
   }
+
+  .text-xl {
+    font-size: 1.5em;
+    color: rgb(24, 23, 23);
+    margin: 0 auto;
+    border-radius: .25em;
+  }
 }
 
 
