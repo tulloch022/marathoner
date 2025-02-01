@@ -494,15 +494,15 @@ p {
   background-color: #f9f9f9;
   border: 1px solid #ccc;
   border-radius: 8px;
-  padding: 20px;
   width: 30%;
-  min-width: 200px;
+  min-width: 10em;
+  min-height: 5em;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Card Heading */
 .analyze-card h2 {
-  margin: 0 0 10px 0;
+  margin: 0 0 0;
   font-size: 1.2rem;
   color: #007bff;
 }
@@ -527,16 +527,35 @@ p {
   border-radius: 4px;
 }
 
-/* Responsive Adjustments */
+
 @media (max-width: 768px) {
+  /* Main Title & Subtitle Adjustments on Mobile */
+  
+  .subtitle {
+    font-size: 1.1rem;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  h1 {
+    margin-bottom: 1rem;
+  }
+  
+  /* Adjust Analyze Component on Mobile Only */
+  .analyze-container {
+    width: 80%;
+    margin: 0 auto;      /* center it */
+  }
+  
+  .analyze-container h1 {
+    font-size: 1.75rem;
+    margin: 15px 0;      /* extra top and bottom margin */
+    padding: 0 10px;     /* add horizontal padding inside the title */
+  }
+  
+  /* Stack Analyze Cards Vertically */
   .analyze-cards {
     flex-direction: column;
     align-items: center;
-  }
-  .analyze-card {
-    width: 90%;
-  }
-  .analyze-container h1 {
-    font-size: 1.75rem;
   }
 }
