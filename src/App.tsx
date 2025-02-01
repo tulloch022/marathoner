@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import LoginButton from "./components/LoginButton.tsx";
-import Title from "./components/Title.tsx";
-import Subtitle from "./components/Subtitle.tsx";
-import Calendar from "./components/Calendar.tsx";
-import SignUpButton from "./components/SignUpButton.tsx";
-import ShoeTracker from "./components/ShoeTracker.tsx";
+import LoginButton from "./components/LoginButton";
+import Title from "./components/Title";
+import Subtitle from "./components/Subtitle";
+import Calendar from "./components/Calendar";
+import SignUpButton from "./components/SignUpButton";
+import ShoeTracker from "./components/ShoeTracker";
 
 function App() {
   const [activeSection, setActiveSection] = useState<"plan" | "track" | "analyze" | null>(null);
@@ -33,8 +33,9 @@ function App() {
           <motion.button
             key={section}
             className="box-under-arrow"
-            initial={{ width: "50vw", height: "3em"}}
+            initial={{ width: "50vw", height: "3em" }}
             onClick={() => {
+              // Only set activeSection if a different section is selected
               if (activeSection !== section) {
                 setActiveSection(section);
               }
@@ -42,11 +43,11 @@ function App() {
             animate={{
               width: activeSection === section ? "75vw" : "10vw",
               height: activeSection === section ? "90vh" : "2em",
-              backgroundColor: activeSection === section ? "#007bff" : "#ffffff", // Blue when active, white when inactive
-              color: activeSection === section ? "#ffffff" : "#000000", // White text on blue background
+              backgroundColor: activeSection === section ? "#007bff" : "#ffffff",
+              color: activeSection === section ? "#ffffff" : "#000000",
             }}
             transition={{ duration: 0.5 }}
-            disabled={activeSection === section} // Prevent clicking when already expanded
+            // Removed the disabled attribute to ensure inner elements receive pointer events
             style={{ overflow: "hidden", position: "relative", zIndex: 1, cursor: activeSection === section ? "default" : "pointer" }}
           >
             {activeSection === section ? (
@@ -62,6 +63,14 @@ function App() {
 }
 
 function SectionContent({ section, onClose }: { section: "plan" | "track" | "analyze"; onClose: () => void }) {
+  // Determine the title based on the section
+  const getTitle = () => {
+    if (section === "plan") return "Plan Your Workouts";
+    if (section === "track") return "Track Your Runs";
+    if (section === "analyze") return "Analyze Your Progress";
+    return "";
+  };
+
   return (
     <motion.div
       className="relative z-10"
@@ -72,21 +81,18 @@ function SectionContent({ section, onClose }: { section: "plan" | "track" | "ana
     >
       <button
         onClick={() => {
-          console.log("Closed section, activeSection:", null); 
+          console.log("Closed section, activeSection:", null);
           onClose();
         }}
         className="close absolute top-4 right-4 text-2xl text-white"
+        style={{ background: "transparent", border: "none", cursor: "pointer" }}
       >
         X
       </button>
-      <h1 className="text-3xl font-bold">
-        {section === "plan"}
-        {section === "track"}
-        {section === "analyze" && "Analyze Your Progress"}
-      </h1>
+      <h1 className="text-3xl font-bold">{getTitle()}</h1>
       {section === "plan" && <Calendar />}
       {section === "track" && <ShoeTracker />}
-      {section === "analyze" && <div> {/* Add analysis content here */} </div>}
+      {section === "analyze" && <div>{/* Add analysis content here */}</div>}
     </motion.div>
   );
 }
