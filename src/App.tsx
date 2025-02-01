@@ -33,7 +33,7 @@ function App() {
           <motion.button
             key={section}
             className="box-under-arrow"
-            initial={{ width: "50vw" }}
+            initial={{ width: "50vw", height: "1em"}}
             onClick={() => {
               if (activeSection !== section) {
                 setActiveSection(section);

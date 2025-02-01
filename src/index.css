@@ -97,7 +97,7 @@ h1, p {
 }
 
 .box-under-arrow {
-  padding: 20px;
+  padding: .5em;
   background-color: #ffffff;
   border:  solid black;
   border-radius: 8px;
