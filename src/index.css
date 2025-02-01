@@ -269,7 +269,7 @@ h1, p {
 
 /* Grid Layout for the Calendar */
 .calendar-grid {
-  background-color: rgb(204, 203, 203);
+  background-color: rgb(255, 255, 255);
   border: solid .1em;
   display: grid;
   grid-template-columns: repeat(7, 1fr); /* 7 days in a week */
