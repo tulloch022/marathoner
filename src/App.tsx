@@ -40,7 +40,7 @@ function App() {
               }
             }}
             animate={{
-              width: activeSection === section ? "80vw" : "10vw",
+              width: activeSection === section ? "75vw" : "10vw",
               height: activeSection === section ? "90vh" : "2em",
               backgroundColor: activeSection === section ? "#007bff" : "#ffffff", // Blue when active, white when inactive
               color: activeSection === section ? "#ffffff" : "#000000", // White text on blue background

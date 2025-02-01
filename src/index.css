@@ -5,7 +5,6 @@
   color: rgba(255, 255, 255, 0.87);
   background-color: rgb(30, 29, 29);
 
-  color-scheme: light dark;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -404,6 +403,7 @@ h1, p {
   background: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  color: black;
 }
 
 /* Make sure form inputs and buttons look nice */
