@@ -1,26 +1,29 @@
+/* =======================================
+   Global Settings & Reset
+========================================== */
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-weight: 400;
   line-height: 3.5;
   color: rgba(255, 255, 255, 0.87);
   background-color: rgb(30, 29, 29);
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-body, html {
+html,
+body {
   margin: 0;
   padding: 0;
   overflow-x: hidden; /* Prevent horizontal scrolling */
-}
-
-body {
   text-rendering: optimizeLegibility;
 }
 
+/* =======================================
+   Element Base Styles
+========================================== */
 a {
   font-weight: 500;
   color: #646cff;
@@ -33,22 +36,19 @@ a:hover {
 
 button {
   border-radius: 8px;
-
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-
   cursor: pointer;
-  transition: border-color 0.25s, background-color 0.3s;
-
   background-color: #007bff;
   color: white;
   border: none;
-  transition: background 0.2s;
+  transition: background 0.2s, border-color 0.25s;
 }
 
 button:hover {
   border-color: #646cff;
+  background-color: rgb(16, 13, 66);
 }
 
 button:focus,
@@ -56,7 +56,9 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-
+/* =======================================
+   Main Container & Typography
+========================================== */
 .main {
   display: flex;
   flex-direction: column;
@@ -67,7 +69,8 @@ button:focus-visible {
   position: relative;
 }
 
-h1, p {
+h1,
+p {
   margin: 0;
 }
 
@@ -80,16 +83,19 @@ h1, p {
   font-size: 1.55em;
 }
 
-
-
-
+/* =======================================
+   Utility Classes
+========================================== */
 .text-xl {
   font-size: 4em;
   color: rgb(24, 23, 23);
   margin: 0 auto;
-  border-radius: .25em;
+  border-radius: 0.25em;
 }
 
+/* =======================================
+   Box Container & Buttons
+========================================== */
 .box-container {
   display: flex;
   justify-content: center;
@@ -97,40 +103,56 @@ h1, p {
 }
 
 .box-under-arrow {
-  padding: .5em;
+  padding: 0.5em;
   background-color: #ffffff;
-  border:  solid black;
+  border: solid black;
   border-radius: 8px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   text-align: center;
   font-weight: bold;
   color: black;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
 }
 
-
-@media (max-width: 768px) {
-  .box-container {
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-
-  .box-under-arrow {
-    width: 95% !important;
-    font-size: 1em;
-    line-height: 0.5em;
-  }
-
-
-  .text-xl {
-    font-size: 1.5em;
-    color: rgb(24, 23, 23);
-    margin: 0 auto;
-    border-radius: .25em;
-  }
+/* =======================================
+   Login & Signup Buttons
+========================================== */
+.login-btn,
+.signup-btn {
+  width: 7em;
+  padding: 10px 20px;
+  font-size: 1rem;
+  background-color: black;
+  color: white;
+  border: solid;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-weight: 600;
+  position: absolute;
+  top: 20px;
 }
 
+.login-btn {
+  right: 20px;
+}
 
+.signup-btn {
+  left: 20px;
+}
+
+.login-btn:hover,
+.signup-btn:hover {
+  background-color: white;
+  color: black;
+}
+
+/* =======================================
+   Table Styles
+========================================== */
 .table-container {
   position: absolute;
   top: 100vh;
@@ -163,8 +185,8 @@ h1, p {
   font-weight: 100;
 }
 
-.feature-table td:hover,
-.feature-table th:hover {
+.feature-table th:hover,
+.feature-table td:hover {
   border-color: #000;
 }
 
@@ -172,222 +194,68 @@ h1, p {
   border-bottom: none;
 }
 
-@media (max-width: 768px) {
-
-  .table-container {
-    bottom: 100;
-  }
-
-  .title {
-    font-size: 3.5rem;
-  }
-
-  .subtitle {
-    font-size: 1.15em;
-    line-height: 3.9em;
-  }
-
-  .feature-table {
-    width: 75%;
-    background-color: #334e65;
-  }
-
-  .feature-table th,
-  .feature-table td {
-    font-size: 1.25em;
-    line-height: 2em;
-  }
-
-}
-
-.login-btn {
-  width: 7em;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  padding: 10px 20px;
-  font-size: 1rem;
-  background-color: black;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease, color 0.3s ease;
-  font-weight: 600;
-  border: solid;
-}
-
-.login-btn:hover {
-  background-color: white;
-  color: black;
-}
-
-.signup-btn {
-  width: 7em;
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  padding: 10px 20px;
-  font-size: 1rem;
-  background-color: #000000;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease, color 0.3s ease;
-  font-weight: 600;
-  border: solid;
-}
-
-.signup-btn:hover {
-  background-color: white;
-  color: black;
-}
-
-
-.heading {
-  font-weight: 500 !important;
-}
-
-
-/* Container for the Calendar Component */
+/* =======================================
+   Calendar Component
+========================================== */
 .calendar-container {
-  position: absolute;
+  display: flex;
   flex-direction: column;
   color: white;
   text-align: center;
   justify-content: center;
   align-items: center;
-  width: 100%; /* Full-width for centering */
-  margin: 0 auto; /* Center within parent */
+  width: 100%;
+  margin: 0 auto;
 }
 
-/* Grid Layout for the Calendar */
+.calendar-heading {
+  padding: 0.5em 0.75em;
+  font-size: 3rem;
+  font-weight: 750;
+  background-color: #fff;
+  border-radius: 12px;
+  color: #151313;
+  margin-bottom: 1em;
+}
+
 .calendar-grid {
-  background-color: rgb(255, 255, 255);
-  border: solid .1em;
+  background-color: #fff;
+  border: 0.1em solid #ccc;
   display: grid;
-  grid-template-columns: repeat(7, 1fr); /* 7 days in a week */
-  gap: .75em;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.75em;
   width: 100%;
   border-radius: 12px;
 }
 
-/* Individual Day Squares */
 .calendar-day {
-  display: block;
+  display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: .5em;
+  padding: 0.5em;
   background-color: #494e52;
-  color: #ffffff;
-
+  color: #fff;
   border-radius: 8px;
   font-size: 0.9rem;
   font-weight: 500;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s ease, background-color 0.3s ease;
   border: solid;
+  transition: transform 0.2s ease, background-color 0.3s ease;
 }
 
-/* Hover Effect for Day Squares */
 .calendar-day:hover {
   transform: scale(1.05);
   background-color: #3a546a;
 }
 
-/* Heading for the Calendar */
-.calendar-heading {
-  padding-left: .75em;
-  padding-right: .75em;
-  font-size: 3rem;
-  font-weight: 750;
-  background-color: rgb(255, 255, 255);
-  border-radius: 12px;
-  color: rgb(21, 19, 19);
-  padding: .5em;
-}
-
-/* Responsiveness for Smaller Screens */
-@media (max-width: 768px) {
-  .calendar-grid {
-    grid-template-columns: repeat(3, 1fr); /* Reduce columns on smaller screens */
-  }
-
-  .calendar-heading {
-    font-size: 1.5rem;
-    line-height: 1em;
-  }
-
-  .calendar-day {
-    font-size: .75rem;
-    line-height: 1.5em;
-    height: 2.5em;
-  }
-
-  .calendar-grid {
-    gap: 0em;
-  }
-
-  
-}
-
-
-
-.tracker-container {
-  position: absolute;
-  top: 350vh;
-  background-color: #3a546a;
-  width: 100%;
-}
-
-
-.w-full {
-  background-color: white;
-  color: black;
-  height: 3em;
-  margin: 1em;
-  border-radius: .5em;
-  border: solid black;
-}
-
-
-.shoe-selector {
-  height: 3em;
-  background-color: white;
-  color: black;
-  font-weight: 1000;
-}
-
-.space-y-3 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-
-
-.expanded-section {
-  background-color: white; /* Override button styles */
-  width: 100vw !important;
-  height: 100vh !important;
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-
+/* =======================================
+   Tracker Component
+========================================== */
 .tracker {
   display: flex;
   justify-content: center;
-  align-items: start;
+  align-items: flex-start;
   gap: 2rem;
   width: 80%;
   max-width: 900px;
@@ -401,55 +269,24 @@ h1, p {
   padding: 1.5rem;
   background: #f9f9f9;
   border-radius: 8px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   color: black;
 }
 
-/* Make sure form inputs and buttons look nice */
-input,
-select,
-button {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  margin-top: 8px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+.space-y-3 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-input,
-select {
-  background-color: white;
-  color: black;
-}
-
-button:hover {
-  background-color: rgb(16, 13, 66);
-}
-
-/* Responsive: Stack on small screens */
-@media (max-width: 768px) {
-  .tracker {
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-  }
-}
-
-
-.close {
-  background-color: #0056b3;
-}
-
-
-
-/* Container for the Plan component */
+/* =======================================
+   Plan Component
+========================================== */
 .plan-container {
   padding: 16px;
   font-family: sans-serif;
 }
 
-/* Header Section */
 .plan-header {
   text-align: center;
   margin-bottom: 20px;
@@ -465,14 +302,12 @@ button:hover {
   color: #555;
 }
 
-/* Calendar Grid */
 .plan-grid {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   gap: 10px;
 }
 
-/* Day Cell Styling */
 .plan-day {
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -497,27 +332,13 @@ button:hover {
 }
 
 /* Workout Type Color Coding */
-.long-run {
-  background-color: #fde2e2; /* Light red for long runs */
-}
+.long-run    { background-color: #fde2e2; } /* Light red */
+.easy-run    { background-color: #e2f7e2; } /* Light green */
+.tempo-run   { background-color: #fff5cc; } /* Light yellow */
+.recovery-run{ background-color: #e0f0ff; } /* Light blue */
+.rest-day    { background-color: #f0f0f0; } /* Grey */
 
-.easy-run {
-  background-color: #e2f7e2; /* Light green for easy runs */
-}
-
-.tempo-run {
-  background-color: #fff5cc; /* Light yellow for tempo runs */
-}
-
-.recovery-run {
-  background-color: #e0f0ff; /* Light blue for recovery runs */
-}
-
-.rest-day {
-  background-color: #f0f0f0; /* Grey for rest days */
-}
-
-/* Modal Styling */
+/* Modal Styling for Plan Component */
 .plan-modal-overlay {
   position: fixed;
   top: 0;
@@ -556,4 +377,85 @@ button:hover {
 
 .plan-modal-content button:hover {
   background-color: #0056b3;
+}
+
+/* =======================================
+   Close Button
+========================================== */
+.close {
+  background-color: #0056b3;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 2rem;
+}
+
+/* =======================================
+   Responsive Styles
+========================================== */
+@media (max-width: 768px) {
+  /* Box container becomes column on mobile */
+  .box-container {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  /* Box under arrow: adjust width and font size */
+  .box-under-arrow {
+    width: 95% !important;
+    font-size: 1em;
+    line-height: 1.2em;
+  }
+
+  /* Adjust title and subtitle sizes */
+  .title {
+    font-size: 3.5rem;
+  }
+  
+  .subtitle {
+    font-size: 1.15em;
+    line-height: 1.5em;
+  }
+  
+  /* Feature table adjustments */
+  .feature-table {
+    width: 75%;
+    background-color: #334e65;
+  }
+  
+  .feature-table th,
+  .feature-table td {
+    font-size: 1.25em;
+    line-height: 2em;
+  }
+  
+  /* Calendar adjustments */
+  .calendar-grid {
+    grid-template-columns: repeat(3, 1fr); /* Fewer columns for smaller screens */
+    gap: 0.5em;
+  }
+  
+  .calendar-heading {
+    font-size: 1.5rem;
+    line-height: 1em;
+  }
+  
+  .calendar-day {
+    font-size: 0.75rem;
+    line-height: 1.5em;
+    height: 2.5em;
+  }
+  
+  /* Tracker component stacks on mobile */
+  .tracker {
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    width: 95%;
+    padding: 1rem;
+  }
 }
