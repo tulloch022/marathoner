@@ -46,7 +46,7 @@ export default function RunTracker() {
     <div className="tracker">
       {/* Left Side: Run Entry Form */}
       <div className="entry">
-        <h2 className="text-xl">Run Tracker</h2>
+        <h2 className="text-xl">Run</h2>
         <form onSubmit={handleSubmit} className="space-y-3">
           <input name="miles" type="number" step="0.1" placeholder="Miles" required />
           <input name="time" type="text" placeholder="Time (e.g. 45:30)" required />
