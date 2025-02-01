@@ -311,7 +311,7 @@ h1, p {
   background-color: rgb(212, 212, 212);
   border-radius: 12px;
   color: rgb(21, 19, 19);
-  padding-bottom: 5vh;
+  padding: .5em;
 }
 
 /* Responsiveness for Smaller Screens */
