@@ -6,6 +6,7 @@ import Subtitle from "./components/Subtitle";
 import Calendar from "./components/Calendar";
 import SignUpButton from "./components/SignUpButton";
 import ShoeTracker from "./components/ShoeTracker";
+import Analyze from "./components/Analyze";
 
 function App() {
   const [activeSection, setActiveSection] = useState<"plan" | "track" | "analyze" | null>(null);
@@ -17,7 +18,7 @@ function App() {
       animate={{ opacity: 1 }}
       transition={{ duration: 3, ease: "easeOut" }}
     >
-      {/* Login & Signup Buttons - Hidden when a section is active */}
+      {/* Login & Signup Buttons – Hidden when a section is active */}
       {!activeSection && (
         <>
           <LoginButton />
@@ -35,7 +36,6 @@ function App() {
             className="box-under-arrow"
             initial={{ width: "50vw", height: "3em" }}
             onClick={() => {
-              // Only set activeSection if a different section is selected
               if (activeSection !== section) {
                 setActiveSection(section);
               }
@@ -47,8 +47,12 @@ function App() {
               color: activeSection === section ? "#ffffff" : "#000000",
             }}
             transition={{ duration: 0.5 }}
-            // Removed the disabled attribute to ensure inner elements receive pointer events
-            style={{ overflow: "hidden", position: "relative", zIndex: 1, cursor: activeSection === section ? "default" : "pointer" }}
+            style={{
+              overflow: "hidden",
+              position: "relative",
+              zIndex: 1,
+              cursor: activeSection === section ? "default" : "pointer",
+            }}
           >
             {activeSection === section ? (
               <SectionContent section={section} onClose={() => setActiveSection(null)} />
@@ -62,7 +66,12 @@ function App() {
   );
 }
 
-function SectionContent({ section, onClose }: { section: "plan" | "track" | "analyze"; onClose: () => void }) {
+type SectionContentProps = {
+  section: "plan" | "track" | "analyze";
+  onClose: () => void;
+};
+
+function SectionContent({ section, onClose }: SectionContentProps) {
   // Determine the title based on the section
   const getTitle = () => {
     if (section === "plan") return "Plan Your Workouts";
@@ -92,7 +101,7 @@ function SectionContent({ section, onClose }: { section: "plan" | "track" | "ana
       <h1 className="text-3xl font-bold">{getTitle()}</h1>
       {section === "plan" && <Calendar />}
       {section === "track" && <ShoeTracker />}
-      {section === "analyze" && <div>{/* Add analysis content here */}</div>}
+      {section === "analyze" && <Analyze/>}
     </motion.div>
   );
 }

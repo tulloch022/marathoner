@@ -459,3 +459,84 @@ p {
     padding: 1rem;
   }
 }
+
+
+/* Container for the Analyze component */
+.analyze-container {
+  position: relative;
+  padding: 20px;
+  background-color: #fff;
+  color: #000;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  text-align: center;
+}
+
+/* Title Styling */
+.analyze-container h1 {
+  margin-bottom: 20px;
+  font-size: 2rem;
+}
+
+/* Cards Container */
+.analyze-cards {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+/* Individual Analytics Card */
+.analyze-card {
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  width: 30%;
+  min-width: 200px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Card Heading */
+.analyze-card h2 {
+  margin: 0 0 10px 0;
+  font-size: 1.2rem;
+  color: #007bff;
+}
+
+/* Card Content */
+.analyze-card p {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+/* Close Button Styling */
+.close {
+  background-color: #0056b3;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-size: 1.5rem;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .analyze-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+  .analyze-card {
+    width: 90%;
+  }
+  .analyze-container h1 {
+    font-size: 1.75rem;
+  }
+}
