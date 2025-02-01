@@ -440,3 +440,120 @@ button:hover {
 .close {
   background-color: #0056b3;
 }
+
+
+
+/* Container for the Plan component */
+.plan-container {
+  padding: 16px;
+  font-family: sans-serif;
+}
+
+/* Header Section */
+.plan-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.plan-header h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.plan-header p {
+  margin-top: 5px;
+  color: #555;
+}
+
+/* Calendar Grid */
+.plan-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+/* Day Cell Styling */
+.plan-day {
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: box-shadow 0.3s;
+}
+
+.plan-day:hover {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.plan-day-number {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.plan-day-abbr {
+  font-size: 14px;
+  color: #333;
+}
+
+/* Workout Type Color Coding */
+.long-run {
+  background-color: #fde2e2; /* Light red for long runs */
+}
+
+.easy-run {
+  background-color: #e2f7e2; /* Light green for easy runs */
+}
+
+.tempo-run {
+  background-color: #fff5cc; /* Light yellow for tempo runs */
+}
+
+.recovery-run {
+  background-color: #e0f0ff; /* Light blue for recovery runs */
+}
+
+.rest-day {
+  background-color: #f0f0f0; /* Grey for rest days */
+}
+
+/* Modal Styling */
+.plan-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.plan-modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 6px;
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.plan-modal-content h3 {
+  margin-top: 0;
+}
+
+.plan-modal-content button {
+  margin-top: 15px;
+  padding: 8px 12px;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.plan-modal-content button:hover {
+  background-color: #0056b3;
+}
