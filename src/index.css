@@ -325,10 +325,11 @@ h1, p {
   .calendar-day {
     font-size: 0.5rem;
     padding: 0px;
+    height: 4em;
   }
 
   .calendar-grid {
-    gap: 0.1em;
+    gap: 0.2em;
   }
 
   
