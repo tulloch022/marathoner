@@ -431,6 +431,7 @@ button:hover {
 @media (max-width: 768px) {
   .tracker {
     flex-direction: column;
+    align-items: center;
     gap: 1rem;
   }
 }
