@@ -564,3 +564,9 @@ p {
 .section-heading {
   color: black;
 }
+
+
+input,
+select {
+  margin: .5em;
+}
