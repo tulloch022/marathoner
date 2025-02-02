@@ -98,7 +98,7 @@ function SectionContent({ section, onClose }: SectionContentProps) {
       >
         X
       </button>
-      <h1 className="text-3xl font-bold">{getTitle()}</h1>
+      <h1 className="section-heading font-bold">{getTitle()}</h1>
       {section === "plan" && <Calendar />}
       {section === "track" && <ShoeTracker />}
       {section === "analyze" && <Analyze/>}

@@ -64,7 +64,7 @@ export default function Plan() {
     <div className="plan-container">
       {/* Header Section */}
       <div className="plan-header">
-        <h2>Training Plan - Week 1</h2>
+        <h2 className="section-heading">Training Plan - Week 1</h2>
         <p>Total Mileage: {weekOneMileage} mi</p>
       </div>
 

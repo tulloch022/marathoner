@@ -559,3 +559,7 @@ p {
     align-items: center;
   }
 }
+
+.section-heading {
+  color: black;
+}
