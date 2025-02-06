@@ -572,3 +572,8 @@ input,
 select {
   margin: .5em;
 }
+
+
+li {
+  list-style-type: none;
+}
