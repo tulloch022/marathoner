@@ -6,17 +6,32 @@ type Workout = {
   distance: number;
 };
 
-// Sample workout plan for 30 days (feel free to complete/update as needed)
-const workoutPlan: Workout[] = [
-  { day: 1, type: "Rest", distance: 0 },
-  { day: 2, type: "Easy Run", distance: 3 },
-  { day: 3, type: "Tempo Run", distance: 4 },
-  { day: 4, type: "Long Run", distance: 8 },
-  { day: 5, type: "Recovery Run", distance: 2 },
-  { day: 6, type: "Easy Run", distance: 3 },
-  { day: 7, type: "Rest", distance: 0 },
-  // ... add entries for days 8-30
-];
+// Generate a sample 20-week plan (assuming each week repeats the 7-day structure)
+const generateWorkoutPlan = () => {
+  const baseWeek: Workout[] = [
+    { day: 1, type: "Rest", distance: 0 },
+    { day: 2, type: "Easy Run", distance: 3 },
+    { day: 3, type: "Tempo Run", distance: 4 },
+    { day: 4, type: "Long Run", distance: 8 },
+    { day: 5, type: "Recovery Run", distance: 2 },
+    { day: 6, type: "Easy Run", distance: 3 },
+    { day: 7, type: "Rest", distance: 0 },
+  ];
+
+  let fullPlan: Workout[] = [];
+  for (let week = 0; week < 20; week++) {
+    const weekStart = week * 7;
+    const weekPlan = baseWeek.map((workout, index) => ({
+      day: weekStart + index + 1,
+      type: workout.type,
+      distance: workout.distance,
+    }));
+    fullPlan = [...fullPlan, ...weekPlan];
+  }
+  return fullPlan;
+};
+
+const workoutPlan = generateWorkoutPlan();
 
 // Abbreviations for workouts
 const workoutAbbr: Record<string, string> = {
@@ -47,10 +62,13 @@ function getWorkoutColorClass(type: string): string {
 
 export default function Plan() {
   const [selectedWorkout, setSelectedWorkout] = useState<Workout | null>(null);
+  const [selectedWeek, setSelectedWeek] = useState(1);
 
-  // For example, compute the summary for week 1 (days 1-7)
-  const weekOneWorkouts = workoutPlan.filter((w) => w.day >= 1 && w.day <= 7);
-  const weekOneMileage = weekOneWorkouts.reduce((total, w) => total + w.distance, 0);
+  // Filter workouts based on selected week
+  const startDay = (selectedWeek - 1) * 7 + 1;
+  const endDay = selectedWeek * 7;
+  const weekWorkouts = workoutPlan.filter((w) => w.day >= startDay && w.day <= endDay);
+  const weekMileage = weekWorkouts.reduce((total, w) => total + w.distance, 0);
 
   const handleWorkoutClick = (workout: Workout) => {
     setSelectedWorkout(workout);
@@ -64,13 +82,26 @@ export default function Plan() {
     <div className="plan-container">
       {/* Header Section */}
       <div className="plan-header">
-        <h2 className="section-heading">Training Plan - Week 1</h2>
-        <p>Total Mileage: {weekOneMileage} mi</p>
+        <h2 className="section-heading">
+          Training Plan -  
+          <select 
+            className="week-selector"
+            value={selectedWeek}
+            onChange={(e) => setSelectedWeek(parseInt(e.target.value))}
+          >
+            {[...Array(20)].map((_, index) => (
+              <option key={index} value={index + 1}>
+                Week {index + 1}
+              </option>
+            ))}
+          </select>
+        </h2>
+        <p>Total Mileage: {weekMileage} mi</p>
       </div>
 
       {/* Calendar Grid */}
       <div className="plan-grid">
-        {workoutPlan.map((workout) => (
+        {weekWorkouts.map((workout) => (
           <div
             key={workout.day}
             className={`plan-day ${getWorkoutColorClass(workout.type)}`}
