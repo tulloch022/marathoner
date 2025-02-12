@@ -5,8 +5,8 @@ const LoginButton = () => {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   return (
-    <div>
-      <button className="login-btn" onClick={() => setIsLoginOpen(true)}>
+    <div className="login-wrapper">
+      <button className="login-btn" onClick={() => setIsLoginOpen(!isLoginOpen)}>
         Login
       </button>
       {isLoginOpen && <LoginForm onClose={() => setIsLoginOpen(false)} />}
