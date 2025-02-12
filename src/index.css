@@ -630,13 +630,13 @@ li {
 /* Ensure form elements look clean */
 .login-popup h3 {
   margin: 0 0 10px 0;
-  font-size: 16px;
+  font-size: 1em;
   text-align: center;
+  color: black;
 }
 
 .login-popup input {
   width: 100%;
-  padding: 5px;
   margin-bottom: 8px;
   border: 1px solid #ddd;
   border-radius: 4px;
