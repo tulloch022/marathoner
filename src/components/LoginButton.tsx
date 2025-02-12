@@ -1,14 +1,17 @@
-function LoginButton() {
-  const handleClick = () => {
-    // Logic for login action can go here (e.g., show a login modal, navigate to a login page, etc.)
-    console.log("Login button clicked!");
-  };
+import { useState } from "react";
+import LoginForm from "./LoginForm";
+
+const LoginButton = () => {
+  const [isLoginOpen, setIsLoginOpen] = useState(false);
 
   return (
-    <button className="login-btn" onClick={handleClick}>
-      Login
-    </button>
+    <div>
+      <button className="login-btn" onClick={() => setIsLoginOpen(true)}>
+        Login
+      </button>
+      {isLoginOpen && <LoginForm onClose={() => setIsLoginOpen(false)} />}
+    </div>
   );
-}
+};
 
 export default LoginButton;
