@@ -9,13 +9,13 @@ type Workout = {
 // Generate a sample 20-week plan (assuming each week repeats the 7-day structure)
 const generateWorkoutPlan = () => {
   const baseWeek: Workout[] = [
-    { day: 1, type: "Rest", distance: 0 },
+    { day: 1, type: "Easy Run", distance: 3 },
     { day: 2, type: "Easy Run", distance: 3 },
-    { day: 3, type: "Tempo Run", distance: 4 },
-    { day: 4, type: "Long Run", distance: 8 },
+    { day: 3, type: "Rest", distance: 0 },
+    { day: 4, type: "Tempo Run", distance: 2 },
     { day: 5, type: "Recovery Run", distance: 2 },
-    { day: 6, type: "Easy Run", distance: 3 },
-    { day: 7, type: "Rest", distance: 0 },
+    { day: 6, type: "Rest", distance: 0 },
+    { day: 7, type: "Long Run", distance: 8 },
   ];
 
   let fullPlan: Workout[] = [];
