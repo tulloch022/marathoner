@@ -40,7 +40,7 @@ button {
   font-weight: 500;
   font-family: inherit;
   cursor: pointer;
-  background-color: #007bff;
+  background-color: black;
   color: white;
   border: none;
   transition: background 0.2s, border-color 0.25s;
