@@ -379,19 +379,7 @@ p {
   background-color: #0056b3;
 }
 
-/* =======================================
-   Close Button
-========================================== */
-.close {
-  background-color: #0056b3;
-  border: none;
-  color: #fff;
-  cursor: pointer;
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  font-size: 2rem;
-}
+
 
 /* =======================================
    Responsive Styles
@@ -517,7 +505,7 @@ p {
 .close {
   background-color: #0056b3;
   border: none;
-  color: #fff;
+  color: #000000;
   cursor: pointer;
   position: absolute;
   top: 10px;
