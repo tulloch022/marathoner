@@ -11,7 +11,7 @@ const SignUpForm = ({ onClose }: { onClose: () => void }) => {
     onClose();
   };
 
-  // Close signup form when clicking outside
+  // Close login form when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (formRef.current && !formRef.current.contains(event.target as Node)) {
