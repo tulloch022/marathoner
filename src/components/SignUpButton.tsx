@@ -1,15 +1,17 @@
-function SignUpButton() {
-    const handleClick = () => {
-      // Logic for login action can go here (e.g., show a login modal, navigate to a login page, etc.)
-      console.log("Sign Up button clicked!");
-    };
-  
-    return (
-      <button className="signup-btn" onClick={handleClick}>
+import { useState } from "react";
+import SignUpForm from "./SignUpForm.tsx";
+
+const SignUpButton = () => {
+  const [isSignUpOpen, setIsSignUpOpen] = useState(false);
+
+  return (
+    <div className="signup-wrapper">
+      <button className="signup-btn" onClick={() => setIsSignUpOpen(!isSignUpOpen)}>
         Sign Up
       </button>
-    );
-  }
-  
-  export default SignUpButton;
-  
+      {isSignUpOpen && <SignUpForm onClose={() => setIsSignUpOpen(false)} />}
+    </div>
+  );
+};
+
+export default SignUpButton;
