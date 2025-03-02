@@ -689,3 +689,10 @@ li {
   border: 1px solid #ddd;
   border-radius: 4px;
 }
+
+.signup-popup h3 {
+  margin: 0 0 10px 0;
+  font-size: 1em;
+  text-align: center;
+  color: black;
+}
