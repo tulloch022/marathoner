@@ -31,35 +31,35 @@ function App() {
       {/* Main Buttons */}
       <div className="box-container flex gap-4 relative">
         {(["plan", "track", "analyze"] as const).map((section) => (
-          <motion.button
-            key={section}
-            className="box-under-arrow"
-            initial={{ width: "50vw", height: "3em" }}
-            onClick={() => {
-              if (activeSection !== section) {
-                setActiveSection(section);
-              }
-            }}
-            animate={{
-              width: activeSection === section ? "75vw" : "10vw",
-              height: activeSection === section ? "90vh" : "2em",
-              backgroundColor: activeSection === section ? "rgba(219, 219, 219, 0.48)" : "#ffffff",
-              color: activeSection === section ? "#ffffff" : "#000000",
-            }}
-            transition={{ duration: 0.5 }}
-            style={{
-              overflow: "hidden",
-              position: "relative",
-              zIndex: 1,
-              cursor: activeSection === section ? "default" : "pointer",
-            }}
-          >
-            {activeSection === section ? (
-              <SectionContent section={section} onClose={() => setActiveSection(null)} />
-            ) : (
-              <p>{section.charAt(0).toUpperCase() + section.slice(1)}</p>
-            )}
-          </motion.button>
+                  <motion.button
+                    key={section}
+                    className="box-under-arrow"
+                    initial={{ width: "50vw", height: "3em" }}
+                    onClick={() => {
+                      if (activeSection !== section) {
+                        setActiveSection(section);
+                      }
+                    }}
+                    animate={{
+                      width: activeSection === section ? "75vw" : "10vw",
+                      height: activeSection === section ? "90vh" : "2em",
+                      backgroundColor: activeSection === section ? "rgba(219, 219, 219, 0.48)" : "#ffffff",
+                      color: activeSection === section ? "#ffffff" : "#000000",
+                    }}
+                    transition={{ duration: 0.5 }}
+                    style={{
+                      overflow: "hidden",
+                      position: "relative",
+                      zIndex: 1,
+                      cursor: activeSection === section ? "default" : "pointer",
+                    }}
+                  >
+                    {activeSection === section ? (
+                      <SectionContent section={section} onClose={() => setActiveSection(null)} />
+                    ) : (
+                      <p>{section.charAt(0).toUpperCase() + section.slice(1)}</p>
+                    )}
+                  </motion.button>
         ))}
       </div>
     </motion.div>
