@@ -11,8 +11,7 @@ const SignUpForm = ({ onClose }: { onClose: () => void }) => {
     e.preventDefault();
     try {
       // Call the signUp function from authService
-      const user = await signUp(email, password); // Using the signUp function
-      console.log("User signed up:", user); // You can do something with the user here, like redirecting or showing a success message
+      const user = await signUp(email, password); 
       onClose(); // Close the form after successful sign up
     } catch (error) {
       // If there's an error, display the message
