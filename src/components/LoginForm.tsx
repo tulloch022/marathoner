@@ -35,7 +35,7 @@ const LoginForm = ({ onClose }: { onClose: () => void }) => {
   return (
     <div ref={formRef} className="login-popup">
       <form onSubmit={handleSubmit}>
-        <h3>Login</h3>
+        <span>Login</span>
         {error && <div className="error">{error}</div>} {/* Display error message if any */}
         <input
           type="text"

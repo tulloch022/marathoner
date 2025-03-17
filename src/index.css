@@ -619,7 +619,9 @@ li {
 }
 
 /* Ensure form elements look clean */
-.login-popup h3 {
+.login-popup span {
+  font-size: 1.5em !important;
+  font-weight: bolder;
   margin: 0 0 10px 0;
   font-size: 1em;
   text-align: center;
