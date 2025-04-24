@@ -389,12 +389,11 @@ p {
   .box-container {
     flex-direction: column;
     align-items: center;
-    width: 50%;
+    width: 100%;
   }
 
   /* Box under arrow: adjust width and font size */
   .box-under-arrow {
-    width: 95% !important;
     font-size: 1em;
     line-height: 1.2em;
   }

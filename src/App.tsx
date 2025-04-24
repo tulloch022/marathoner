@@ -41,7 +41,7 @@ function App() {
                       }
                     }}
                     animate={{
-                      width: activeSection === section ? "75vw" : "10vw",
+                      width: activeSection === section ? "95%" : "7em",
                       height: activeSection === section ? "90vh" : "2em",
                       backgroundColor: activeSection === section ? "rgba(219, 219, 219, 0.48)" : "#ffffff",
                       color: activeSection === section ? "#ffffff" : "#000000",
