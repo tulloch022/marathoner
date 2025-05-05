@@ -675,6 +675,12 @@ li {
   z-index: 1000;
 }
 
+@media (max-width: 768px) {
+  .signup-popup {
+    width: 50%;
+  }
+}
+
 .signup-popup button {
   width: 100%;
   padding: 6px;
