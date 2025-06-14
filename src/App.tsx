@@ -44,7 +44,6 @@ function App() {
                       width: activeSection === section ? "75vw" : "7em",
                       height: activeSection === section ? "90vh" : "2em",
                       backgroundColor: activeSection === section ? "white" : "#ffffff",
-                      color: activeSection === section ? "#ffffff" : "#000000",
                       display: activeSection === section ? "" : "",
                       border: activeSection === section ? "none" : "",
                       boxShadow: activeSection === section ? "none" : "",
