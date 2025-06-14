@@ -607,7 +607,7 @@ li {
 /* Positions the login popup in the top-right corner */
 .login-popup {
   position: fixed;
-  top: 50px; /* Adjust this value to move it lower if needed */
+  top: 50px;
   right: 20px;
   width: 220px;
   background: white;
