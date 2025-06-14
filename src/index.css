@@ -607,14 +607,14 @@ li {
 /* Positions the login popup in the top-right corner */
 .login-popup {
   position: fixed;
-  top: 50px;
-  right: 20px;
-  width: 220px;
+  top: 4em;
+  right: 2em;
+  width: 15em;
   background: white;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  padding: 12px;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  border: solid rgb(238, 233, 233);
+  border-radius: 2em;
+  padding: 2em;
+  box-shadow: 0em 1em 1em rgba(0, 0, 0, 0.1);
   z-index: 1000;
 }
 
