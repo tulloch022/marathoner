@@ -10,6 +10,7 @@ import Analyze from "./components/Analyze";
 
 function App() {
   const [activeSection, setActiveSection] = useState<"plan" | "track" | "analyze" | null>(null);
+  
 
   return (
     <motion.div
@@ -41,10 +42,9 @@ function App() {
                       }
                     }}
                     animate={{
-                      width: activeSection === section ? "75vw" : "7em",
-                      height: activeSection === section ? "90vh" : "2em",
+                      width: activeSection === section ? "100vw" : "7em",
+                      height: activeSection === section ? "100vh" : "2em",
                       backgroundColor: activeSection === section ? "white" : "#ffffff",
-                      display: activeSection === section ? "" : "",
                       border: activeSection === section ? "none" : "",
                       boxShadow: activeSection === section ? "none" : "",
                     }}

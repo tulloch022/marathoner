@@ -69,6 +69,7 @@ button:focus-visible {
   height: 100vh;
   text-align: center;
   position: relative;
+  overflow: hidden;
 }
 
 h1,
