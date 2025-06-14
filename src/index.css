@@ -676,11 +676,6 @@ li {
   z-index: 1000;
 }
 
-.signup-popup input {
-  font-size: 1em;
-}
-
-
 
 .signup-popup button {
   width: 100%;
@@ -693,10 +688,10 @@ li {
 }
 
 .signup-popup input {
-  width: 80%;
-  margin-bottom: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
+  font-size: 1em;
+  width: 100%;
+  border: .05em solid black;
+  border-radius: .2em;
 }
 
 .signup-popup span {
