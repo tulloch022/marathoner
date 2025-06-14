@@ -21,6 +21,8 @@ body {
   text-rendering: optimizeLegibility;
 }
 
+
+
 /* =======================================
    Element Base Styles
 ========================================== */
@@ -697,4 +699,10 @@ li {
   font-size: 1em;
   text-align: center;
   color: black;
+}
+
+
+input, button {
+  width: 100%;
+  box-sizing: border-box;
 }
