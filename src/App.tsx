@@ -28,7 +28,7 @@ function App() {
         </>
       )}
 
-      {/* Main Buttons */}
+
       <div className="box-container flex gap-4 relative">
         {(["plan", "track", "analyze"] as const).map((section) => (
                   <motion.button
@@ -72,7 +72,6 @@ type SectionContentProps = {
 };
 
 function SectionContent({ section, onClose }: SectionContentProps) {
-  // Determine the title based on the section
   const getTitle = () => {
     if (section === "plan") return "Plan Your Workouts";
     if (section === "track") return "Track Your Runs";
