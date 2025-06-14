@@ -108,7 +108,7 @@ p {
   background-color: #ffffff;
   border: solid black;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1em .5em rgb(204, 204, 204);
   text-align: center;
   font-weight: bold;
   color: black;
@@ -130,7 +130,7 @@ p {
   border: solid;
   border-radius: 5px;
   cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 1em .5em rgb(204, 204, 204);
   transition: background-color 0.3s ease, color 0.3s ease;
   font-weight: 600;
   position: absolute;
