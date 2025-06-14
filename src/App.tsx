@@ -16,7 +16,7 @@ function App() {
       className="main flex flex-col items-center justify-center h-screen"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 3, ease: "easeOut" }}
+      transition={{ duration: 1, ease: "easeOut" }}
     >
       {/* Login & Signup Buttons – Hidden when a section is active */}
       {!activeSection && (
@@ -48,7 +48,7 @@ function App() {
                       border: activeSection === section ? "none" : "",
                       boxShadow: activeSection === section ? "none" : "",
                     }}
-                    transition={{ duration: 0.5 }}
+                    transition={{ duration: .25 }}
                     style={{
                       overflow: "hidden",
                       position: "relative",
