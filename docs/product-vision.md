@@ -1,0 +1,500 @@
+# Marathoner product vision
+
+**Status:** Draft  
+**Last updated:** July 22, 2026  
+**Product owner:** Kevin Tulloch
+
+## Purpose
+
+This document describes what Marathoner is intended to become, who it serves,
+and the sequence for building it. It is a directional product guide rather than
+a promise that every future feature or date is fixed.
+
+The repository README explains what the application does today. GitHub issues
+and milestones define committed work. This document explains the larger
+destination and the principles used to make product decisions.
+
+## Vision
+
+Marathoner helps a first-time marathoner move from deciding to run a marathon
+to arriving at the starting line feeling prepared, informed, and in control.
+
+A new runner should not need to research and assemble a training plan,
+terminology, equipment guidance, recovery practices, fueling advice, and race
+preparation from unrelated sources. Marathoner should introduce the right
+concept at the point when it becomes useful, explain why it matters, and turn
+the runner's circumstances into an understandable plan.
+
+Marathoner is a first-marathon operating system, not a general activity tracker,
+social network, or permanent replacement for every running product.
+
+## Origin
+
+The product is informed by a system Kevin built for himself and friends while
+preparing for a marathon:
+
+1. Nine weeks focused on progressing from the couch to a 5K.
+2. Ninety days of base building with easy mileage and a progressively longer
+   Sunday run.
+3. Twenty weeks of marathon-specific training.
+4. Continued attention to effort, shoes, sleep, fueling, hydration, and pacing.
+
+That experience provides the product insight and empathy for the intended user.
+It does not replace professional coaching, sports-medicine, or nutrition
+expertise. Public training rules and educational guidance must be reviewed by
+qualified experts before they are treated as production-ready.
+
+Marathoner will develop original, expert-reviewed methodology. It will not
+depend on reproducing a proprietary plan or presenting the founder as a
+professional coach.
+
+## Primary user
+
+The first user is an English-speaking adult in the United States preparing for
+a first marathon.
+
+That person may be:
+
+- starting from little or no running;
+- able to run but lacking a consistent base;
+- already running regularly but unfamiliar with marathon preparation; or
+- uncertain whether a desired race date is realistic.
+
+The first version uses miles and United States-oriented race assumptions.
+Internationalization, additional unit defaults, and broader regional guidance
+can follow once the first experience is validated.
+
+## Core problem
+
+First-time marathoners often do not know which questions they need to ask.
+Important concepts are scattered across books, videos, training plans, device
+platforms, and advice from other runners.
+
+A schedule alone does not solve this problem. The runner also needs to
+understand:
+
+- why most running should feel easy;
+- how mileage and long runs progress;
+- when fueling and hydration become necessary;
+- why sleep and recovery affect the ability to absorb training;
+- how to monitor shoe use without relying on a universal expiration number;
+- how to distinguish normal effort from a situation that needs attention;
+- why a plan changes; and
+- when a race date or goal no longer fits the available preparation.
+
+## Product promise
+
+Marathoner aims to help a first-time marathoner complete the journey feeling
+prepared and in control.
+
+The default goal is not a finish time. Marathoner should first collect enough
+training history to understand the runner. When sufficient data exists, it may
+offer an optional, explained finish-time exploration. A new user should not be
+asked to research or invent a target time during onboarding.
+
+## Product principles
+
+### First-marathon focus
+
+Marathoner serves the complete first-marathon journey. It does not need to
+become an all-purpose platform for every race distance and every stage of an
+athlete's life.
+
+### Explain before expecting
+
+The product introduces important concepts before the runner is expected to act
+on them. Guidance should be timely and concise rather than a large curriculum
+that must be studied in advance.
+
+### Direct, calm accountability
+
+Marathoner should not shame the runner or offer empty encouragement. When the
+plan and current reality no longer match, the product should state that clearly
+and focus on the most responsible next options.
+
+### Informed control
+
+The runner should understand meaningful plan changes and approve them.
+Marathoner should not quietly transform the goal, mileage progression, or
+training phase.
+
+### Deterministic and expert-reviewed planning
+
+Training progression is produced by versioned, testable, approved rules.
+Artificial intelligence may help explain a recommendation, but it must operate
+inside those rules and must not independently decide training load or
+intensity.
+
+### Private and focused
+
+Social feeds, followers, clubs, public leaderboards, and comparison-driven
+engagement are non-goals. Users may eventually export or share an individual
+achievement, but Marathoner will not build a social graph.
+
+### Device independence
+
+A runner can use Marathoner without owning a particular watch. Manual activity
+logging remains a supported baseline even after integrations exist.
+
+### Mobile usability from the beginning
+
+The responsive web application is a first-class mobile experience, not a
+desktop product that happens to shrink. Native applications can follow after
+the product model is validated.
+
+### Graduation is success
+
+The first version may end with the runner completing a first marathon,
+preserving the journey, and moving to another product or goal. Graduation is a
+successful product outcome rather than a failed retention event.
+
+## The runner journey
+
+### 1. Assessment and feasibility
+
+Marathoner learns the runner's race date, current weekly mileage, longest recent
+run, recent performance when available, available training days, preferred
+long-run day, running frequency, and schedule constraints.
+
+If the requested race date does not allow a responsible progression, Marathoner
+must say so and recommend a later race or a different immediate goal.
+
+### 2. Learn to run
+
+A runner starting from zero follows a walk-run or Couch to 5K-style progression
+that builds consistency and confidence before marathon training begins.
+
+### 3. Build the base
+
+The runner develops consistent easy mileage and a gradually longer weekly run.
+The duration of this phase depends on the starting point and target race date.
+
+### 4. Train for the marathon
+
+The runner enters an expert-reviewed marathon-specific progression with long
+runs, easy running, appropriate quality work, recovery, cutback periods, and a
+taper.
+
+### 5. Prepare for race day
+
+Guidance expands to include race-week scheduling, pacing, fueling, equipment,
+logistics, and realistic expectations. This information should arrive near the
+point when it becomes actionable.
+
+### 6. Recover and graduate
+
+Marathoner helps the runner review the journey, preserve and export history,
+understand immediate recovery, and decide what comes next. Supporting a second
+marathon is a possible future version rather than a requirement for the initial
+product.
+
+## Plan generation
+
+The initial onboarding inputs are expected to include:
+
+- target race date;
+- current weekly mileage;
+- current running frequency;
+- longest recent run;
+- recent race or representative run performance when available;
+- days available to train;
+- preferred long-run day;
+- relevant schedule constraints; and
+- current completion goal.
+
+Sensitive or unnecessary personal information should not be collected merely
+because it might be available. Expert review will determine which additional
+inputs are genuinely required.
+
+Plan generation selects and configures approved phases rather than asking a
+generative model to invent workouts.
+
+## Feedback and adaptation
+
+After each run, Marathoner asks how the workout felt compared with its intended
+effort:
+
+- much easier than expected;
+- easier than expected;
+- about right;
+- harder than expected; or
+- much harder than expected.
+
+A secondary optional check asks whether the runner experienced unusual pain or
+discomfort. Marathoner does not diagnose injuries. It provides reviewed
+escalation guidance when a response indicates that the runner may need to stop,
+rest, or consult a qualified professional.
+
+One difficult workout should not rewrite the plan. Patterns should inform
+recommendations. For example, several easy runs reported as hard may trigger a
+recommendation to hold mileage steady.
+
+Minor schedule tuning may occur frequently when it does not materially change
+training load or purpose. Meaningful changes become explicit adjustment events
+that require approval. These include changes to:
+
+- mileage progression;
+- workout intensity;
+- training phase;
+- race feasibility;
+- finish-time exploration; or
+- the overall goal.
+
+A significant recommendation follows four steps:
+
+1. State the observation.
+2. Explain what it may mean.
+3. Recommend the next adjustment.
+4. Give the runner an informed choice.
+
+Confidence is measured less frequently, such as during a weekly review or phase
+transition. It is an outcome and coaching signal, not a direct instruction to
+increase or decrease training.
+
+## First-version guidance
+
+The first useful version treats these topics as essential:
+
+- easy-run effort and pacing;
+- shoes and mileage;
+- fueling and hydration;
+- sleep and recovery;
+- basic pain and discomfort escalation; and
+- explanations for plan changes.
+
+Guidance is introduced when relevant. A short early run should not produce a
+wall of marathon-fueling information. Shoe mileage should prompt inspection and
+consideration rather than declare that every shoe expires at the same number.
+
+These areas may be added later or introduced closer to race day:
+
+- detailed strength programming;
+- advanced mobility work;
+- deep mental-performance training;
+- advanced race strategy;
+- comprehensive race logistics;
+- advanced weather adaptation; and
+- performance optimization beyond completing a first marathon.
+
+## Product voice
+
+The voice is direct, calm, truthful, and focused on what can happen next.
+
+It should describe a mismatch between the plan and the current situation rather
+than treating the runner as the problem.
+
+Example:
+
+> Three easy runs felt harder than intended this week. That may indicate that
+> the current load is outpacing your recovery. Marathoner recommends repeating
+> this week's mileage before progressing. You can apply the adjustment or
+> review the recommendation first.
+
+When a race date is no longer supported, Marathoner must say that explicitly
+without using alarmist presentation or shame.
+
+## Platform strategy
+
+Marathoner is one product with multiple clients that share accounts, training
+data, and approved domain rules.
+
+### Public website
+
+The public website explains the product, shows examples, supports a waitlist or
+purchase flow, and links to the web and native applications.
+
+### Responsive web application
+
+The web application supports the complete product. Desktop emphasizes planning,
+history, configuration, and detailed analysis. Mobile web emphasizes today's
+workout, quick logging, effort feedback, shoes, guidance, and adjustment
+approvals.
+
+The January 2027 beta should be comfortable to use on a phone and should be
+installable as a Progressive Web App when practical.
+
+### Native mobile applications
+
+Native iOS and Android applications are planned after the beta validates the
+daily workflows and domain model. They become the long-term daily companion,
+but they are not required for the first external beta.
+
+### Shared backend
+
+Web and mobile clients communicate with the same backend. They are not wired
+directly to one another. Authentication, persistence, plan rules,
+synchronization, and integrations remain shared services.
+
+### Integrations
+
+Manual logging is the reliable baseline. Garmin is the first intended major
+integration for receiving completed activities and eventually delivering
+structured workouts. Apple Health and Android Health Connect are later
+priorities.
+
+No beta or release date should depend on approval from an external integration
+provider.
+
+## Directional roadmap
+
+Dates after Foundation are targets and may change as the product is validated.
+
+### Foundation: July 22 to September 8, 2026
+
+Complete the existing Foundation milestone, establish the development workflow,
+and onboard the first collaborator after the milestone exits.
+
+Foundation scope does not expand to include the plan engine, native
+applications, or integrations.
+
+### Product core: September and October 2026
+
+- persistent runner profiles and training data;
+- onboarding and race feasibility;
+- manual activity history;
+- training phases and approved domain models; and
+- a responsive mobile web foundation.
+
+### Planning and adaptation: November 2026
+
+- deterministic plan generation for a deliberately limited set of scenarios;
+- perceived-effort feedback;
+- minor schedule tuning;
+- major adjustment events;
+- first-version educational guidance; and
+- test coverage for approved rules.
+
+### Review and private testing: December 2026
+
+- qualified expert review;
+- internal and invited testing;
+- correction of unsafe, unclear, or inconsistent behavior;
+- mobile-browser usability validation;
+- beta support and feedback tools; and
+- waitlist or targeted recruitment.
+
+### Invite-only external beta: January 2027
+
+The target is a small cohort of English-speaking adults in the United States
+preparing for their first marathon later in 2027.
+
+The beta is a responsive web experience. It does not promise native apps,
+Garmin integration, advanced analytics, or broad public availability.
+
+The New Year period may be used for targeted recruitment and learning. Major
+paid acquisition should wait until onboarding, comprehension, retention, and
+safety behavior have been validated.
+
+### Beta validation: early 2027
+
+Improve the plan model, guidance, onboarding, reliability, and mobile workflows
+using evidence from real participants.
+
+### Multi-platform expansion: after beta validation
+
+Develop native applications, pursue Garmin and health-platform integrations,
+expand analytics, and prepare the public marketing experience when the core
+journey is dependable.
+
+### Public launch: evidence-driven
+
+A broad launch occurs when Marathoner can demonstrate that users understand
+their plans, return consistently, report increasing preparedness, and receive
+responsible recommendations.
+
+## January beta scope
+
+The initial external beta may include:
+
+- responsive web and mobile-browser experiences;
+- account creation and persistent data;
+- beginner onboarding;
+- race-date feasibility;
+- limited phase and plan generation;
+- manual run logging;
+- perceived-effort feedback;
+- adaptation recommendations and approvals;
+- shoe-mileage tracking;
+- essential educational guidance;
+- reviewed safety escalation; and
+- structured feedback.
+
+The beta does not require:
+
+- native app-store releases;
+- Garmin or health-platform integrations;
+- a generative planning system;
+- multiple race distances;
+- social features;
+- advanced analytics;
+- a complete coaching marketplace; or
+- large-scale paid marketing.
+
+## Success measures
+
+Early success is demonstrated by more than downloads or registrations.
+
+Useful measures include:
+
+- onboarding completion;
+- plan comprehension and acceptance;
+- weekly return and activity logging;
+- consistency between intended and reported workout effort;
+- confidence that upcoming training is manageable;
+- understanding of major plan adjustments;
+- retention through training phases;
+- absence and correction of critical recommendation failures;
+- qualitative beta feedback; and
+- eventual arrival at race week feeling prepared and in control.
+
+Metrics will be refined before the external beta.
+
+## Business-model hypothesis
+
+The first external beta is free in exchange for structured feedback.
+
+A possible long-term model is:
+
+1. a free readiness and timeline experience;
+2. a fixed-duration First Marathon Journey purchase;
+3. access for a generous period, potentially up to twelve months;
+4. personalized planning, adaptation, education, and graduation; and
+5. no indefinite automatic renewal.
+
+Pricing is unresolved and should be tested with beta users. The model is a
+hypothesis, not a launch commitment.
+
+## Risks and dependencies
+
+- Training methodology and guidance require qualified expert review.
+- Health, privacy, accessibility, and consumer-protection requirements require
+  deliberate review before public launch.
+- Garmin and other integrations depend on external approval and platform terms.
+- The January beta target is aggressive for a small part-time team.
+- Training guidance must remain understandable and testable as personalization
+  grows.
+- The product must avoid copying proprietary plans or educational material.
+- Marketing must not outrun the product's ability to support users responsibly.
+
+## Explicit non-goals
+
+For the initial product, Marathoner is not:
+
+- a social network;
+- a live GPS recording replacement;
+- an elite performance platform;
+- a substitute for medical care;
+- a marketplace for coaches;
+- a general-purpose app for every race distance;
+- a guarantee of race completion or injury avoidance; or
+- a native mobile application before the responsive product is validated.
+
+## Open questions
+
+- Which qualified experts will review the methodology and guidance?
+- How many users can the first beta support responsibly?
+- What evidence is sufficient before finish-time goals are introduced?
+- What price and access period fit the First Marathon Journey?
+- When should native mobile development begin?
+- Which integrations follow Garmin?
+- Which beta measures should block or permit a broader launch?
