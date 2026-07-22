@@ -39,6 +39,22 @@ understand every line they commit.
 - Do not commit, push, create branches, or change GitHub state unless explicitly
   requested.
 
+## Required GitHub workflow
+
+- Start every change from an existing open GitHub issue.
+- Create a dedicated branch from an up-to-date `main`. When Codex creates the
+  branch, use `codex/issue-<number>-<short-description>`.
+- Never commit directly to or push directly to `main`.
+- Open a pull request for every repository change, including documentation and
+  configuration changes.
+- Include `Closes #<issue-number>`, `Fixes #<issue-number>`, or
+  `Resolves #<issue-number>` in the pull request body.
+- Do not merge until required checks pass and all review conversations are
+  resolved.
+- Required approving reviews remain at zero while this is a solo repository.
+  The maintainer performs the final diff review and merge. Raise the rule to one
+  approving review after a collaborator is added.
+
 ## Code expectations
 
 - Follow the existing strict TypeScript and ESLint configuration.
