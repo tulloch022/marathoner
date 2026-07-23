@@ -58,7 +58,8 @@ The current application flow is deliberately small:
 
 There is no shared domain model or application-wide state container yet. Those
 boundaries will be introduced through the Foundation milestone rather than
-added speculatively to the prototype.
+added speculatively to the prototype. The shared training model is tracked in
+[issue #11](https://github.com/tulloch022/marathoner/issues/11).
 
 ## Current data limitations
 
@@ -66,14 +67,20 @@ The visible training experience is not connected to persistent user data yet:
 
 - **Plan:** `Calendar.tsx` generates a sample 20-week schedule by repeating one
   seven-day week. It is not based on dates, goals, experience, or an account.
+  Personalized plan generation is tracked in
+  [issue #29](https://github.com/tulloch022/marathoner/issues/29).
 - **Track:** `ShoeTracker.tsx` keeps shoes and runs in component state. Closing
   Track, refreshing the page, or opening the app on another device clears that
-  data.
+  data. Persistent training data is tracked in
+  [issue #12](https://github.com/tulloch022/marathoner/issues/12).
 - **Analyze:** `Analyze.tsx` displays fixed demonstration values. It does not
-  calculate results from Plan or Track.
+  calculate results from Plan or Track. Connecting the three features is
+  tracked in [issue #13](https://github.com/tulloch022/marathoner/issues/13).
 - **Authentication:** Firebase can create and sign in accounts, but the
   application shell does not currently display the signed-in user, react to
   authentication-state changes, protect content, or expose sign out.
+  Application-level authentication state is tracked in
+  [issue #5](https://github.com/tulloch022/marathoner/issues/5).
 
 No workout, run, shoe, or analytics data is sent to Firestore, Realtime
 Database, browser storage, or another backend. Firebase Authentication is the
