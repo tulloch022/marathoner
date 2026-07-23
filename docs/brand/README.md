@@ -2,13 +2,19 @@
 
 **Status:** Approved
 **Approved:** July 22, 2026
-**Tracking issue:** [#27](https://github.com/tulloch022/marathoner/issues/27)
+**Refined:** July 23, 2026
+**Tracking issues:** [#27](https://github.com/tulloch022/marathoner/issues/27),
+[#37](https://github.com/tulloch022/marathoner/issues/37)
 
 ![Marathoner route icon](../../public/brand/marathoner-icon-512.png)
 
 ## Concept
 
-The icon uses a continuous lowercase `m` shaped route to represent a first-time marathoner's path from a starting point to a finish. The white endpoint recalls the period in the `Marathoner.` wordmark.
+The icon uses a continuous lowercase `m` shaped route to represent a first-time
+marathoner's path from a starting point to a finish. Its lower first rise and
+taller second climb suggest changing elevation and forward progress instead of
+two identical arches. The white endpoint recalls the period in the
+`Marathoner.` wordmark.
 
 The mark is intentionally simple so it remains recognizable in small browser tabs and inside circular community-profile crops.
 
@@ -42,4 +48,8 @@ The favicon files are referenced from the application root `index.html`.
 
 ## Provenance
 
-The project master was created with OpenAI's built-in image generator from the approved Marathoner icon direction. The requested output was a square, flat, vector-like mark with a centered blue lowercase `m` route, a small white endpoint, a near-black background, circular-crop-safe spacing, and no words or additional symbols.
+The project master was created and refined with OpenAI's built-in image
+generator from the approved Marathoner icon direction. The refined output keeps
+the square, flat, vector-like blue route, white endpoint, near-black background,
+circular-crop-safe spacing, and absence of words or additional symbols. Its
+route geometry uses two visibly different climbs and an off-center valley.
