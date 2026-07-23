@@ -378,6 +378,10 @@ applications, or integrations.
 The target is a small cohort of English-speaking adults in the United States
 preparing for their first marathon later in 2027.
 
+The proposed recruitment sequence, participant offer, and early learning gates
+are described in the
+[founding cohort recruitment and validation plan](founding-cohort-plan.md).
+
 The beta is a responsive web experience. It does not promise native apps,
 Garmin integration, advanced analytics, or broad public availability.
 
