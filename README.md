@@ -29,6 +29,7 @@ being built next.
 - Vite
 - Firebase Authentication
 - Framer Motion
+- Vitest and Testing Library
 - ESLint
 
 ## Current architecture
@@ -44,6 +45,7 @@ not have an application server, API, router, or training-data database.
 | `src/components/` | Contains the feature views, authentication forms, title, subtitle, and supporting UI. |
 | `src/services/authService.ts` | Initializes Firebase and contains the authentication operations. |
 | `src/firebaseConfig.ts` | Identifies the Firebase web project used by the client. |
+| `src/test/` | Contains shared test setup and the automated test files. |
 | `src/index.css` | Contains the current application-wide styles. |
 | `vite.config.ts` | Configures React, production assets, and the GitHub Pages base path. |
 
@@ -160,6 +162,8 @@ Moving environment-specific configuration out of the source file is tracked in
 | --- | --- |
 | `npm run dev` | Start the Vite development server with hot module replacement. |
 | `npm run lint` | Check the repository with ESLint. |
+| `npm test` | Run the automated test suite once. |
+| `npm run test:watch` | Keep the test runner open and rerun affected tests after changes. |
 | `npm run build` | Run TypeScript project checks and create a production build in `dist/`. |
 | `npm run preview` | Serve the production build locally for a final browser check. |
 | `npm run predeploy` | Build the application; npm also runs this automatically before `deploy`. |
@@ -207,12 +211,13 @@ Before opening a pull request, run:
 
 ```bash
 npm run lint
+npm test
 npm run build
 ```
 
 Use `npm run preview` when the change affects browser behavior or production
-asset paths. Automated tests have not been added yet; establishing that test
-foundation is tracked in
+asset paths. The current suite verifies the browser-like test environment. App
+and feature coverage is being added through
 [issue #14](https://github.com/tulloch022/marathoner/issues/14).
 
 ## Contributing workflow

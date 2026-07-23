@@ -16,11 +16,10 @@ uses Firebase for authentication and data-related services.
 - Install dependencies: `npm install`
 - Start the development server: `npm run dev`
 - Run linting: `npm run lint`
+- Run the automated test suite: `npm test`
+- Run tests while developing: `npm run test:watch`
 - Run the production build and TypeScript checks: `npm run build`
 - Preview the production build: `npm run preview`
-
-There is no automated test command yet. Do not claim tests passed unless a test
-runner has been added and actually run.
 
 ## Collaboration approach
 
@@ -69,10 +68,11 @@ For implementation work:
 
 1. Confirm the requested behavior and acceptance criteria are satisfied.
 2. Run `npm run lint`.
-3. Run `npm run build`.
-4. Manually exercise affected UI behavior with `npm run dev` when relevant.
-5. Review the final diff for regressions and unrelated changes.
-6. Summarize what changed, why it changed, and any remaining verification gaps.
+3. Run `npm test`.
+4. Run `npm run build`.
+5. Manually exercise affected UI behavior with `npm run dev` when relevant.
+6. Review the final diff for regressions and unrelated changes.
+7. Summarize what changed, why it changed, and any remaining verification gaps.
 
 If a check cannot be run or fails for a pre-existing reason, report that clearly
 instead of treating the work as fully verified.
