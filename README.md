@@ -31,6 +31,54 @@ being built next.
 - Framer Motion
 - ESLint
 
+## Current architecture
+
+Marathoner is currently a client-only, single-page React application. It does
+not have an application server, API, router, or training-data database.
+
+| Path | Responsibility |
+| --- | --- |
+| `index.html` | Provides the browser document and loads the React entry point. |
+| `src/main.tsx` | Mounts the application in React strict mode and loads the global stylesheet. |
+| `src/App.tsx` | Owns the active Plan, Track, or Analyze section and renders the application shell. |
+| `src/components/` | Contains the feature views, authentication forms, title, subtitle, and supporting UI. |
+| `src/services/authService.ts` | Initializes Firebase and contains the authentication operations. |
+| `src/firebaseConfig.ts` | Identifies the Firebase web project used by the client. |
+| `src/index.css` | Contains the current application-wide styles. |
+| `vite.config.ts` | Configures React, production assets, and the GitHub Pages base path. |
+
+The current application flow is deliberately small:
+
+1. `src/main.tsx` mounts `App`.
+2. `App` keeps the selected section in local React state.
+3. Opening Plan, Track, or Analyze mounts that feature component.
+4. Closing a section unmounts its feature component and returns to the landing
+   screen.
+5. Login and signup forms call the Firebase authentication service directly.
+
+There is no shared domain model or application-wide state container yet. Those
+boundaries will be introduced through the Foundation milestone rather than
+added speculatively to the prototype.
+
+## Current data limitations
+
+The visible training experience is not connected to persistent user data yet:
+
+- **Plan:** `Calendar.tsx` generates a sample 20-week schedule by repeating one
+  seven-day week. It is not based on dates, goals, experience, or an account.
+- **Track:** `ShoeTracker.tsx` keeps shoes and runs in component state. Closing
+  Track, refreshing the page, or opening the app on another device clears that
+  data.
+- **Analyze:** `Analyze.tsx` displays fixed demonstration values. It does not
+  calculate results from Plan or Track.
+- **Authentication:** Firebase can create and sign in accounts, but the
+  application shell does not currently display the signed-in user, react to
+  authentication-state changes, protect content, or expose sign out.
+
+No workout, run, shoe, or analytics data is sent to Firestore, Realtime
+Database, browser storage, or another backend. Firebase Authentication is the
+only active remote integration.
+
 ## Prerequisites
 
 Install the following before running Marathoner locally:
@@ -71,9 +119,15 @@ that exactly matches `package-lock.json`.
 
 ## Firebase configuration
 
-Firebase is currently used for email/password authentication. The web client
-configuration is defined in `src/firebaseConfig.ts`, and Firebase is initialized
-in `src/services/authService.ts`.
+Firebase is currently used only for email/password authentication. The web
+client configuration is defined in `src/firebaseConfig.ts`. Importing
+`src/services/authService.ts` initializes the Firebase app and creates the
+shared Authentication instance.
+
+The service exports operations for signup, sign in, sign out, reading the
+current user, and subscribing to authentication changes. The current UI uses
+only signup and sign in. Firebase may retain an authenticated browser session,
+but the rest of the application does not consume that session yet.
 
 The committed configuration connects the app to its current Firebase project.
 To use a different project:
@@ -81,11 +135,17 @@ To use a different project:
 1. Create or select a Firebase project.
 2. Register a web app in that project.
 3. Enable the **Email/Password** provider under Firebase Authentication.
-4. Replace the web client configuration values in `src/firebaseConfig.ts`.
+4. Add local development and deployment hosts to the project's authorized
+   domains when Firebase requires them.
+5. Replace the web client configuration values in `src/firebaseConfig.ts`.
 
 Firebase web configuration identifies a Firebase project; it is not a server
-credential. Never commit service-account files, private keys, passwords, or
-other secrets.
+credential and must not be treated as authorization. Protect any future
+database or storage service with appropriate Firebase Security Rules. Never
+commit service-account files, private keys, passwords, or other secrets.
+
+Moving environment-specific configuration out of the source file is tracked in
+[issue #22](https://github.com/tulloch022/marathoner/issues/22).
 
 ## Available scripts
 
@@ -97,6 +157,42 @@ other secrets.
 | `npm run preview` | Serve the production build locally for a final browser check. |
 | `npm run predeploy` | Build the application; npm also runs this automatically before `deploy`. |
 | `npm run deploy` | Publish the contents of `dist/` to the `gh-pages` branch. |
+
+## GitHub Pages deployment
+
+The current production site is published at
+[https://tulloch022.github.io/marathoner/](https://tulloch022.github.io/marathoner/).
+Deployment is manual; there is no GitHub Actions deployment workflow yet.
+
+`vite.config.ts` sets `base` to `/marathoner/`. Vite uses that value to prefix
+production asset URLs for a GitHub Pages project site. If the repository name
+or hosting path changes, update `base` before deploying. The `homepage` value
+in `package.json` does not control Vite's asset paths.
+
+After a pull request is reviewed and merged, deploy from an up-to-date `main`:
+
+```bash
+git switch main
+git pull --ff-only
+npm ci
+npm run deploy
+```
+
+Running `npm run deploy` performs the production build through `predeploy`,
+then publishes `dist/` to the `gh-pages` branch. GitHub Pages must be configured
+to serve the root of that branch. Publishing the branch does not change source
+files on `main`.
+
+Before publishing, verify the production build locally:
+
+```bash
+npm run build
+npm run preview
+```
+
+Open the URL printed by Vite, including its `/marathoner/` suffix, and confirm
+that the page and its assets load. After deployment, GitHub Pages may take a
+short time to serve the new commit.
 
 ## Validate a change
 
