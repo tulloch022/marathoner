@@ -216,8 +216,8 @@ npm run build
 ```
 
 Use `npm run preview` when the change affects browser behavior or production
-asset paths. The current suite verifies the browser-like test environment. App
-and feature coverage is being added through
+asset paths. The current suite verifies the browser-like test environment and
+the initial App render. Feature coverage is being added through
 [issue #14](https://github.com/tulloch022/marathoner/issues/14).
 
 ## Contributing workflow
