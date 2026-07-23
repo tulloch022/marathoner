@@ -59,6 +59,9 @@ understand every line they commit.
 - Follow the existing strict TypeScript and ESLint configuration.
 - Prefer clear React function components and descriptive names.
 - Keep data access and external integrations in service modules when practical.
+- Keep unit and component tests beside the code they verify.
+- Prefer Testing Library roles and user interactions over implementation details.
+- Mock external integrations at the service boundary in component tests.
 - Match existing project conventions unless the task intentionally improves them.
 - Never expose credentials or commit environment secrets.
 

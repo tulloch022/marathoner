@@ -45,7 +45,8 @@ not have an application server, API, router, or training-data database.
 | `src/components/` | Contains the feature views, authentication forms, title, subtitle, and supporting UI. |
 | `src/services/authService.ts` | Initializes Firebase and contains the authentication operations. |
 | `src/firebaseConfig.ts` | Identifies the Firebase web project used by the client. |
-| `src/test/` | Contains shared test setup and the automated test files. |
+| `src/**/*.test.ts(x)` | Keeps unit and component tests beside the code they verify. |
+| `src/test/` | Contains shared test setup and environment-level tests. |
 | `src/index.css` | Contains the current application-wide styles. |
 | `vite.config.ts` | Configures React, production assets, and the GitHub Pages base path. |
 
@@ -205,6 +206,47 @@ Open the URL printed by Vite, including its `/marathoner/` suffix, and confirm
 that the page and its assets load. After deployment, GitHub Pages may take a
 short time to serve the new commit.
 
+## Testing
+
+Vitest runs the automated suite in jsdom, which provides a browser-like DOM
+without opening a real browser. `src/test/setup.ts` loads the shared DOM
+matchers and cleans up rendered React components after every test.
+
+| Test type | Convention |
+| --- | --- |
+| Unit | Place `*.test.ts` beside a domain or utility module and test its public inputs and outputs. |
+| Component | Place `*.test.tsx` beside the component and exercise visible behavior with Testing Library. |
+| Service | Test service functions at their public boundary and replace the remote SDK or emulator connection. |
+| Integration | Place cross-module flows under `src/test/integration/` when a feature spans components, services, and persistence. |
+
+When writing tests:
+
+- Prefer accessible roles and names over CSS selectors or implementation
+  details.
+- Use `userEvent` for typing, clicking, and selecting so tests resemble real
+  interaction.
+- Mock modules in `src/services/` from component tests instead of mocking
+  Firebase inside each component.
+- Mock animation timing only when the test is about application behavior rather
+  than the animation itself.
+- Keep each test focused on one observable behavior and give it a description
+  that explains the expected outcome.
+
+The current suite covers the initial App screen and section transitions,
+calendar week selection and workout details, shoe creation and run logging,
+authentication error states, and the sample analytics summary.
+
+Known testing boundaries remain visible:
+
+- App transition tests report the nested-button warning tracked in
+  [issue #1](https://github.com/tulloch022/marathoner/issues/1).
+- Firebase SDK integration and persistent user data will need integration tests
+  as [issue #5](https://github.com/tulloch022/marathoner/issues/5) and
+  [issue #12](https://github.com/tulloch022/marathoner/issues/12) are built.
+- Analytics assertions currently describe sample values until
+  [issue #13](https://github.com/tulloch022/marathoner/issues/13) connects them
+  to training data.
+
 ## Validate a change
 
 Before opening a pull request, run:
@@ -216,10 +258,7 @@ npm run build
 ```
 
 Use `npm run preview` when the change affects browser behavior or production
-asset paths. The current suite verifies the browser-like test environment and
-the initial App render, including all three section transitions. Feature
-coverage is being added through
-[issue #14](https://github.com/tulloch022/marathoner/issues/14).
+asset paths. Add or update focused tests whenever behavior changes.
 
 ## Contributing workflow
 
