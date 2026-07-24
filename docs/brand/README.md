@@ -11,10 +11,10 @@
 ## Concept
 
 The icon uses a continuous lowercase `m` shaped route to represent a first-time
-marathoner's path from a starting point to a finish. Its lower first rise and
-taller second climb suggest changing elevation and forward progress instead of
-two identical arches. The white endpoint recalls the period in the
-`Marathoner.` wordmark.
+marathoner's path from a starting point to a finish. A clean vertical start
+leads into a taller first climb and a lower second rise, suggesting changing
+elevation and forward progress instead of two identical arches. The white
+endpoint recalls the period in the `Marathoner.` wordmark.
 
 The mark is intentionally simple so it remains recognizable in small browser tabs and inside circular community-profile crops.
 
@@ -52,4 +52,5 @@ The project master was created and refined with OpenAI's built-in image
 generator from the approved Marathoner icon direction. The refined output keeps
 the square, flat, vector-like blue route, white endpoint, near-black background,
 circular-crop-safe spacing, and absence of words or additional symbols. Its
-route geometry uses two visibly different climbs and an off-center valley.
+route geometry uses a straight vertical start, two visibly different climbs,
+and an off-center valley.
