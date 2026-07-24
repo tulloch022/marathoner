@@ -167,33 +167,24 @@ Moving environment-specific configuration out of the source file is tracked in
 | `npm run test:watch` | Keep the test runner open and rerun affected tests after changes. |
 | `npm run build` | Run TypeScript project checks and create a production build in `dist/`. |
 | `npm run preview` | Serve the production build locally for a final browser check. |
-| `npm run predeploy` | Build the application; npm also runs this automatically before `deploy`. |
-| `npm run deploy` | Publish the contents of `dist/` to the `gh-pages` branch. |
 
 ## GitHub Pages deployment
 
 The current production site is published at
 [https://tulloch022.github.io/marathoner/](https://tulloch022.github.io/marathoner/).
-Deployment is manual; there is no GitHub Actions deployment workflow yet.
+GitHub Actions builds and deploys the site whenever a pull request is merged
+into `main`. The workflow can also be started manually from the repository's
+Actions tab when a deployment needs to be repeated without a source change.
 
 `vite.config.ts` sets `base` to `/marathoner/`. Vite uses that value to prefix
 production asset URLs for a GitHub Pages project site. If the repository name
 or hosting path changes, update `base` before deploying. The `homepage` value
 in `package.json` does not control Vite's asset paths.
 
-After a pull request is reviewed and merged, deploy from an up-to-date `main`:
-
-```bash
-git switch main
-git pull --ff-only
-npm ci
-npm run deploy
-```
-
-Running `npm run deploy` performs the production build through `predeploy`,
-then publishes `dist/` to the `gh-pages` branch. GitHub Pages must be configured
-to serve the root of that branch. Publishing the branch does not change source
-files on `main`.
+The deployment workflow installs the locked dependencies, runs the production
+build, uploads `dist` as a Pages artifact, and deploys that artifact through the
+`github-pages` environment. The repository's Pages source must remain set to
+**GitHub Actions**.
 
 Before publishing, verify the production build locally:
 
@@ -203,8 +194,9 @@ npm run preview
 ```
 
 Open the URL printed by Vite, including its `/marathoner/` suffix, and confirm
-that the page and its assets load. After deployment, GitHub Pages may take a
-short time to serve the new commit.
+that the page and its assets load. After a pull request is merged, check its
+**Deploy to GitHub Pages** workflow run in the Actions tab. GitHub Pages may
+take a short time to serve the new commit after that run completes.
 
 ## Testing
 
