@@ -10,6 +10,8 @@
 
 **Prototype branch:** `codex/issue-43-track-analyze-prototypes`
 
+**Draft prototype PR:** [#44](https://github.com/tulloch022/marathoner/pull/44), preserved for reference and not intended to merge
+
 ## Purpose
 
 This directory preserves the current visual direction for Marathoner's Track and Analyze panels. The screenshots and code on the prototype branch are references, not production-ready feature implementations.
