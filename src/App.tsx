@@ -10,7 +10,8 @@ import Analyze from "./components/Analyze";
 
 function App() {
   const [activeSection, setActiveSection] = useState<"plan" | "track" | "analyze" | null>(null);
-  
+  const sections = ["plan", "track", "analyze"] as const;
+  const visibleSections = activeSection ? [activeSection] : sections;
 
   return (
     <motion.div
@@ -31,37 +32,29 @@ function App() {
 
 
       <div className="box-container flex gap-4 relative">
-        {(["plan", "track", "analyze"] as const).map((section) => (
-                  <motion.button
-                    key={section}
-                    className="box-under-arrow"
-                    initial={{ width: "50vw", height: "3em" }}
-                    onClick={() => {
-                      if (activeSection !== section) {
-                        setActiveSection(section);
-                      }
-                    }}
-                    animate={{
-                      width: activeSection === section ? "100vw" : "7em",
-                      height: activeSection === section ? "100vh" : "2em",
-                      backgroundColor: activeSection === section ? "white" : "#ffffff",
-                      border: activeSection === section ? "none" : "",
-                      boxShadow: activeSection === section ? "none" : "",
-                    }}
-                    transition={{ duration: .25 }}
-                    style={{
-                      overflow: "hidden",
-                      position: "relative",
-                      zIndex: 1,
-                      cursor: activeSection === section ? "default" : "pointer",
-                    }}
-                  >
-                    {activeSection === section ? (
-                      <SectionContent section={section} onClose={() => setActiveSection(null)} />
-                    ) : (
-                      <p>{section.charAt(0).toUpperCase() + section.slice(1)}</p>
-                    )}
-                  </motion.button>
+        {visibleSections.map((section) => (
+          activeSection === section ? (
+            <motion.div
+              key={section}
+              className="box-under-arrow active-section-panel"
+              initial={{ width: "7em", height: "2em" }}
+              animate={{ width: "100vw", height: "100vh" }}
+              transition={{ duration: .25 }}
+            >
+              <SectionContent section={section} onClose={() => setActiveSection(null)} />
+            </motion.div>
+          ) : (
+            <motion.button
+              key={section}
+              className="box-under-arrow"
+              initial={{ width: "50vw", height: "3em" }}
+              onClick={() => setActiveSection(section)}
+              animate={{ width: "7em", height: "2em", backgroundColor: "#ffffff" }}
+              transition={{ duration: .25 }}
+            >
+              <p>{section.charAt(0).toUpperCase() + section.slice(1)}</p>
+            </motion.button>
+          )
         ))}
       </div>
     </motion.div>
@@ -83,7 +76,7 @@ function SectionContent({ section, onClose }: SectionContentProps) {
 
   return (
     <motion.div
-      className="relative z-10"
+      className={`relative z-10 section-content section-content-${section}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
