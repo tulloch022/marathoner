@@ -1,26 +1,22 @@
 import { useState, useRef, useEffect } from "react";
-import { signUp } from "../services/authService"; // Import the signUp function
+import { signUp } from "../services/authService";
 
 const SignUpForm = ({ onClose }: { onClose: () => void }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null); // State to hold any error message
+  const [error, setError] = useState<string | null>(null);
   const formRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      // Call the signUp function from authService
-      const user = await signUp(email, password); // Using the signUp function
-      console.log("User signed up:", user); // You can do something with the user here, like redirecting or showing a success message
-      onClose(); // Close the form after successful sign up
+      await signUp(email, password);
+      onClose();
     } catch (error) {
-      // If there's an error, display the message
       setError(error instanceof Error ? error.message : "An unexpected error occurred");
     }
   };
 
-  // Close signup form when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (formRef.current && !formRef.current.contains(event.target as Node)) {
@@ -36,7 +32,7 @@ const SignUpForm = ({ onClose }: { onClose: () => void }) => {
     <div ref={formRef} className="signup-popup">
       <form onSubmit={handleSubmit}>
         <span>Sign Up</span>
-        {error && <div className="error">{error}</div>} {/* Display error message if any */}
+        {error && <div className="error">{error}</div>}
         <input
           type="text"
           placeholder="Email"

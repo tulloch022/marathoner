@@ -7,6 +7,7 @@ import Calendar from "./components/Calendar";
 import SignUpButton from "./components/SignUpButton";
 import ShoeTracker from "./components/ShoeTracker";
 import Analyze from "./components/Analyze";
+import { useAuth } from "./auth/useAuth";
 
 const sections = [
   { id: "plan", label: "Plan", title: "Plan Your Workouts" },
@@ -17,7 +18,9 @@ const sections = [
 type Section = (typeof sections)[number]["id"];
 
 function App() {
+  const auth = useAuth();
   const [activeSection, setActiveSection] = useState<Section | null>(null);
+  const [logoutError, setLogoutError] = useState<string | null>(null);
   const lastActiveSection = useRef<Section | null>(null);
   const triggerRefs = useRef<Record<Section, HTMLButtonElement | null>>({
     plan: null,
@@ -32,6 +35,13 @@ function App() {
     }
   }, [activeSection]);
 
+  useEffect(() => {
+    if (auth.status !== "signedIn") {
+      setActiveSection(null);
+      setLogoutError(null);
+    }
+  }, [auth.status]);
+
   const openSection = (section: Section) => {
     lastActiveSection.current = section;
     setActiveSection(section);
@@ -39,6 +49,16 @@ function App() {
 
   const closeSection = () => {
     setActiveSection(null);
+  };
+
+  const handleLogout = async () => {
+    setLogoutError(null);
+
+    try {
+      await auth.logout();
+    } catch {
+      setLogoutError("We couldn't log you out. Please try again.");
+    }
   };
 
   const activeSectionDetails = sections.find(({ id }) => id === activeSection);
@@ -50,16 +70,53 @@ function App() {
       animate={{ opacity: 1 }}
       transition={{ duration: 1, ease: "easeOut" }}
     >
-      {!activeSection && (
+      {auth.status === "loading" && (
         <>
-          <LoginButton />
-          <SignUpButton />
           <Title />
-          <Subtitle />
+          <p className="auth-message" role="status">
+            Loading your session...
+          </p>
         </>
       )}
 
-      {!activeSection && (
+      {auth.status !== "loading" && !activeSection && (
+        <>
+          {auth.status === "signedOut" ? (
+            <>
+              <LoginButton />
+              <SignUpButton />
+            </>
+          ) : (
+            <div className="session-controls">
+              <p className="session-user">
+                Signed in as {auth.user.email ?? "Marathoner user"}
+              </p>
+              <button
+                type="button"
+                className="logout-btn"
+                onClick={handleLogout}
+              >
+                Log out
+              </button>
+            </div>
+          )}
+          <Title />
+          <Subtitle />
+          {auth.status === "signedOut" && (
+            <p className="auth-message">
+              Sign in or create an account to access your training plan, run
+              tracker, and progress.
+            </p>
+          )}
+          {logoutError && (
+            <p className="auth-message auth-error" role="alert">
+              {logoutError}
+            </p>
+          )}
+        </>
+      )}
+
+      {auth.status === "signedIn" && !activeSection && (
         <nav className="section-navigation" aria-label="Training sections">
           {sections.map(({ id, label }) => (
             <motion.button
@@ -82,7 +139,7 @@ function App() {
         </nav>
       )}
 
-      {activeSection && activeSectionDetails && (
+      {auth.status === "signedIn" && activeSection && activeSectionDetails && (
         <motion.section
           id={`${activeSection}-panel`}
           className="section-panel"
