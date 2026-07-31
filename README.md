@@ -43,6 +43,7 @@ not have an application server, API, router, or training-data database.
 | `src/main.tsx` | Mounts the application in React strict mode and loads the global stylesheet. |
 | `src/App.tsx` | Owns the active Plan, Track, or Analyze section and renders the application shell. |
 | `src/components/` | Contains the feature views, authentication forms, title, subtitle, and supporting UI. |
+| `src/domain/training/` | Defines shared training entities, identifiers, units, validation, and calculations without React or Firebase dependencies. |
 | `src/services/authService.ts` | Initializes Firebase and contains the authentication operations. |
 | `src/firebaseConfig.ts` | Identifies the Firebase web project used by the client. |
 | `src/**/*.test.ts(x)` | Keeps unit and component tests beside the code they verify. |
@@ -59,10 +60,11 @@ The current application flow is deliberately small:
    screen.
 5. Login and signup forms call the Firebase authentication service directly.
 
-There is no shared domain model or application-wide state container yet. Those
-boundaries will be introduced through the Foundation milestone rather than
-added speculatively to the prototype. The shared training model is tracked in
-[issue #11](https://github.com/tulloch022/marathoner/issues/11).
+The shared training domain model is documented in
+[`docs/architecture/training-domain-model.md`](docs/architecture/training-domain-model.md).
+The current prototype components have not been connected to that model or to an
+application-wide state container yet. Persistence and feature integration will
+be introduced through the remaining Foundation work.
 
 ## Current data limitations
 
@@ -224,9 +226,9 @@ When writing tests:
 - Keep each test focused on one observable behavior and give it a description
   that explains the expected outcome.
 
-The current suite covers the initial App screen and section transitions,
-calendar week selection and workout details, shoe creation and run logging,
-authentication error states, and the sample analytics summary.
+The current suite covers the shared training model, initial App screen and
+section transitions, calendar week selection and workout details, shoe creation
+and run logging, authentication error states, and the sample analytics summary.
 
 Known testing boundaries remain visible:
 
