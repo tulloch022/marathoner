@@ -35,7 +35,8 @@ being built next.
 ## Current architecture
 
 Marathoner is currently a client-only, single-page React application. It does
-not have an application server, API, router, or training-data database.
+not have an application server, API, or router. A typed Firestore persistence
+layer is being built, but the prototype features are not connected to it yet.
 
 | Path | Responsibility |
 | --- | --- |
@@ -44,7 +45,9 @@ not have an application server, API, router, or training-data database.
 | `src/App.tsx` | Owns the active Plan, Track, or Analyze section and renders the application shell. |
 | `src/components/` | Contains the feature views, authentication forms, title, subtitle, and supporting UI. |
 | `src/domain/training/` | Defines shared training entities, identifiers, units, validation, and calculations without React or Firebase dependencies. |
-| `src/services/authService.ts` | Initializes Firebase and contains the authentication operations. |
+| `src/persistence/` | Defines typed training repositories, Firestore conversion, storage paths, and recoverable persistence errors. |
+| `src/services/firebaseClient.ts` | Initializes the shared Firebase app and Authentication instance. |
+| `src/services/authService.ts` | Contains authentication operations against the shared Firebase client. |
 | `src/firebaseConfig.ts` | Identifies the Firebase web project used by the client. |
 | `src/**/*.test.ts(x)` | Keeps unit and component tests beside the code they verify. |
 | `src/test/` | Contains shared test setup and environment-level tests. |
@@ -87,9 +90,11 @@ The visible training experience is not connected to persistent user data yet:
   Application-level authentication state is tracked in
   [issue #5](https://github.com/tulloch022/marathoner/issues/5).
 
-No workout, run, shoe, or analytics data is sent to Firestore, Realtime
-Database, browser storage, or another backend. Firebase Authentication is the
-only active remote integration.
+No visible workout, run, shoe, or analytics data is sent to Firestore yet. The
+typed plan and workout persistence foundation is documented in
+[`docs/architecture/training-data-persistence.md`](docs/architecture/training-data-persistence.md),
+but feature integration remains part of issues #12 and #13. Firebase
+Authentication is currently the only active remote operation.
 
 ## Prerequisites
 
@@ -131,10 +136,12 @@ that exactly matches `package-lock.json`.
 
 ## Firebase configuration
 
-Firebase is currently used only for email/password authentication. The web
-client configuration is defined in `src/firebaseConfig.ts`. Importing
-`src/services/authService.ts` initializes the Firebase app and creates the
-shared Authentication instance.
+Firebase currently performs email/password authentication and supplies the
+Firestore client for the persistence layer under construction. The web client
+configuration is defined in `src/firebaseConfig.ts`. Importing
+`src/services/firebaseClient.ts` initializes one shared Firebase app and creates
+the Authentication instance. The persistence entry point creates Firestore from
+that same app only when training repositories are requested.
 
 The service exports operations for signup, sign in, sign out, reading the
 current user, and subscribing to authentication changes. The current UI uses
