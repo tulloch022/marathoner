@@ -5,6 +5,7 @@ import {
   validatePlannedWorkout,
   validateTrainingPlan,
   validateWorkoutForPlan,
+  type CompletedRun,
   type PlannedWorkout,
   type PlannedWorkoutId,
   type TrainingPlan,
@@ -13,8 +14,10 @@ import {
   type UtcDateTime,
 } from "../domain/training";
 import type { DocumentStore, StoredDocument } from "./documentStore";
+import { createDocumentRunAndShoeRepositories } from "./documentRunShoeRepositories";
 import { PersistenceError, toPersistenceError } from "./errors";
 import {
+  completedRunFromDocument,
   plannedWorkoutFromDocument,
   plannedWorkoutToDocument,
   trainingPlanFromDocument,
@@ -23,6 +26,7 @@ import {
 import {
   planDocumentPath,
   plansCollectionPath,
+  runsCollectionPath,
   workoutDocumentPath,
   workoutsCollectionPath,
 } from "./firestore/paths";
@@ -71,6 +75,18 @@ function requireValidWorkout(workout: PlannedWorkout, plan: TrainingPlan): void 
       issues.map((issue) => issue.message).join(" "),
     );
   }
+}
+
+async function hasAssociatedRun(
+  store: DocumentStore,
+  userId: UserId,
+  predicate: (run: CompletedRun) => boolean,
+): Promise<boolean> {
+  const documents = await store.list(runsCollectionPath(userId));
+
+  return documents
+    .map((document) => completedRunFromDocument(document.id, document.data, userId))
+    .some(predicate);
 }
 
 class DocumentTrainingPlanRepository implements TrainingPlanRepository {
@@ -154,6 +170,20 @@ class DocumentTrainingPlanRepository implements TrainingPlanRepository {
   permanentlyDelete(id: TrainingPlanId): Promise<void> {
     return safely(async () => {
       await this.requirePlan(id);
+
+      if (
+        await hasAssociatedRun(
+          this.store,
+          this.userId,
+          (run) => run.plannedWorkoutPlanId === id,
+        )
+      ) {
+        throw new PersistenceError(
+          "conflict",
+          "A plan associated with completed runs must be archived instead of deleted.",
+        );
+      }
+
       const workoutCollection = workoutsCollectionPath(this.userId, id);
       const workouts = await this.store.list(workoutCollection);
 
@@ -308,9 +338,25 @@ class DocumentPlannedWorkoutRepository implements PlannedWorkoutRepository {
     planId: TrainingPlanId,
     id: PlannedWorkoutId,
   ): Promise<void> {
-    return safely(() =>
-      this.store.delete(workoutDocumentPath(this.userId, planId, id)),
-    );
+    return safely(async () => {
+      await this.requireWorkout(planId, id);
+
+      if (
+        await hasAssociatedRun(
+          this.store,
+          this.userId,
+          (run) =>
+            run.plannedWorkoutPlanId === planId && run.plannedWorkoutId === id,
+        )
+      ) {
+        throw new PersistenceError(
+          "conflict",
+          "A workout associated with a completed run cannot be deleted.",
+        );
+      }
+
+      await this.store.delete(workoutDocumentPath(this.userId, planId, id));
+    });
   }
 
   private async requirePlan(id: TrainingPlanId): Promise<TrainingPlan> {
@@ -357,9 +403,11 @@ export function createDocumentTrainingRepositories(
   clock: PersistenceClock = systemClock,
 ): TrainingRepositories {
   const plans = new DocumentTrainingPlanRepository(store, userId, clock);
+  const workouts = new DocumentPlannedWorkoutRepository(store, userId, plans, clock);
 
   return {
     plans,
-    workouts: new DocumentPlannedWorkoutRepository(store, userId, plans, clock),
+    workouts,
+    ...createDocumentRunAndShoeRepositories(store, userId, workouts, clock),
   };
 }

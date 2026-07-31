@@ -8,14 +8,17 @@
 
 The production dependency tree has no known npm audit findings after upgrading Firebase within major version 11.
 
-The full audit retains five high-severity findings in the development-only ESLint tree. Those five package-level findings trace to one underlying `brace-expansion` advisory and are temporarily accepted under the conditions documented below.
+The full audit retains development-only findings in the ESLint and Firebase CLI
+trees. They trace to three upstream advisories and are temporarily accepted
+under the conditions documented below.
 
 ## Audit results
 
 | Audit | Before | After |
 | --- | --- | --- |
 | `npm audit --omit=dev` | 2 moderate, 1 high, 2 critical | 0 findings |
-| `npm audit` | 3 low, 4 moderate, 9 high, 2 critical | 5 high |
+| `npm audit` after issue #31 | 3 low, 4 moderate, 9 high, 2 critical | 5 high |
+| `npm audit` after adding issue #12 emulator tooling | 5 high | 2 moderate, 20 high |
 
 ## Direct dependency changes
 
@@ -42,7 +45,18 @@ Firebase 11.10.0 replaces the vulnerable production paths with these resolved ve
 
 These updates remain within the existing major versions. They remove the actionable Babel, Vite, Rollup, PostCSS, `flatted`, `js-yaml`, and `picomatch` findings without using `npm audit fix --force`.
 
+### Persistence test tooling
+
+- `@firebase/rules-unit-testing`: `^4.0.1`
+- `firebase-tools`: `^15.25.1`
+
+These development dependencies run the local Firestore emulator and verify
+authorization rules against authenticated, anonymous, and cross-user requests.
+They are not imported by the application or included in its production bundle.
+
 ## Accepted residual risk
+
+### ESLint glob expansion
 
 The remaining audit result is [GHSA-mh99-v99m-4gvg](https://github.com/advisories/GHSA-mh99-v99m-4gvg), a denial-of-service issue in `brace-expansion`. npm reports five affected packages because the same underlying advisory propagates through three ESLint paths:
 
@@ -66,6 +80,38 @@ eslint@9.39.5 -> @eslint/eslintrc@3.3.6 -> minimatch@3.1.5 -> brace-expansion@1.
 - Re-run the full audit whenever the lockfile or lint dependencies change.
 - Remove this exception when ESLint adopts a compatible dependency path that resolves the advisory.
 
+### Firebase CLI transitive dependencies
+
+Adding `firebase-tools@15.25.1` for the Firestore emulator introduces findings
+for these upstream packages:
+
+- `@opentelemetry/core@1.30.1`, reported by
+  [GHSA-8988-4f7v-96qf](https://github.com/advisories/GHSA-8988-4f7v-96qf)
+- `brace-expansion` versions 1.1.18 and 2.1.4, reported by
+  [GHSA-mh99-v99m-4gvg](https://github.com/advisories/GHSA-mh99-v99m-4gvg)
+- `uuid@9.0.1`, reported by
+  [GHSA-w5hq-g745-h8pq](https://github.com/advisories/GHSA-w5hq-g745-h8pq)
+
+They are accepted temporarily because:
+
+- Firebase CLI is development-only and is excluded from the production audit
+  and browser bundle.
+- The CLI and emulator consume trusted repository configuration and test data.
+  Application users cannot provide baggage headers, glob expressions, or UUID
+  output buffers to these local code paths.
+- The emulator binds to localhost only while the integration command is
+  running, then shuts down.
+- npm offers no compatible automatic remediation. `npm audit fix --force`
+  proposes breaking downgrades to `firebase-tools@3.18.2` and `eslint@4.0.0`.
+
+Mitigations:
+
+- Do not expose the Firestore emulator to a public network.
+- Run emulator tests only from reviewed repository code and configuration.
+- Keep Firebase CLI current and remove these exceptions when compatible
+  upstream releases resolve the dependency paths.
+- Treat any production, critical, or unrelated future finding as a new review.
+
 ## Node version note
 
 The repository's GitHub Pages workflow uses Node 22, which is supported by the updated toolchain. A clean install under the local Node 23.4.0 environment completes but emits an engine warning from `eslint-visitor-keys@5.0.1`, whose supported versions are Node 20.19 or newer in the 20 line, Node 22.13 or newer in the 22 line, or Node 24 and newer.
@@ -83,4 +129,8 @@ npm test
 npm run build
 ```
 
-The full audit is expected to exit nonzero while the accepted ESLint-only advisory remains. Its result must continue to match the dependency paths and exposure described above. Any new production finding, critical finding, or unrelated full-audit finding requires a separate review rather than being covered by this acceptance.
+The full audit is expected to exit nonzero while the accepted development-only
+advisories remain. Its result must continue to match the dependency paths and
+exposure described above. Any new production finding, critical finding, or
+unrelated full-audit finding requires a separate review rather than being
+covered by this acceptance.

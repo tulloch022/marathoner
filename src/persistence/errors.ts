@@ -3,6 +3,7 @@ import { FirebaseError } from "firebase/app";
 export type PersistenceErrorCode =
   | "not_found"
   | "invalid_data"
+  | "conflict"
   | "permission_denied"
   | "unavailable"
   | "limit_exceeded"

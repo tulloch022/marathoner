@@ -4,68 +4,16 @@ import {
   createDateOnly,
   createDistanceMeters,
   createDurationSeconds,
+  createIanaTimeZone,
   createTrainingPlanId,
   createUserId,
   createUtcDateTime,
 } from "../domain/training";
-import type { DocumentStore, StoredDocument } from "./documentStore";
 import { createDocumentTrainingRepositories } from "./documentTrainingRepositories";
 import { PersistenceError } from "./errors";
 import { TRAINING_SCHEMA_VERSION } from "./firestore/converters";
+import { InMemoryDocumentStore } from "./testing/InMemoryDocumentStore";
 import type { TrainingRepositories } from "./trainingRepositories";
-
-class InMemoryDocumentStore implements DocumentStore {
-  private nextId = 1;
-  private readonly documents = new Map<string, Record<string, unknown>>();
-
-  createId(): string {
-    const id = `generated-${this.nextId}`;
-    this.nextId += 1;
-    return id;
-  }
-
-  async get(documentPath: string): Promise<StoredDocument | null> {
-    const data = this.documents.get(documentPath);
-
-    return data === undefined
-      ? null
-      : { id: documentPath.split("/").at(-1) ?? "", data };
-  }
-
-  async list(collectionPath: string): Promise<StoredDocument[]> {
-    const prefix = `${collectionPath}/`;
-
-    return [...this.documents.entries()]
-      .filter(([path]) => {
-        const remainder = path.slice(prefix.length);
-        return path.startsWith(prefix) && !remainder.includes("/");
-      })
-      .map(([path, data]) => ({
-        id: path.split("/").at(-1) ?? "",
-        data,
-      }));
-  }
-
-  async set(documentPath: string, data: Record<string, unknown>): Promise<void> {
-    this.documents.set(documentPath, data);
-  }
-
-  async delete(documentPath: string): Promise<void> {
-    this.documents.delete(documentPath);
-  }
-
-  async deleteMany(documentPaths: readonly string[]): Promise<void> {
-    documentPaths.forEach((path) => this.documents.delete(path));
-  }
-
-  read(documentPath: string): Record<string, unknown> | undefined {
-    return this.documents.get(documentPath);
-  }
-
-  overwrite(documentPath: string, data: Record<string, unknown>): void {
-    this.documents.set(documentPath, data);
-  }
-}
 
 const userId = createUserId("runner-1");
 const now = createUtcDateTime("2026-07-29T12:00:00Z");
@@ -274,5 +222,37 @@ describe("planned workout repository", () => {
 
     await expect(repositories.plans.get(plan.id)).resolves.toBeNull();
     await expect(repositories.workouts.get(plan.id, workout.id)).resolves.toBeNull();
+  });
+
+  it("protects plans and workouts referenced by completed runs", async () => {
+    const plan = await repositories.plans.create(planInput);
+    const workout = await repositories.workouts.create({
+      planId: plan.id,
+      scheduledDate: createDateOnly("2026-08-03"),
+      phase: "base_building",
+      kind: "run",
+      purpose: "easy",
+      targetDistance: createDistanceMeters(4_828),
+    });
+
+    await repositories.runs.create({
+      plannedWorkoutPlanId: plan.id,
+      plannedWorkoutId: workout.id,
+      startedAt: createUtcDateTime("2026-08-03T14:00:00Z"),
+      timeZone: createIanaTimeZone("America/Los_Angeles"),
+      distance: createDistanceMeters(4_828),
+      duration: createDurationSeconds(1_800),
+    });
+
+    await expect(
+      repositories.workouts.delete(plan.id, workout.id),
+    ).rejects.toMatchObject({ code: "conflict" });
+    await expect(repositories.plans.permanentlyDelete(plan.id)).rejects.toMatchObject(
+      { code: "conflict" },
+    );
+    await expect(repositories.workouts.get(plan.id, workout.id)).resolves.toEqual(
+      workout,
+    );
+    await expect(repositories.plans.get(plan.id)).resolves.toEqual(plan);
   });
 });

@@ -80,6 +80,7 @@ history. Permanent deletion is an explicitly named repository operation. It
 deletes the plan and all child workouts in the same Firestore batch so it cannot
 leave orphaned workout documents. The first version limits this operation to 499
 workouts because a Firestore batch supports at most 500 writes including the plan.
+A plan or workout referenced by a completed run cannot be permanently deleted.
 
 ## Workout documents
 
@@ -104,37 +105,92 @@ Path: `users/{userId}/plans/{planId}/workouts/{workoutId}`
 The repository verifies that the plan exists and validates every workout against
 the plan's owner and inclusive date range before writing it.
 
-## Planned run and shoe documents
+## Completed-run documents
 
-The Jul 30 continuation will implement these already-reserved collections:
+Path: `users/{userId}/runs/{runId}`
 
-- `users/{userId}/runs/{runId}` stores completed-run timestamps, time zone,
-  distance, duration, optional planned-workout and shoe associations, perceived
-  effort, unusual-pain response, notes, and audit timestamps.
-- `users/{userId}/shoes/{shoeId}` stores the shoe name, starting distance,
-  active or retired status, optional retirement date, and audit timestamps.
+| Field | Type |
+| --- | --- |
+| `schemaVersion` | `1` |
+| `userId` | string |
+| `plannedWorkoutPlanId` | optional string |
+| `plannedWorkoutId` | optional string |
+| `shoeId` | optional string |
+| `startedAt` | Firestore `Timestamp` |
+| `timeZone` | IANA time-zone string |
+| `distanceMeters` | whole number |
+| `durationSeconds` | whole number |
+| `perceivedEffort` | optional shared `PerceivedEffort` value |
+| `unusualPain` | optional boolean |
+| `notes` | optional string |
+| `createdAt` | Firestore `Timestamp` |
+| `updatedAt` | Firestore `Timestamp` |
+
+A run can be logged without a planned workout. When it does reference a
+workout, both the workout ID and its parent plan ID are required because workout
+documents are nested below plans. The repository verifies referenced workouts
+and shoes before saving the run.
+
+## Shoe documents
+
+Path: `users/{userId}/shoes/{shoeId}`
+
+| Field | Type |
+| --- | --- |
+| `schemaVersion` | `1` |
+| `userId` | string |
+| `name` | string |
+| `startingDistanceMeters` | whole number |
+| `status` | `active` or `retired` |
+| `retiredOn` | optional date-only string |
+| `createdAt` | Firestore `Timestamp` |
+| `updatedAt` | Firestore `Timestamp` |
 
 Current shoe mileage will remain derived from starting distance plus associated
 run documents. No independently editable mileage total will be stored.
+Shoes referenced by completed runs must be retired instead of permanently
+deleted so historical runs do not lose their equipment association.
 
 ## Repository behavior
 
-The current plan and workout repositories provide create, read, list, update,
-archive, and delete operations using shared domain types. They return `null` for
-a missing read and throw a typed `PersistenceError` for invalid data, unavailable
-storage, denied access, limits, and unexpected failures.
+The plan, workout, run, and shoe repositories provide focused create, read,
+list, update, archive, retire, and delete operations using shared domain types.
+They return `null` for a missing read and throw a typed `PersistenceError` for
+invalid data, conflicts, unavailable storage, denied access, limits, and
+unexpected failures.
 
 Raw Firebase error messages do not cross the persistence boundary. This gives
 the future UI stable error categories it can turn into calm, recoverable states.
 
-## Security and integration status
+## Security and integration
 
-The user-scoped schema is designed for rules based on
-`request.auth.uid == userId`. Those rules and their emulator tests are part of
-the Jul 30 continuation of issue #12. Until those rules are deployed and tested,
-the repository's ownership checks are defense in depth rather than the final
-authorization boundary.
+`firestore.rules` denies access by default. Training-document access requires
+an authenticated user whose ID matches the `userId` segment in the document
+path. Creates and updates also require schema version 1 and a matching stored
+`userId`; workout writes require a `planId` matching their parent plan path.
 
-Plan, Track, and Analyze are not connected to these repositories in the Jul 29
-slice. That cross-feature work remains tracked by issue #13 after the persistence
+Run the ownership and repository integration suite against the local Firestore
+emulator with:
+
+```bash
+npm run test:firestore
+```
+
+The suite proves same-user access, anonymous and cross-user denial, owner and
+plan-field validation, and an end-to-end repository round trip for a related
+plan, workout, shoe, and run. The Firebase emulator requires a local Java
+runtime.
+
+After this change is reviewed and merged, deploy the tested rules and empty
+index configuration to the Marathoner Firebase project before connecting the
+visible features:
+
+```bash
+npx firebase deploy --project marathoner-d9bf9 --only firestore
+```
+
+This is an explicit production operation, not part of the local test command.
+
+Plan, Track, and Analyze are not connected to these repositories by issue #12.
+That cross-feature work remains tracked by issue #13 after the persistence
 layer and authorization behavior are complete.

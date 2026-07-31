@@ -1,5 +1,7 @@
 import type {
+  CompletedRunId,
   PlannedWorkoutId,
+  ShoeId,
   TrainingPlanId,
   UserId,
 } from "../../domain/training";
@@ -22,3 +24,15 @@ export const workoutDocumentPath = (
   planId: TrainingPlanId,
   workoutId: PlannedWorkoutId,
 ): string => `${workoutsCollectionPath(userId, planId)}/${workoutId}`;
+
+export const runsCollectionPath = (userId: UserId): string =>
+  `${userDocumentPath(userId)}/runs`;
+
+export const runDocumentPath = (userId: UserId, runId: CompletedRunId): string =>
+  `${runsCollectionPath(userId)}/${runId}`;
+
+export const shoesCollectionPath = (userId: UserId): string =>
+  `${userDocumentPath(userId)}/shoes`;
+
+export const shoeDocumentPath = (userId: UserId, shoeId: ShoeId): string =>
+  `${shoesCollectionPath(userId)}/${shoeId}`;

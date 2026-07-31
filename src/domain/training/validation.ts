@@ -104,6 +104,16 @@ export function validateCompletedRun(run: CompletedRun): ValidationIssue[] {
     issues.push({ field: "duration", message: "Completed run duration must be positive." });
   }
 
+  const hasPlannedWorkoutPlan = run.plannedWorkoutPlanId !== undefined;
+  const hasPlannedWorkout = run.plannedWorkoutId !== undefined;
+
+  if (hasPlannedWorkoutPlan !== hasPlannedWorkout) {
+    issues.push({
+      field: "plannedWorkoutId",
+      message: "A planned workout association needs both its plan ID and workout ID.",
+    });
+  }
+
   return issues;
 }
 

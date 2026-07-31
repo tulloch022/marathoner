@@ -19,7 +19,8 @@ includes:
 - **Authentication:** create an account and sign in with Firebase email/password
   authentication.
 
-Training plans, runs, shoes, and analytics are not persisted yet. Follow the
+The typed persistence layer can store training plans, workouts, runs, and shoes,
+but the visible prototype features are not connected to it yet. Follow the
 [open issues](https://github.com/tulloch022/marathoner/issues) to see what is
 being built next.
 
@@ -45,7 +46,7 @@ layer is being built, but the prototype features are not connected to it yet.
 | `src/App.tsx` | Owns the active Plan, Track, or Analyze section and renders the application shell. |
 | `src/components/` | Contains the feature views, authentication forms, title, subtitle, and supporting UI. |
 | `src/domain/training/` | Defines shared training entities, identifiers, units, validation, and calculations without React or Firebase dependencies. |
-| `src/persistence/` | Defines typed training repositories, Firestore conversion, storage paths, and recoverable persistence errors. |
+| `src/persistence/` | Defines typed training repositories, Firestore conversion, storage paths, ownership integration tests, and recoverable persistence errors. |
 | `src/services/firebaseClient.ts` | Initializes the shared Firebase app and Authentication instance. |
 | `src/services/authService.ts` | Contains authentication operations against the shared Firebase client. |
 | `src/firebaseConfig.ts` | Identifies the Firebase web project used by the client. |
@@ -91,21 +92,22 @@ The visible training experience is not connected to persistent user data yet:
   [issue #5](https://github.com/tulloch022/marathoner/issues/5).
 
 No visible workout, run, shoe, or analytics data is sent to Firestore yet. The
-typed plan and workout persistence foundation is documented in
+typed persistence foundation and security model are documented in
 [`docs/architecture/training-data-persistence.md`](docs/architecture/training-data-persistence.md),
-but feature integration remains part of issues #12 and #13. Firebase
-Authentication is currently the only active remote operation.
+but feature integration remains part of issue #13. Firebase Authentication is
+currently the only remote operation initiated by the visible application.
 
 ## Prerequisites
 
 Install the following before running Marathoner locally:
 
-- [Node.js](https://nodejs.org/) 20.x or 22+
+- [Node.js](https://nodejs.org/) 22 LTS
 - npm, which is included with Node.js
 - Git
+- Java 21 or later when running the local Firestore emulator tests
 
-The installed Vite version also supports Node.js 18.x, but a currently supported
-Node.js release is recommended.
+The repository's automation also uses Node.js 22. Using the same LTS line avoids
+engine warnings from development tools on unsupported non-LTS releases.
 
 ## Local setup
 
@@ -173,6 +175,7 @@ Moving environment-specific configuration out of the source file is tracked in
 | `npm run dev` | Start the Vite development server with hot module replacement. |
 | `npm run lint` | Check the repository with ESLint. |
 | `npm test` | Run the automated test suite once. |
+| `npm run test:firestore` | Run ownership and persistence integration tests against the local Firestore emulator. |
 | `npm run test:watch` | Keep the test runner open and rerun affected tests after changes. |
 | `npm run build` | Run TypeScript project checks and create a production build in `dist/`. |
 | `npm run preview` | Serve the production build locally for a final browser check. |
@@ -218,7 +221,7 @@ matchers and cleans up rendered React components after every test.
 | Unit | Place `*.test.ts` beside a domain or utility module and test its public inputs and outputs. |
 | Component | Place `*.test.tsx` beside the component and exercise visible behavior with Testing Library. |
 | Service | Test service functions at their public boundary and replace the remote SDK or emulator connection. |
-| Integration | Place cross-module flows under `src/test/integration/` when a feature spans components, services, and persistence. |
+| Integration | Name Firestore emulator suites `*.integration.ts`; place future UI integration flows under `src/test/integration/`. |
 
 When writing tests:
 
@@ -241,9 +244,8 @@ Known testing boundaries remain visible:
 
 - App transition tests report the nested-button warning tracked in
   [issue #1](https://github.com/tulloch022/marathoner/issues/1).
-- Firebase SDK integration and persistent user data will need integration tests
-  as [issue #5](https://github.com/tulloch022/marathoner/issues/5) and
-  [issue #12](https://github.com/tulloch022/marathoner/issues/12) are built.
+- Firestore integration tests require Java and run separately with
+  `npm run test:firestore`; they are not part of the fast jsdom unit suite.
 - Analytics assertions currently describe sample values until
   [issue #13](https://github.com/tulloch022/marathoner/issues/13) connects them
   to training data.
@@ -255,6 +257,7 @@ Before opening a pull request, run:
 ```bash
 npm run lint
 npm test
+npm run test:firestore
 npm run build
 ```
 

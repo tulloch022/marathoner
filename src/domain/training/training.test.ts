@@ -84,6 +84,7 @@ const shoe: Shoe = {
 const run: CompletedRun = {
   id: createCompletedRunId("run-1"),
   userId,
+  plannedWorkoutPlanId: planId,
   plannedWorkoutId: workoutId,
   shoeId,
   startedAt: createUtcDateTime("2026-08-03T14:00:00Z"),
