@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import LoginButton from "./components/LoginButton";
 import Title from "./components/Title";
@@ -8,18 +8,48 @@ import SignUpButton from "./components/SignUpButton";
 import ShoeTracker from "./components/ShoeTracker";
 import Analyze from "./components/Analyze";
 
+const sections = [
+  { id: "plan", label: "Plan", title: "Plan Your Workouts" },
+  { id: "track", label: "Track", title: "Track Your Runs" },
+  { id: "analyze", label: "Analyze", title: "Analyze Your Progress" },
+] as const;
+
+type Section = (typeof sections)[number]["id"];
+
 function App() {
-  const [activeSection, setActiveSection] = useState<"plan" | "track" | "analyze" | null>(null);
-  
+  const [activeSection, setActiveSection] = useState<Section | null>(null);
+  const lastActiveSection = useRef<Section | null>(null);
+  const triggerRefs = useRef<Record<Section, HTMLButtonElement | null>>({
+    plan: null,
+    track: null,
+    analyze: null,
+  });
+
+  useEffect(() => {
+    if (!activeSection && lastActiveSection.current) {
+      triggerRefs.current[lastActiveSection.current]?.focus();
+      lastActiveSection.current = null;
+    }
+  }, [activeSection]);
+
+  const openSection = (section: Section) => {
+    lastActiveSection.current = section;
+    setActiveSection(section);
+  };
+
+  const closeSection = () => {
+    setActiveSection(null);
+  };
+
+  const activeSectionDetails = sections.find(({ id }) => id === activeSection);
 
   return (
     <motion.div
-      className="main flex flex-col items-center justify-center h-screen"
+      className="main"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 1, ease: "easeOut" }}
     >
-      {/* Login & Signup Buttons – Hidden when a section is active */}
       {!activeSection && (
         <>
           <LoginButton />
@@ -29,80 +59,80 @@ function App() {
         </>
       )}
 
+      {!activeSection && (
+        <nav className="section-navigation" aria-label="Training sections">
+          {sections.map(({ id, label }) => (
+            <motion.button
+              key={id}
+              ref={(element) => {
+                triggerRefs.current[id] = element;
+              }}
+              type="button"
+              className="section-trigger"
+              aria-controls={`${id}-panel`}
+              aria-expanded="false"
+              onClick={() => openSection(id)}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.25 }}
+            >
+              {label}
+            </motion.button>
+          ))}
+        </nav>
+      )}
 
-      <div className="box-container flex gap-4 relative">
-        {(["plan", "track", "analyze"] as const).map((section) => (
-                  <motion.button
-                    key={section}
-                    className="box-under-arrow"
-                    initial={{ width: "50vw", height: "3em" }}
-                    onClick={() => {
-                      if (activeSection !== section) {
-                        setActiveSection(section);
-                      }
-                    }}
-                    animate={{
-                      width: activeSection === section ? "100vw" : "7em",
-                      height: activeSection === section ? "100vh" : "2em",
-                      backgroundColor: activeSection === section ? "white" : "#ffffff",
-                      border: activeSection === section ? "none" : "",
-                      boxShadow: activeSection === section ? "none" : "",
-                    }}
-                    transition={{ duration: .25 }}
-                    style={{
-                      overflow: "hidden",
-                      position: "relative",
-                      zIndex: 1,
-                      cursor: activeSection === section ? "default" : "pointer",
-                    }}
-                  >
-                    {activeSection === section ? (
-                      <SectionContent section={section} onClose={() => setActiveSection(null)} />
-                    ) : (
-                      <p>{section.charAt(0).toUpperCase() + section.slice(1)}</p>
-                    )}
-                  </motion.button>
-        ))}
-      </div>
+      {activeSection && activeSectionDetails && (
+        <motion.section
+          id={`${activeSection}-panel`}
+          className="section-panel"
+          aria-labelledby={`${activeSection}-panel-title`}
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.25 }}
+          onKeyDown={(event) => {
+            if (event.key === "Escape") closeSection();
+          }}
+        >
+          <SectionContent
+            section={activeSection}
+            title={activeSectionDetails.title}
+            onClose={closeSection}
+          />
+        </motion.section>
+      )}
     </motion.div>
   );
 }
 
 type SectionContentProps = {
-  section: "plan" | "track" | "analyze";
+  section: Section;
+  title: string;
   onClose: () => void;
 };
 
-function SectionContent({ section, onClose }: SectionContentProps) {
-  const getTitle = () => {
-    if (section === "plan") return "Plan Your Workouts";
-    if (section === "track") return "Track Your Runs";
-    if (section === "analyze") return "Analyze Your Progress";
-    return "";
-  };
-
+function SectionContent({ section, title, onClose }: SectionContentProps) {
   return (
     <motion.div
-      className="relative z-10"
+      className="section-panel-content"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 1 }}
+      transition={{ duration: 0.25 }}
     >
       <button
-        onClick={() => {
-          console.log("Closed section, activeSection:", null);
-          onClose();
-        }}
-        className="close absolute top-4 right-4 text-2xl text-white"
-        style={{ background: "transparent", border: "none", cursor: "pointer" }}
+        type="button"
+        onClick={onClose}
+        className="close"
+        aria-label={`Close ${title} panel`}
+        autoFocus
       >
-        X
+        <span aria-hidden="true">X</span>
       </button>
-      <h1 className="section-heading font-bold">{getTitle()}</h1>
+      <h1 id={`${section}-panel-title`} className="section-heading">{title}</h1>
       {section === "plan" && <Calendar />}
       {section === "track" && <ShoeTracker />}
-      {section === "analyze" && <Analyze/>}
+      {section === "analyze" && <Analyze />}
     </motion.div>
   );
 }

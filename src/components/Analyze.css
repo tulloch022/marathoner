@@ -1,9 +1,8 @@
 .analyze-container {
   position: relative;
   width: 100%;
-  height: 100%;
+  min-width: 0;
   padding: 20px;
-  overflow-y: auto;
   border-radius: 8px;
   color: #000;
   text-align: center;
@@ -41,7 +40,7 @@
 
 @media (max-width: 768px) {
   .analyze-container {
-    width: 80%;
+    width: 100%;
     margin: 0 auto;
   }
 }
