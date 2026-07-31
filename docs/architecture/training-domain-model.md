@@ -12,13 +12,17 @@ belong here.
 | `UserProfile` | Stores the runner's minimal application preferences. | Its `id` is the owner ID used by all other entities. |
 | `TrainingPlan` | Represents one first-marathon journey over a defined date range. | Belongs to one user and owns many planned workouts. |
 | `PlannedWorkout` | Describes a rest, run, or walk-run assignment on a local calendar day. | Belongs to one user and one training plan. |
-| `CompletedRun` | Records what the runner actually completed. | Belongs to one user and may reference one planned workout and one shoe. |
+| `CompletedRun` | Records what the runner actually completed. | Belongs to one user and may reference one planned workout, its parent plan, and one shoe. |
 | `Shoe` | Represents a pair of shoes that can accumulate run distance. | Belongs to one user and may be referenced by many completed runs. |
 
 A user may eventually have multiple plans, but only one should be active at a
 time. A completed run does not need a planned workout because runners may record
 an extra, imported, or otherwise unplanned run. A run also does not require a
 shoe because some data sources may not provide one.
+
+When a completed run references a planned workout, it retains both the plan ID
+and workout ID. Workouts are stored beneath plans, so this pair identifies the
+workout directly without searching every plan.
 
 ## Canonical representations
 

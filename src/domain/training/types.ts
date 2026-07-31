@@ -80,6 +80,7 @@ export type PerceivedEffort =
 export interface CompletedRun extends EntityTimestamps {
   readonly id: CompletedRunId;
   readonly userId: UserId;
+  readonly plannedWorkoutPlanId?: TrainingPlanId;
   readonly plannedWorkoutId?: PlannedWorkoutId;
   readonly shoeId?: ShoeId;
   readonly startedAt: UtcDateTime;

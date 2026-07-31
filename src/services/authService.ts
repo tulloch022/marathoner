@@ -1,17 +1,12 @@
-import { initializeApp } from "firebase/app";
 import {
   createUserWithEmailAndPassword,
-  getAuth,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut,
   type Unsubscribe,
   type User,
 } from "firebase/auth";
-import { firebaseConfig } from "../firebaseConfig";
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+import { auth } from "./firebaseClient";
 
 export type AuthUser = Pick<User, "uid" | "email">;
 
