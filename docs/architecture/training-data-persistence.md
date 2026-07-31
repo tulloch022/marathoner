@@ -181,9 +181,8 @@ plan-field validation, and an end-to-end repository round trip for a related
 plan, workout, shoe, and run. The Firebase emulator requires a local Java
 runtime.
 
-After this change is reviewed and merged, deploy the tested rules and empty
-index configuration to the Marathoner Firebase project before connecting the
-visible features:
+Deploy the tested rules and empty index configuration to the Marathoner Firebase
+project before using the connected features against production Firestore:
 
 ```bash
 npx firebase deploy --project marathoner-d9bf9 --only firestore
@@ -191,6 +190,5 @@ npx firebase deploy --project marathoner-d9bf9 --only firestore
 
 This is an explicit production operation, not part of the local test command.
 
-Plan, Track, and Analyze are not connected to these repositories by issue #12.
-That cross-feature work remains tracked by issue #13 after the persistence
-layer and authorization behavior are complete.
+Plan, Track, and Analyze integration is documented in
+[`training-feature-integration.md`](training-feature-integration.md).

@@ -1,39 +1,166 @@
-import { render, screen } from '@testing-library/react'
-import userEvent from '@testing-library/user-event'
-import { describe, expect, it } from 'vitest'
-import ShoeTracker from './ShoeTracker'
+import { useState } from "react";
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { describe, expect, it } from "vitest";
+import {
+  createCompletedRunId,
+  createDistanceMeters,
+  createDurationSeconds,
+  createIanaTimeZone,
+  createShoeId,
+  createUserId,
+  createUtcDateTime,
+  type CompletedRun,
+  type Shoe,
+} from "../domain/training";
+import type {
+  CreateCompletedRunInput,
+  CreateShoeInput,
+  UpdateCompletedRunInput,
+} from "../persistence/trainingRepositories";
+import ShoeTracker from "./ShoeTracker";
 
-async function addShoe(name: string) {
-  const user = userEvent.setup()
+const userId = createUserId("runner-1");
+const timestamp = createUtcDateTime("2026-08-05T14:00:00Z");
 
-  await user.type(screen.getByPlaceholderText('Shoe Name'), name)
-  await user.click(screen.getByRole('button', { name: 'Add' }))
+function Harness({
+  initialShoes = [],
+  initialRuns = [],
+}: {
+  initialShoes?: Shoe[];
+  initialRuns?: CompletedRun[];
+}) {
+  const [shoes, setShoes] = useState(initialShoes);
+  const [runs, setRuns] = useState(initialRuns);
 
-  return user
+  const createShoe = async (input: CreateShoeInput) => {
+    const shoe: Shoe = {
+      id: createShoeId(`shoe-${shoes.length + 1}`),
+      userId,
+      name: input.name,
+      startingDistance: input.startingDistance ?? createDistanceMeters(0),
+      status: "active",
+      createdAt: timestamp,
+      updatedAt: timestamp,
+    };
+    setShoes((current) => [...current, shoe]);
+    return shoe;
+  };
+
+  const createRun = async (input: CreateCompletedRunInput) => {
+    const run: CompletedRun = {
+      ...input,
+      id: createCompletedRunId(`run-${runs.length + 1}`),
+      userId,
+      createdAt: timestamp,
+      updatedAt: timestamp,
+    };
+    setRuns((current) => [run, ...current]);
+    return run;
+  };
+
+  const updateRun = async (
+    id: CompletedRun["id"],
+    changes: UpdateCompletedRunInput,
+  ) => {
+    const existing = runs.find((run) => run.id === id);
+    if (existing === undefined) throw new Error("Run not found");
+    const updated = {
+      ...existing,
+      distance: changes.distance ?? existing.distance,
+      duration: changes.duration ?? existing.duration,
+      shoeId:
+        changes.shoeId === null ? undefined : changes.shoeId ?? existing.shoeId,
+    };
+    setRuns((current) =>
+      current.map((run) => (run.id === updated.id ? updated : run)),
+    );
+    return updated;
+  };
+
+  const deleteRun = async (id: CompletedRun["id"]) => {
+    setRuns((current) => current.filter((run) => run.id !== id));
+  };
+
+  return (
+    <ShoeTracker
+      runs={runs}
+      shoes={shoes}
+      plannedWorkouts={[]}
+      onCreateShoe={createShoe}
+      onCreateRun={createRun}
+      onUpdateRun={updateRun}
+      onDeleteRun={deleteRun}
+    />
+  );
 }
 
-describe('ShoeTracker', () => {
-  it('adds a shoe with zero starting mileage', async () => {
-    render(<ShoeTracker />)
+async function addShoe(name: string) {
+  const user = userEvent.setup();
+  await user.type(screen.getByPlaceholderText("Shoe Name"), name);
+  await user.click(screen.getByRole("button", { name: "Add" }));
+  return user;
+}
 
-    await addShoe('Daily Trainer')
+describe("ShoeTracker", () => {
+  it("adds a persisted shoe with zero starting mileage", async () => {
+    render(<Harness />);
 
-    expect(screen.getByText('Daily Trainer: 0 mi')).toBeInTheDocument()
-    expect(screen.getByPlaceholderText('Shoe Name')).toHaveValue('')
-  })
+    await addShoe("Daily Trainer");
 
-  it('logs a run and adds its distance to the selected shoe', async () => {
-    render(<ShoeTracker />)
-    const user = await addShoe('Daily Trainer')
+    expect(await screen.findByText("Daily Trainer: 0 mi")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Shoe Name")).toHaveValue("");
+  });
 
-    await user.type(screen.getByPlaceholderText('Miles'), '5')
-    await user.type(screen.getByPlaceholderText('Time (e.g. 45:30)'), '45:30')
-    await user.selectOptions(screen.getByRole('combobox'), 'Daily Trainer')
-    await user.click(screen.getByRole('button', { name: 'Log Run' }))
+  it("logs a run and derives mileage for the selected shoe", async () => {
+    render(<Harness />);
+    const user = await addShoe("Daily Trainer");
 
-    expect(
-      screen.getByText('5 mi in 45:30 wearing Daily Trainer')
-    ).toBeInTheDocument()
-    expect(screen.getByText('Daily Trainer: 5 mi')).toBeInTheDocument()
-  })
-})
+    await user.type(screen.getByPlaceholderText("Miles"), "5");
+    await user.type(screen.getByPlaceholderText("Time (e.g. 45:30)"), "45:30");
+    await user.selectOptions(
+      screen.getByRole("combobox", { name: "Running shoes" }),
+      "shoe-1",
+    );
+    await user.click(screen.getByRole("button", { name: "Log Run" }));
+
+    expect(await screen.findByText(/5 mi in 45:30 wearing Daily Trainer/)).toBeInTheDocument();
+    expect(screen.getByText("Daily Trainer: 5 mi")).toBeInTheDocument();
+  });
+
+  it("edits and deletes a run without allowing shoe mileage to drift", async () => {
+    const shoe: Shoe = {
+      id: createShoeId("shoe-1"),
+      userId,
+      name: "Daily Trainer",
+      startingDistance: createDistanceMeters(0),
+      status: "active",
+      createdAt: timestamp,
+      updatedAt: timestamp,
+    };
+    const run: CompletedRun = {
+      id: createCompletedRunId("run-1"),
+      userId,
+      shoeId: shoe.id,
+      startedAt: timestamp,
+      timeZone: createIanaTimeZone("America/Los_Angeles"),
+      distance: createDistanceMeters(8_047),
+      duration: createDurationSeconds(2_400),
+      createdAt: timestamp,
+      updatedAt: timestamp,
+    };
+    const user = userEvent.setup();
+    render(<Harness initialShoes={[shoe]} initialRuns={[run]} />);
+
+    await user.click(screen.getByRole("button", { name: "Edit" }));
+    await user.clear(screen.getByRole("spinbutton", { name: "Edit miles" }));
+    await user.type(screen.getByRole("spinbutton", { name: "Edit miles" }), "3");
+    await user.click(screen.getByRole("button", { name: "Save" }));
+
+    expect(await screen.findByText("Daily Trainer: 3 mi")).toBeInTheDocument();
+
+    await user.click(screen.getByRole("button", { name: "Delete" }));
+    expect(await screen.findByText("No runs logged yet.")).toBeInTheDocument();
+    expect(screen.getByText("Daily Trainer: 0 mi")).toBeInTheDocument();
+  });
+});

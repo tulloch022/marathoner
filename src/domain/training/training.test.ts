@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   calculatePace,
   calculateShoeDistance,
+  calculateTrainingAnalytics,
   calculateTotalDistance,
   createCompletedRunId,
   createDateOnly,
@@ -232,5 +233,29 @@ describe("training domain calculations", () => {
     expect(calculateShoeDistance(shoe, [run, differentShoeRun, differentUserRun])).toBe(
       milesToMeters(15),
     );
+  });
+
+  it("derives weekly and lifetime analytics from completed runs", () => {
+    const nextWeekRun: CompletedRun = {
+      ...run,
+      id: createCompletedRunId("run-2"),
+      plannedWorkoutPlanId: undefined,
+      plannedWorkoutId: undefined,
+      startedAt: createUtcDateTime("2026-08-10T14:00:00Z"),
+      distance: milesToMeters(2),
+      duration: createDurationSeconds(20 * 60),
+    };
+
+    const analytics = calculateTrainingAnalytics(
+      [run, nextWeekRun],
+      createDateOnly("2026-08-03"),
+      "mile",
+    );
+
+    expect(analytics.totalDistance).toBe(milesToMeters(5));
+    expect(analytics.weeklyDistance).toBe(milesToMeters(3));
+    expect(analytics.totalRuns).toBe(2);
+    expect(analytics.runsThisWeek).toBe(1);
+    expect(analytics.averagePace?.secondsPerUnit).toBeCloseTo(600, 0);
   });
 });

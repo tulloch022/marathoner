@@ -35,12 +35,22 @@
 }
 
 .plan-day {
+  appearance: none;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   text-align: center;
+  font: inherit;
   cursor: pointer;
   transition: box-shadow 0.3s;
+}
+
+.plan-day.completed {
+  box-shadow: inset 0 0 0 3px #278b57;
+}
+
+.plan-day.skipped {
+  opacity: 0.55;
 }
 
 .plan-day:hover {

@@ -27,9 +27,31 @@
 }
 
 .tracker input,
+.tracker select,
 .tracker button {
   box-sizing: border-box;
   width: 100%;
+}
+
+.tracker form,
+.tracker li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tracker ul {
+  margin: 0;
+  padding: 0;
+}
+
+.training-error {
+  color: #8a1c1c;
+}
+
+.training-empty-state,
+.training-status {
+  color: #555;
 }
 
 .tracker li {

@@ -8,6 +8,8 @@ import SignUpButton from "./components/SignUpButton";
 import ShoeTracker from "./components/ShoeTracker";
 import Analyze from "./components/Analyze";
 import { useAuth } from "./auth/useAuth";
+import TrainingDataProvider from "./training/TrainingDataProvider";
+import { useTrainingData } from "./training/useTrainingData";
 
 const sections = [
   { id: "plan", label: "Plan", title: "Plan Your Workouts" },
@@ -116,47 +118,51 @@ function App() {
         </>
       )}
 
-      {auth.status === "signedIn" && !activeSection && (
-        <nav className="section-navigation" aria-label="Training sections">
-          {sections.map(({ id, label }) => (
-            <motion.button
-              key={id}
-              ref={(element) => {
-                triggerRefs.current[id] = element;
-              }}
-              type="button"
-              className="section-trigger"
-              aria-controls={`${id}-panel`}
-              aria-expanded="false"
-              onClick={() => openSection(id)}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.25 }}
-            >
-              {label}
-            </motion.button>
-          ))}
-        </nav>
-      )}
+      {auth.status === "signedIn" && (
+        <TrainingDataProvider userId={auth.user.uid}>
+          {!activeSection && (
+            <nav className="section-navigation" aria-label="Training sections">
+              {sections.map(({ id, label }) => (
+                <motion.button
+                  key={id}
+                  ref={(element) => {
+                    triggerRefs.current[id] = element;
+                  }}
+                  type="button"
+                  className="section-trigger"
+                  aria-controls={`${id}-panel`}
+                  aria-expanded="false"
+                  onClick={() => openSection(id)}
+                  initial={{ opacity: 0, y: 8 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.25 }}
+                >
+                  {label}
+                </motion.button>
+              ))}
+            </nav>
+          )}
 
-      {auth.status === "signedIn" && activeSection && activeSectionDetails && (
-        <motion.section
-          id={`${activeSection}-panel`}
-          className="section-panel"
-          aria-labelledby={`${activeSection}-panel-title`}
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.25 }}
-          onKeyDown={(event) => {
-            if (event.key === "Escape") closeSection();
-          }}
-        >
-          <SectionContent
-            section={activeSection}
-            title={activeSectionDetails.title}
-            onClose={closeSection}
-          />
-        </motion.section>
+          {activeSection && activeSectionDetails && (
+            <motion.section
+              id={`${activeSection}-panel`}
+              className="section-panel"
+              aria-labelledby={`${activeSection}-panel-title`}
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.25 }}
+              onKeyDown={(event) => {
+                if (event.key === "Escape") closeSection();
+              }}
+            >
+              <SectionContent
+                section={activeSection}
+                title={activeSectionDetails.title}
+                onClose={closeSection}
+              />
+            </motion.section>
+          )}
+        </TrainingDataProvider>
       )}
     </motion.div>
   );
@@ -169,6 +175,13 @@ type SectionContentProps = {
 };
 
 function SectionContent({ section, title, onClose }: SectionContentProps) {
+  const training = useTrainingData();
+  const activePlan =
+    training.plans.find((plan) => plan.status === "active") ??
+    training.plans.find((plan) => plan.status === "draft") ??
+    training.plans.find((plan) => plan.status !== "archived") ??
+    null;
+
   return (
     <motion.div
       className="section-panel-content"
@@ -187,9 +200,38 @@ function SectionContent({ section, title, onClose }: SectionContentProps) {
         <span aria-hidden="true">X</span>
       </button>
       <h1 id={`${section}-panel-title`} className="section-heading">{title}</h1>
-      {section === "plan" && <Calendar />}
-      {section === "track" && <ShoeTracker />}
-      {section === "analyze" && <Analyze />}
+      {training.status === "loading" && (
+        <p className="training-status" role="status">
+          Loading your training data...
+        </p>
+      )}
+      {training.status === "error" && (
+        <div className="training-error" role="alert">
+          <p>{training.error}</p>
+          <button type="button" onClick={() => void training.reload()}>
+            Try again
+          </button>
+        </div>
+      )}
+      {training.status === "ready" && section === "plan" && (
+        <Calendar plan={activePlan} workouts={training.workouts} />
+      )}
+      {training.status === "ready" && section === "track" && (
+        <ShoeTracker
+          runs={training.runs}
+          shoes={training.shoes}
+          plannedWorkouts={training.workouts.filter(
+            (workout) => workout.planId === activePlan?.id,
+          )}
+          onCreateShoe={training.createShoe}
+          onCreateRun={training.createRun}
+          onUpdateRun={training.updateRun}
+          onDeleteRun={training.deleteRun}
+        />
+      )}
+      {training.status === "ready" && section === "analyze" && (
+        <Analyze runs={training.runs} />
+      )}
     </motion.div>
   );
 }

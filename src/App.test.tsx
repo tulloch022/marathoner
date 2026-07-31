@@ -1,6 +1,7 @@
 import { act, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import type { ReactNode } from 'react'
 import App from './App'
 import AuthProvider from './auth/AuthProvider'
 import {
@@ -22,6 +23,26 @@ vi.mock('./services/authService', () => ({
   signIn: vi.fn(),
   signUp: vi.fn(),
   subscribeToAuthState: vi.fn()
+}))
+
+vi.mock('./training/TrainingDataProvider', () => ({
+  default: ({ children }: { children: ReactNode }) => children
+}))
+
+vi.mock('./training/useTrainingData', () => ({
+  useTrainingData: () => ({
+    status: 'ready',
+    error: null,
+    plans: [],
+    workouts: [],
+    runs: [],
+    shoes: [],
+    reload: vi.fn(),
+    createShoe: vi.fn(),
+    createRun: vi.fn(),
+    updateRun: vi.fn(),
+    deleteRun: vi.fn()
+  })
 }))
 
 const mockedLogOut = vi.mocked(logOut)
