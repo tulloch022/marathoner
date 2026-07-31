@@ -1,0 +1,91 @@
+.login-btn,
+.signup-btn {
+  position: absolute;
+  top: 20px;
+  box-sizing: border-box;
+  width: 7em;
+  padding: 10px 20px;
+  border: solid;
+  border-radius: 5px;
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0 1em 0.5em rgb(204, 204, 204);
+  color: rgb(0, 0, 0);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.login-btn {
+  right: 20px;
+}
+
+.signup-btn {
+  left: 20px;
+}
+
+.login-btn:hover,
+.signup-btn:hover {
+  background-color: white;
+  color: black;
+}
+
+.login-wrapper,
+.signup-wrapper {
+  display: inline-block;
+}
+
+.login-popup,
+.signup-popup {
+  position: fixed;
+  top: 4em;
+  z-index: 1000;
+  width: 15em;
+  padding: 2em;
+  border: solid rgb(238, 233, 233);
+  border-radius: 2em;
+  background: white;
+  box-shadow: 0 1em 1em rgba(0, 0, 0, 0.1);
+}
+
+.login-popup {
+  right: 2em;
+}
+
+.signup-popup {
+  left: 2em;
+}
+
+.login-popup span,
+.signup-popup span {
+  margin: 0 0 10px;
+  color: black;
+  font-size: 1.5em;
+  font-weight: bolder;
+  text-align: center;
+}
+
+.login-popup input,
+.signup-popup input {
+  box-sizing: border-box;
+  width: 100%;
+  border: 0.05em solid black;
+  border-radius: 0.2em;
+  font-size: 1em;
+}
+
+.login-popup button,
+.signup-popup button {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0.5em;
+  border: none;
+  border-radius: 0.2em;
+  background: black;
+  color: white;
+  cursor: pointer;
+}
+
+.login-popup button:hover {
+  background: #0056b3;
+}
