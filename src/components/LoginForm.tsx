@@ -1,26 +1,22 @@
 import { useState, useRef, useEffect } from "react";
-import { signIn } from "../services/authService"; // Import the signIn function from authService
+import { signIn } from "../services/authService";
 
 const LoginForm = ({ onClose }: { onClose: () => void }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null); // To handle error messages
+  const [error, setError] = useState<string | null>(null);
   const formRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      // Call the signIn function from authService to log in the user
-      const user = await signIn(username, password); // Passing username (email) and password to Firebase
-      console.log("User logged in:", user); // You can use this to handle the logged-in user (e.g., redirect)
-      onClose(); // Close the form after successful login
+      await signIn(username, password);
+      onClose();
     } catch (error) {
-      // Handle any error that occurs during login (e.g., incorrect credentials)
       setError(error instanceof Error ? error.message : "An unexpected error occurred");
     }
   };
 
-  // Close login form when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (formRef.current && !formRef.current.contains(event.target as Node)) {
@@ -36,7 +32,7 @@ const LoginForm = ({ onClose }: { onClose: () => void }) => {
     <div ref={formRef} className="login-popup">
       <form onSubmit={handleSubmit}>
         <span>Login</span>
-        {error && <div className="error">{error}</div>} {/* Display error message if any */}
+        {error && <div className="error">{error}</div>}
         <input
           type="text"
           placeholder="Username (Email)"
@@ -56,4 +52,3 @@ const LoginForm = ({ onClose }: { onClose: () => void }) => {
 };
 
 export default LoginForm;
-
