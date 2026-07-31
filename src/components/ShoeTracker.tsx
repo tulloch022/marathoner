@@ -1,95 +1,348 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import {
+  calculateShoeDistance,
+  createPlannedWorkoutId,
+  createShoeId,
+  createTrainingPlanId,
+  createDurationSeconds,
+  createIanaTimeZone,
+  createUtcDateTime,
+  getRunLocalDate,
+  metersToMiles,
+  milesToMeters,
+  type CompletedRun,
+  type CompletedRunId,
+  type DistanceMeters,
+  type PlannedWorkout,
+  type Shoe,
+} from "../domain/training";
+import type {
+  CreateCompletedRunInput,
+  CreateShoeInput,
+  UpdateCompletedRunInput,
+} from "../persistence/trainingRepositories";
 
-
-type Run = {
-  miles: number;
-  time: string;
-  shoe: string;
+type ShoeTrackerProps = {
+  readonly runs: readonly CompletedRun[];
+  readonly shoes: readonly Shoe[];
+  readonly plannedWorkouts: readonly PlannedWorkout[];
+  readonly onCreateShoe: (input: CreateShoeInput) => Promise<Shoe>;
+  readonly onCreateRun: (input: CreateCompletedRunInput) => Promise<CompletedRun>;
+  readonly onUpdateRun: (
+    id: CompletedRunId,
+    changes: UpdateCompletedRunInput,
+  ) => Promise<CompletedRun>;
+  readonly onDeleteRun: (id: CompletedRunId) => Promise<void>;
 };
 
-type Shoes = {
-  [key: string]: number;
-};
+function today(): string {
+  const value = new Date();
+  const year = value.getFullYear();
+  const month = String(value.getMonth() + 1).padStart(2, "0");
+  const day = String(value.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
 
-export default function RunTracker() {
-  const [runs, setRuns] = useState<Run[]>([]);
-  const [shoes, setShoes] = useState<Shoes>({});
-  const [newShoe, setNewShoe] = useState<string>("");
+function currentTimeZone() {
+  const value = Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC";
+  return createIanaTimeZone(value);
+}
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const miles = parseFloat(formData.get("miles") as string);
-    const time = formData.get("time") as string;
-    const shoe = formData.get("shoe") as string;
+function dateToUtc(date: string) {
+  return createUtcDateTime(new Date(`${date}T12:00:00`).toISOString());
+}
 
-    if (!miles || !time || !shoe) return;
+function parseDuration(value: string) {
+  const parts = value.split(":").map(Number);
+  const isValidPart = parts.every((part) => Number.isInteger(part) && part >= 0);
 
-    setRuns((prevRuns) => [...prevRuns, { miles, time, shoe }]);
+  if (!isValidPart || (parts.length !== 2 && parts.length !== 3)) {
+    throw new Error("Use MM:SS or H:MM:SS for elapsed time.");
+  }
 
-    setShoes((prevShoes) => ({
-      ...prevShoes,
-      [shoe]: (prevShoes[shoe] || 0) + miles,
-    }));
+  const [hours, minutes, seconds] =
+    parts.length === 3 ? parts : [0, parts[0], parts[1]];
 
-    e.currentTarget.reset();
+  if (seconds >= 60 || (parts.length === 3 && minutes >= 60)) {
+    throw new Error("Seconds, and minutes after an hour, must be less than 60.");
+  }
+
+  return createDurationSeconds(hours * 3600 + minutes * 60 + seconds);
+}
+
+function formatDuration(totalSeconds: number): string {
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = String(totalSeconds % 60).padStart(2, "0");
+  return hours > 0
+    ? `${hours}:${String(minutes).padStart(2, "0")}:${seconds}`
+    : `${minutes}:${seconds}`;
+}
+
+function formatMiles(meters: DistanceMeters): string {
+  return Number(metersToMiles(meters).toFixed(2)).toString();
+}
+
+function workoutName(workout: PlannedWorkout): string {
+  if (workout.kind === "walk_run") return "Walk/run";
+  if (workout.kind === "rest") return "Rest";
+  return `${workout.purpose[0].toUpperCase()}${workout.purpose.slice(1)} run`;
+}
+
+export default function ShoeTracker({
+  runs,
+  shoes,
+  plannedWorkouts,
+  onCreateShoe,
+  onCreateRun,
+  onUpdateRun,
+  onDeleteRun,
+}: ShoeTrackerProps) {
+  const [newShoe, setNewShoe] = useState("");
+  const [runDate, setRunDate] = useState(today);
+  const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
+  const [editingRunId, setEditingRunId] = useState<CompletedRunId | null>(null);
+  const activeShoes = shoes.filter((shoe) => shoe.status === "active");
+  const availableWorkouts = plannedWorkouts.filter(
+    (workout) => workout.kind !== "rest" && workout.status === "planned",
+  );
+  const shoeMileage = useMemo(
+    () =>
+      new Map(
+        shoes.map((shoe) => [shoe.id, calculateShoeDistance(shoe, runs)]),
+      ),
+    [runs, shoes],
+  );
+
+  const handleAddShoe = async () => {
+    const name = newShoe.trim();
+    if (name.length === 0) return;
+
+    setError(null);
+    setPending(true);
+    try {
+      await onCreateShoe({ name });
+      setNewShoe("");
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : "The shoe could not be saved.");
+    } finally {
+      setPending(false);
+    }
   };
 
-  const handleAddShoe = () => {
-    if (newShoe.trim() && !shoes[newShoe]) {
-      setShoes((prevShoes) => ({ ...prevShoes, [newShoe]: 0 }));
-      setNewShoe("");
+  const handleRunSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+
+    setError(null);
+    setPending(true);
+    try {
+      const association = String(formData.get("workout") ?? "");
+      const [plannedWorkoutPlanId, plannedWorkoutId] = association
+        ? association.split("/")
+        : [];
+      await onCreateRun({
+        plannedWorkoutPlanId: plannedWorkoutPlanId
+          ? createTrainingPlanId(plannedWorkoutPlanId)
+          : undefined,
+        plannedWorkoutId: plannedWorkoutId
+          ? createPlannedWorkoutId(plannedWorkoutId)
+          : undefined,
+        shoeId: createShoeId(String(formData.get("shoe"))),
+        startedAt: dateToUtc(runDate),
+        timeZone: currentTimeZone(),
+        distance: milesToMeters(Number(formData.get("miles"))),
+        duration: parseDuration(String(formData.get("time"))),
+      });
+      form.reset();
+      setRunDate(today());
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : "The run could not be saved.");
+    } finally {
+      setPending(false);
     }
   };
 
   return (
     <div className="tracker">
-      {/* Left Side: Run Entry Form */}
+      {error && <p role="alert" className="training-error">{error}</p>}
       <div className="entry">
         <h2>Run</h2>
-        <form onSubmit={handleSubmit} className="space-y-3">
-          <input name="miles" type="number" step="0.1" placeholder="Miles" required />
+        {activeShoes.length === 0 && (
+          <p className="training-empty-state">
+            Add your current running shoes before logging a run.
+          </p>
+        )}
+        <form onSubmit={handleRunSubmit} className="space-y-3">
+          <input
+            aria-label="Run date"
+            name="date"
+            type="date"
+            value={runDate}
+            onChange={(event) => setRunDate(event.target.value)}
+            required
+          />
+          <input name="miles" type="number" min="0.01" step="0.01" placeholder="Miles" required />
           <input name="time" type="text" placeholder="Time (e.g. 45:30)" required />
-          <select name="shoe" required>
+          <select name="shoe" aria-label="Running shoes" required>
             <option value="">Select Shoes</option>
-            {Object.keys(shoes).map((shoe) => (
-              <option key={shoe} value={shoe}>
-                {shoe} ({shoes[shoe]} mi)
+            {activeShoes.map((shoe) => (
+              <option key={shoe.id} value={shoe.id}>
+                {shoe.name} ({formatMiles(shoeMileage.get(shoe.id) ?? shoe.startingDistance)} mi)
               </option>
             ))}
           </select>
-          <button type="submit">Log Run</button>
+          <select name="workout" aria-label="Planned workout">
+            <option value="">Unplanned run</option>
+            {availableWorkouts.map((workout) => (
+              <option
+                key={workout.id}
+                value={`${workout.planId}/${workout.id}`}
+              >
+                {workout.scheduledDate}: {workoutName(workout)}
+              </option>
+            ))}
+          </select>
+          <button type="submit" disabled={pending || activeShoes.length === 0}>
+            Log Run
+          </button>
         </form>
 
         <div className="mt-4">
           <h3 className="text-lg font-medium">Logged Runs</h3>
-          <ul>
-            {runs.map((run, index) => (
-              <li key={index}>
-                {run.miles} mi in {run.time} wearing {run.shoe}
-              </li>
-            ))}
-          </ul>
+          {runs.length === 0 ? (
+            <p className="training-empty-state">No runs logged yet.</p>
+          ) : (
+            <ul>
+              {runs.map((run) => {
+                const shoe = shoes.find((candidate) => candidate.id === run.shoeId);
+                const isEditing = editingRunId === run.id;
+
+                return (
+                  <li key={run.id}>
+                    {isEditing ? (
+                      <form
+                        aria-label={`Edit run from ${getRunLocalDate(run)}`}
+                        onSubmit={async (event) => {
+                          event.preventDefault();
+                          const data = new FormData(event.currentTarget);
+                          setError(null);
+                          setPending(true);
+                          try {
+                            await onUpdateRun(run.id, {
+                              distance: milesToMeters(Number(data.get("miles"))),
+                              duration: parseDuration(String(data.get("time"))),
+                              shoeId: createShoeId(String(data.get("shoe"))),
+                            });
+                            setEditingRunId(null);
+                          } catch (caught) {
+                            setError(caught instanceof Error ? caught.message : "The run could not be updated.");
+                          } finally {
+                            setPending(false);
+                          }
+                        }}
+                      >
+                        <input
+                          aria-label="Edit miles"
+                          name="miles"
+                          type="number"
+                          min="0.01"
+                          step="0.01"
+                          defaultValue={formatMiles(run.distance)}
+                          required
+                        />
+                        <input
+                          aria-label="Edit elapsed time"
+                          name="time"
+                          defaultValue={formatDuration(run.duration)}
+                          required
+                        />
+                        <select
+                          aria-label="Edit running shoes"
+                          name="shoe"
+                          defaultValue={run.shoeId}
+                          required
+                        >
+                          {shoes
+                            .filter(
+                              (candidate) =>
+                                candidate.status === "active" ||
+                                candidate.id === run.shoeId,
+                            )
+                            .map((candidate) => (
+                            <option key={candidate.id} value={candidate.id}>
+                              {candidate.name}
+                            </option>
+                            ))}
+                        </select>
+                        <button type="submit" disabled={pending}>Save</button>
+                        <button type="button" onClick={() => setEditingRunId(null)}>
+                          Cancel
+                        </button>
+                      </form>
+                    ) : (
+                      <>
+                        {getRunLocalDate(run)}: {formatMiles(run.distance)} mi in{" "}
+                        {formatDuration(run.duration)} wearing {shoe?.name ?? "No shoe"}
+                        <button type="button" onClick={() => setEditingRunId(run.id)}>
+                          Edit
+                        </button>
+                        <button
+                          type="button"
+                          disabled={pending}
+                          onClick={async () => {
+                            setError(null);
+                            setPending(true);
+                            try {
+                              await onDeleteRun(run.id);
+                            } catch (caught) {
+                              setError(caught instanceof Error ? caught.message : "The run could not be deleted.");
+                            } finally {
+                              setPending(false);
+                            }
+                          }}
+                        >
+                          Delete
+                        </button>
+                      </>
+                    )}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
         </div>
       </div>
 
-      {/* Right Side: Shoe Management */}
       <div className="shoe-tracking">
         <h3 className="text-lg font-medium">Add New Shoes</h3>
         <div className="flex space-x-2 mt-2">
-          <input type="text" value={newShoe} onChange={(e) => setNewShoe(e.target.value)} placeholder="Shoe Name" />
-          <button onClick={handleAddShoe}>Add</button>
+          <input
+            type="text"
+            value={newShoe}
+            onChange={(event) => setNewShoe(event.target.value)}
+            placeholder="Shoe Name"
+          />
+          <button type="button" onClick={handleAddShoe} disabled={pending}>
+            Add
+          </button>
         </div>
 
         <div className="mt-4">
           <h3 className="text-lg font-medium">Shoe Mileage</h3>
-          <ul>
-            {Object.entries(shoes).map(([shoe, miles]) => (
-              <li key={shoe}>
-                {shoe}: {miles} mi
-              </li>
-            ))}
-          </ul>
+          {shoes.length === 0 ? (
+            <p className="training-empty-state">No shoes added yet.</p>
+          ) : (
+            <ul>
+              {shoes.map((shoe) => (
+                <li key={shoe.id}>
+                  {shoe.name}: {formatMiles(shoeMileage.get(shoe.id) ?? shoe.startingDistance)} mi
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </div>
     </div>

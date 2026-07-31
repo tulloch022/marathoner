@@ -1,132 +1,174 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import {
+  metersToMiles,
+  type PlannedWorkout,
+  type TrainingPlan,
+} from "../domain/training";
 
-type Workout = {
-  day: number;
-  type: string;
-  distance: number;
+type CalendarProps = {
+  readonly plan: TrainingPlan | null;
+  readonly workouts: readonly PlannedWorkout[];
 };
 
-// Generate a sample 20-week plan (assuming each week repeats the 7-day structure)
-const generateWorkoutPlan = () => {
-  const baseWeek: Workout[] = [
-    { day: 1, type: "Easy Run", distance: 3 },
-    { day: 2, type: "Easy Run", distance: 3 },
-    { day: 3, type: "Rest", distance: 0 },
-    { day: 4, type: "Tempo Run", distance: 2 },
-    { day: 5, type: "Recovery Run", distance: 2 },
-    { day: 6, type: "Rest", distance: 0 },
-    { day: 7, type: "Long Run", distance: 8 },
-  ];
+const workoutAbbr = {
+  long: "LR",
+  easy: "E",
+  tempo: "T",
+  recovery: "RR",
+  intervals: "I",
+  race: "RACE",
+  walk_run: "WR",
+  rest: "R",
+} as const;
 
-  let fullPlan: Workout[] = [];
-  for (let week = 0; week < 20; week++) {
-    const weekStart = week * 7;
-    const weekPlan = baseWeek.map((workout, index) => ({
-      day: weekStart + index + 1,
-      type: workout.type,
-      distance: workout.distance,
-    }));
-    fullPlan = [...fullPlan, ...weekPlan];
-  }
-  return fullPlan;
-};
-
-const workoutPlan = generateWorkoutPlan();
-
-// Abbreviations for workouts
-const workoutAbbr: Record<string, string> = {
-  "Long Run": "LR",
-  "Easy Run": "E",
-  "Tempo Run": "T",
-  "Recovery Run": "RR",
-  "Rest": "R",
-};
-
-// Return a CSS class based on the workout type
-function getWorkoutColorClass(type: string): string {
-  switch (type) {
-    case "Long Run":
-      return "long-run";
-    case "Easy Run":
-      return "easy-run";
-    case "Tempo Run":
-      return "tempo-run";
-    case "Recovery Run":
-      return "recovery-run";
-    case "Rest":
-      return "rest-day";
-    default:
-      return "";
-  }
+function addDays(date: string, numberOfDays: number): string {
+  const value = new Date(`${date}T00:00:00.000Z`);
+  value.setUTCDate(value.getUTCDate() + numberOfDays);
+  return value.toISOString().slice(0, 10);
 }
 
-export default function Plan() {
-  const [selectedWorkout, setSelectedWorkout] = useState<Workout | null>(null);
+function daysBetween(start: string, end: string): number {
+  return Math.floor(
+    (Date.parse(`${end}T00:00:00.000Z`) -
+      Date.parse(`${start}T00:00:00.000Z`)) /
+      86_400_000,
+  );
+}
+
+function workoutLabel(workout: PlannedWorkout): string {
+  if (workout.kind === "rest") return "Rest";
+  if (workout.kind === "walk_run") return "Walk/run";
+  return `${workout.purpose[0].toUpperCase()}${workout.purpose.slice(1)} run`;
+}
+
+function workoutAbbreviation(workout: PlannedWorkout): string {
+  if (workout.kind === "rest") return workoutAbbr.rest;
+  if (workout.kind === "walk_run") return workoutAbbr.walk_run;
+  return workoutAbbr[workout.purpose];
+}
+
+function workoutColorClass(workout: PlannedWorkout): string {
+  if (workout.kind === "rest") return "rest-day";
+  if (workout.kind === "walk_run") return "easy-run";
+  return `${workout.purpose.replace("_", "-")}-run`;
+}
+
+export default function Calendar({ plan, workouts }: CalendarProps) {
+  const [selectedWorkout, setSelectedWorkout] =
+    useState<PlannedWorkout | null>(null);
   const [selectedWeek, setSelectedWeek] = useState(1);
 
-  // Filter workouts based on selected week
-  const startDay = (selectedWeek - 1) * 7 + 1;
-  const endDay = selectedWeek * 7;
-  const weekWorkouts = workoutPlan.filter((w) => w.day >= startDay && w.day <= endDay);
-  const weekMileage = weekWorkouts.reduce((total, w) => total + w.distance, 0);
-
-  const handleWorkoutClick = (workout: Workout) => {
-    setSelectedWorkout(workout);
-  };
-
-  const closeModal = () => {
+  useEffect(() => {
+    setSelectedWeek(1);
     setSelectedWorkout(null);
-  };
+  }, [plan?.id]);
+
+  const weekCount = useMemo(() => {
+    if (plan === null) return 0;
+    return Math.max(1, Math.ceil((daysBetween(plan.startDate, plan.targetRaceDate) + 1) / 7));
+  }, [plan]);
+
+  if (plan === null) {
+    return (
+      <p className="training-empty-state">
+        No training plan yet. Your plan will appear here once it has been created.
+      </p>
+    );
+  }
+
+  const weekStart = addDays(plan.startDate, (selectedWeek - 1) * 7);
+  const weekEnd = addDays(weekStart, 6);
+  const weekWorkouts = workouts.filter(
+    (workout) =>
+      workout.planId === plan.id &&
+      workout.scheduledDate >= weekStart &&
+      workout.scheduledDate <= weekEnd,
+  );
+  const targetMileage = weekWorkouts.reduce(
+    (total, workout) =>
+      total +
+      (workout.kind === "rest" || workout.targetDistance === undefined
+        ? 0
+        : metersToMiles(workout.targetDistance)),
+    0,
+  );
 
   return (
     <div className="plan-container">
-      {/* Header Section */}
       <div className="plan-header">
         <h2 className="section-heading">
-          Training Plan -  
-          <select 
+          {plan.name} Week{" "}
+          <select
+            aria-label="Training week"
             className="week-selector"
             value={selectedWeek}
-            onChange={(e) => setSelectedWeek(parseInt(e.target.value))}
+            onChange={(event) => setSelectedWeek(Number(event.target.value))}
           >
-            {[...Array(20)].map((_, index) => (
-              <option key={index} value={index + 1}>
-                Week {index + 1}
+            {Array.from({ length: weekCount }, (_, index) => (
+              <option key={index + 1} value={index + 1}>
+                {index + 1}
               </option>
             ))}
           </select>
         </h2>
-        <p>Total Mileage: {weekMileage} mi</p>
+        <p>
+          {weekStart} to {weekEnd}
+        </p>
+        <p>Target Mileage: {Number(targetMileage.toFixed(1))} mi</p>
       </div>
 
-      {/* Calendar Grid */}
-      <div className="plan-grid">
-        {weekWorkouts.map((workout) => (
-          <div
-            key={workout.day}
-            className={`plan-day ${getWorkoutColorClass(workout.type)}`}
-            onClick={() => handleWorkoutClick(workout)}
-          >
-            <div className="plan-day-number">{workout.day}</div>
-            <div className="plan-day-abbr">{workoutAbbr[workout.type]}</div>
-          </div>
-        ))}
-      </div>
+      {weekWorkouts.length === 0 ? (
+        <p className="training-empty-state">No workouts are scheduled this week.</p>
+      ) : (
+        <div className="plan-grid">
+          {weekWorkouts.map((workout) => (
+            <button
+              key={workout.id}
+              type="button"
+              className={`plan-day ${workoutColorClass(workout)} ${workout.status}`}
+              onClick={() => setSelectedWorkout(workout)}
+              aria-label={`${workout.scheduledDate}: ${workoutLabel(workout)}`}
+            >
+              <span className="plan-day-number">{workout.scheduledDate.slice(5)}</span>
+              <span className="plan-day-abbr">
+                {workoutAbbreviation(workout)}
+              </span>
+            </button>
+          ))}
+        </div>
+      )}
 
-      {/* Detail Modal */}
       {selectedWorkout && (
-        <div className="plan-modal-overlay" onClick={closeModal}>
-          <div className="plan-modal-content" onClick={(e) => e.stopPropagation()}>
-            <h3>Day {selectedWorkout.day} Details</h3>
+        <div
+          className="plan-modal-overlay"
+          onClick={() => setSelectedWorkout(null)}
+        >
+          <div
+            className="plan-modal-content"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="workout-detail-title"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <h3 id="workout-detail-title">
+              {selectedWorkout.scheduledDate} Details
+            </h3>
             <p>
-              <strong>Workout:</strong> {selectedWorkout.type}
+              <strong>Workout:</strong> {workoutLabel(selectedWorkout)}
             </p>
-            {selectedWorkout.distance > 0 && (
-              <p>
-                <strong>Distance:</strong> {selectedWorkout.distance} mi
-              </p>
-            )}
-            <button onClick={closeModal}>Close</button>
+            <p>
+              <strong>Status:</strong> {selectedWorkout.status}
+            </p>
+            {selectedWorkout.kind !== "rest" &&
+              selectedWorkout.targetDistance !== undefined && (
+                <p>
+                  <strong>Distance:</strong>{" "}
+                  {Number(metersToMiles(selectedWorkout.targetDistance).toFixed(1))} mi
+                </p>
+              )}
+            <button type="button" onClick={() => setSelectedWorkout(null)}>
+              Close
+            </button>
           </div>
         </div>
       )}
