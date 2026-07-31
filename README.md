@@ -4,7 +4,7 @@ Plan, track, and understand marathon training in one focused workspace.
 
 Marathoner is an actively developed training companion for runners preparing
 for a marathon. The product is being built in small, understandable increments,
-with the current [Foundation milestone](https://github.com/tulloch022/marathoner/milestone/1)
+with the current [Foundation milestone](https://github.com/marathoner-app/marathoner/milestone/1)
 focused on a dependable application structure, testing, and connected training
 data.
 
@@ -21,7 +21,7 @@ includes:
   authentication.
 
 The visible features share the typed Firestore persistence layer. Follow the
-[open issues](https://github.com/tulloch022/marathoner/issues) to see what is
+[open issues](https://github.com/marathoner-app/marathoner/issues) to see what is
 being built next.
 
 ## Technology
@@ -53,7 +53,7 @@ uses typed repositories backed by Cloud Firestore.
 | `src/firebaseConfig.ts` | Identifies the Firebase web project used by the client. |
 | `src/**/*.test.ts(x)` | Keeps unit and component tests beside the code they verify. |
 | `src/test/` | Contains shared test setup and environment-level tests. |
-| `src/index.css` | Contains the current application-wide styles. |
+| `src/styles/` | Contains global and application-shell styles. Feature-specific styles remain beside their components. |
 | `vite.config.ts` | Configures React, production assets, and the GitHub Pages base path. |
 
 The current application flow is deliberately small:
@@ -75,7 +75,7 @@ Cross-feature behavior is documented in
 
 - Personalized plan generation and plan-creation UI are not implemented yet.
   Accounts without a plan receive an honest empty state. This work is tracked in
-  [issue #29](https://github.com/tulloch022/marathoner/issues/29).
+  [issue #29](https://github.com/marathoner-app/marathoner/issues/29).
 - Training data loads as a persisted snapshot. Mutations remain synchronized
   inside the current session, while real-time cross-device listeners remain a
   future enhancement.
@@ -102,7 +102,7 @@ engine warnings from development tools on unsupported non-LTS releases.
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/tulloch022/marathoner.git
+   git clone https://github.com/marathoner-app/marathoner.git
    cd marathoner
    ```
 
@@ -153,7 +153,7 @@ database or storage service with appropriate Firebase Security Rules. Never
 commit service-account files, private keys, passwords, or other secrets.
 
 Moving environment-specific configuration out of the source file is tracked in
-[issue #22](https://github.com/tulloch022/marathoner/issues/22).
+[issue #22](https://github.com/marathoner-app/marathoner/issues/22).
 
 ## Available scripts
 
@@ -170,7 +170,7 @@ Moving environment-specific configuration out of the source file is tracked in
 ## GitHub Pages deployment
 
 The current production site is published at
-[https://tulloch022.github.io/marathoner/](https://tulloch022.github.io/marathoner/).
+[https://marathoner-app.github.io/marathoner/](https://marathoner-app.github.io/marathoner/).
 GitHub Actions builds and deploys the site whenever a pull request is merged
 into `main`. The workflow can also be started manually from the repository's
 Actions tab when a deployment needs to be repeated without a source change.
@@ -227,12 +227,8 @@ The current suite covers the shared training model, initial App screen and
 section transitions, persisted calendar views, shoe and run mutations,
 authentication error states, derived analytics, and cross-feature consistency.
 
-Known testing boundaries remain visible:
-
-- App transition tests report the nested-button warning tracked in
-  [issue #1](https://github.com/tulloch022/marathoner/issues/1).
-- Firestore integration tests require Java and run separately with
-  `npm run test:firestore`; they are not part of the fast jsdom unit suite.
+Firestore integration tests require Java and run separately with
+`npm run test:firestore`; they are not part of the fast jsdom unit suite.
 
 ## Validate a change
 

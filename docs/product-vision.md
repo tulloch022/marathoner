@@ -339,15 +339,16 @@ provider.
 
 Dates after Foundation are targets and may change as the product is validated.
 
-### Foundation: July 22 to September 8, 2026
+### Foundation: July 22 to July 31, 2026
 
-Complete the existing Foundation milestone, establish the development workflow,
-and onboard the first collaborator after the milestone exits.
+Establish the development workflow, connect the initial training-data foundation,
+complete the GitHub organization migration, and prepare to onboard the first
+collaborator.
 
 Foundation scope does not expand to include the plan engine, native
 applications, or integrations.
 
-### Product core: September and October 2026
+### Product core: August to October 2026
 
 - persistent runner profiles and training data;
 - onboarding and race feasibility;

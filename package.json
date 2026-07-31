@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://github.com/tulloch022/marathoner",
+  "homepage": "https://github.com/marathoner-app/marathoner",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

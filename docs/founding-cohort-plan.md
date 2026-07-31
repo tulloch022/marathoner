@@ -3,8 +3,8 @@
 - **Status:** Draft
 - **Last updated:** July 23, 2026
 - **Product owner:** Kevin Tulloch
-- **Related issue:** [#35](https://github.com/tulloch022/marathoner/issues/35)
-- **Related milestone:** [Mobile External Beta](https://github.com/tulloch022/marathoner/milestone/2)
+- **Related issue:** [#35](https://github.com/marathoner-app/marathoner/issues/35)
+- **Related milestone:** [Mobile External Beta](https://github.com/marathoner-app/marathoner/milestone/2)
 
 ## Purpose
 

@@ -6,17 +6,17 @@
 
 **Product owner:** Kevin Tulloch
 
-**Tracking issue:** [#43](https://github.com/tulloch022/marathoner/issues/43)
+**Tracking issue:** [#43](https://github.com/marathoner-app/marathoner/issues/43)
 
 **Prototype branch:** `codex/issue-43-track-analyze-prototypes`
 
-**Draft prototype PR:** [#44](https://github.com/tulloch022/marathoner/pull/44), preserved for reference and not intended to merge
+**Draft prototype PR:** [#44](https://github.com/marathoner-app/marathoner/pull/44), preserved for reference and not intended to merge
 
 ## Purpose
 
 This directory preserves the current visual direction for Marathoner's Track and Analyze panels. The screenshots and code on the prototype branch are references, not production-ready feature implementations.
 
-Foundation work, beginning with the shared training domain model in issue [#11](https://github.com/tulloch022/marathoner/issues/11), should continue before these panels are connected to real training data. When implementation is scheduled, the designs should be rebuilt through small, issue-linked pull requests that are understandable and reviewable on their own.
+The shared training domain and connected data behavior from issue [#11](https://github.com/marathoner-app/marathoner/issues/11) are now implemented. These prototypes remain visual references only. Any future visual refresh should be rebuilt through small, issue-linked pull requests that preserve the connected behavior and remain understandable and reviewable on their own.
 
 ## Shared visual direction
 
