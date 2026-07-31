@@ -7,7 +7,8 @@ import App from './App'
 vi.mock('framer-motion', () => ({
   motion: {
     button: 'button',
-    div: 'div'
+    div: 'div',
+    section: 'section'
   }
 }))
 
@@ -37,6 +38,9 @@ describe('App', () => {
     expect(screen.getByRole('button', { name: 'Plan' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Track' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Analyze' })).toBeInTheDocument()
+    expect(
+      screen.getByRole('navigation', { name: 'Training sections' })
+    ).toBeInTheDocument()
   })
 
   it.each(sectionTransitions)(
@@ -45,16 +49,27 @@ describe('App', () => {
       const user = userEvent.setup()
       render(<App />)
 
-      await user.click(screen.getByRole('button', { name: sectionName }))
+      const sectionTrigger = screen.getByRole('button', { name: sectionName })
+      await user.click(sectionTrigger)
 
       expect(
         screen.getByRole('heading', { level: 1, name: sectionHeading })
       ).toBeInTheDocument()
       expect(
+        screen.getByRole('region', { name: sectionHeading })
+      ).toBeInTheDocument()
+      expect(
         screen.queryByRole('heading', { level: 1, name: 'Marathoner.' })
       ).not.toBeInTheDocument()
+      expect(
+        screen.queryByRole('navigation', { name: 'Training sections' })
+      ).not.toBeInTheDocument()
 
-      await user.click(screen.getByRole('button', { name: 'X' }))
+      const closeButton = screen.getByRole('button', {
+        name: `Close ${sectionHeading} panel`
+      })
+      expect(closeButton).toHaveFocus()
+      await user.click(closeButton)
 
       expect(
         screen.getByRole('heading', { level: 1, name: 'Marathoner.' })
@@ -62,6 +77,39 @@ describe('App', () => {
       expect(
         screen.queryByRole('heading', { level: 1, name: sectionHeading })
       ).not.toBeInTheDocument()
+      expect(screen.getByRole('button', { name: sectionName })).toHaveFocus()
     }
   )
+
+  it('opens and closes a section with the keyboard', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+
+    const planTrigger = screen.getByRole('button', { name: 'Plan' })
+    planTrigger.focus()
+
+    await user.keyboard('{Enter}')
+
+    expect(
+      screen.getByRole('region', { name: 'Plan Your Workouts' })
+    ).toBeInTheDocument()
+
+    await user.keyboard('{Escape}')
+
+    expect(screen.queryByRole('region')).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Plan' })).toHaveFocus()
+  })
+
+  it('keeps panel controls outside the section trigger buttons', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+
+    await user.click(screen.getByRole('button', { name: 'Track' }))
+
+    expect(
+      document.querySelector(
+        'button button, button input, button select, button textarea, button a[href]'
+      )
+    ).toBeNull()
+  })
 })
