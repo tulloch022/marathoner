@@ -89,14 +89,29 @@ describe("Calendar", () => {
 
   it("opens and closes a persisted workout detail", async () => {
     const user = userEvent.setup();
-    render(<Calendar plan={plan} workouts={workouts} />);
+    const { getByRole } = render(<Calendar plan={plan} workouts={workouts} />);
 
-    await user.click(screen.getByRole("button", { name: "2026-08-03: Easy run" }));
+    const trigger = getByRole("button", { name: "2026-08-03: Easy run" });
+    await user.click(trigger);
     expect(
       screen.getByRole("heading", { name: "2026-08-03 Details" }),
     ).toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Close" })).toHaveFocus();
 
     await user.click(screen.getByRole("button", { name: "Close" }));
     expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(trigger).toHaveFocus();
+  });
+
+  it("dismisses the detail with Escape and restores focus", async () => {
+    const user = userEvent.setup();
+    render(<Calendar plan={plan} workouts={workouts} />);
+
+    const trigger = screen.getByRole("button", { name: "2026-08-03: Easy run" });
+    await user.click(trigger);
+    await user.keyboard("{Escape}");
+
+    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
+    expect(trigger).toHaveFocus();
   });
 });

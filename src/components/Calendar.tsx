@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   metersToMiles,
   type PlannedWorkout,
@@ -57,11 +57,52 @@ export default function Calendar({ plan, workouts }: CalendarProps) {
   const [selectedWorkout, setSelectedWorkout] =
     useState<PlannedWorkout | null>(null);
   const [selectedWeek, setSelectedWeek] = useState(1);
+  const dialogRef = useRef<HTMLDivElement | null>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     setSelectedWeek(1);
     setSelectedWorkout(null);
   }, [plan?.id]);
+
+  useEffect(() => {
+    if (!selectedWorkout) return undefined;
+
+    const dialog = dialogRef.current;
+    const focusable = dialog
+      ? Array.from(
+          dialog.querySelectorAll<HTMLElement>(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+          ),
+        )
+      : [];
+    focusable[0]?.focus();
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        setSelectedWorkout(null);
+        return;
+      }
+      if (event.key !== "Tab" || focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      triggerRef.current?.focus();
+    };
+  }, [selectedWorkout]);
 
   const weekCount = useMemo(() => {
     if (plan === null) return 0;
@@ -126,7 +167,10 @@ export default function Calendar({ plan, workouts }: CalendarProps) {
               key={workout.id}
               type="button"
               className={`plan-day ${workoutColorClass(workout)} ${workout.status}`}
-              onClick={() => setSelectedWorkout(workout)}
+              onClick={(event) => {
+                triggerRef.current = event.currentTarget;
+                setSelectedWorkout(workout);
+              }}
               aria-label={`${workout.scheduledDate}: ${workoutLabel(workout)}`}
             >
               <span className="plan-day-number">{workout.scheduledDate.slice(5)}</span>
@@ -148,6 +192,7 @@ export default function Calendar({ plan, workouts }: CalendarProps) {
             role="dialog"
             aria-modal="true"
             aria-labelledby="workout-detail-title"
+            ref={dialogRef}
             onClick={(event) => event.stopPropagation()}
           >
             <h3 id="workout-detail-title">
