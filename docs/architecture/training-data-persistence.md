@@ -181,8 +181,9 @@ plan-field validation, and an end-to-end repository round trip for a related
 plan, workout, shoe, and run. The Firebase emulator requires a local Java
 runtime.
 
-Deploy the tested rules and empty index configuration to the Marathoner Firebase
-project before using the connected features against production Firestore:
+The tested rules and index configuration were deployed to the Marathoner Firebase
+project during the Foundation closeout. Repeat this explicit production operation
+whenever either file changes:
 
 ```bash
 npx firebase deploy --project marathoner-d9bf9 --only firestore

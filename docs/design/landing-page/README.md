@@ -3,8 +3,8 @@
 **Status:** Approved design direction  
 **Approved:** July 22, 2026  
 **Product owner:** Kevin Tulloch  
-**Planning issue:** [#23](https://github.com/tulloch022/marathoner/issues/23)  
-**Documentation issue:** [#24](https://github.com/tulloch022/marathoner/issues/24)
+**Planning issue:** [#23](https://github.com/marathoner-app/marathoner/issues/23)
+**Documentation issue:** [#24](https://github.com/marathoner-app/marathoner/issues/24)
 
 ## Purpose
 

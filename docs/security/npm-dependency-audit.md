@@ -1,6 +1,6 @@
 # npm dependency security review
 
-**Tracking issue:** [#31](https://github.com/tulloch022/marathoner/issues/31)
+**Tracking issue:** [#31](https://github.com/marathoner-app/marathoner/issues/31)
 
 **Reviewed:** July 30, 2026
 

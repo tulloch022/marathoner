@@ -3,8 +3,8 @@
 **Status:** Approved
 **Approved:** July 22, 2026
 **Refined:** July 23, 2026
-**Tracking issues:** [#27](https://github.com/tulloch022/marathoner/issues/27),
-[#37](https://github.com/tulloch022/marathoner/issues/37)
+**Tracking issues:** [#27](https://github.com/marathoner-app/marathoner/issues/27),
+[#37](https://github.com/marathoner-app/marathoner/issues/37)
 
 ![Marathoner route icon](../../public/brand/marathoner-icon-512.png)
 
