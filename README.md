@@ -13,14 +13,14 @@ data.
 Marathoner is currently a foundation-stage prototype. The existing experience
 includes:
 
-- **Plan:** browse a sample 20-week workout calendar and inspect daily workouts.
-- **Track:** add shoes, log runs, and calculate mileage for the current session.
-- **Analyze:** preview the planned analytics experience with sample data.
+- **Plan:** browse persisted training weeks and inspect planned-workout details.
+- **Track:** persist shoes and runs, associate runs with planned workouts, and
+  edit or delete completed runs.
+- **Analyze:** calculate mileage, pace, and run counts from completed-run history.
 - **Authentication:** create an account and sign in with Firebase email/password
   authentication.
 
-The typed persistence layer can store training plans, workouts, runs, and shoes,
-but the visible prototype features are not connected to it yet. Follow the
+The visible features share the typed Firestore persistence layer. Follow the
 [open issues](https://github.com/tulloch022/marathoner/issues) to see what is
 being built next.
 
@@ -28,7 +28,7 @@ being built next.
 
 - React and TypeScript
 - Vite
-- Firebase Authentication
+- Firebase Authentication and Cloud Firestore
 - Framer Motion
 - Vitest and Testing Library
 - ESLint
@@ -36,8 +36,8 @@ being built next.
 ## Current architecture
 
 Marathoner is currently a client-only, single-page React application. It does
-not have an application server, API, or router. A typed Firestore persistence
-layer is being built, but the prototype features are not connected to it yet.
+not have an application server, API, or router. Its authenticated training data
+uses typed repositories backed by Cloud Firestore.
 
 | Path | Responsibility |
 | --- | --- |
@@ -47,6 +47,7 @@ layer is being built, but the prototype features are not connected to it yet.
 | `src/components/` | Contains the feature views, authentication forms, title, subtitle, and supporting UI. |
 | `src/domain/training/` | Defines shared training entities, identifiers, units, validation, and calculations without React or Firebase dependencies. |
 | `src/persistence/` | Defines typed training repositories, Firestore conversion, storage paths, ownership integration tests, and recoverable persistence errors. |
+| `src/training/` | Owns authenticated training-data loading, shared feature state, and cross-feature mutations. |
 | `src/services/firebaseClient.ts` | Initializes the shared Firebase app and Authentication instance. |
 | `src/services/authService.ts` | Contains authentication operations against the shared Firebase client. |
 | `src/firebaseConfig.ts` | Identifies the Firebase web project used by the client. |
@@ -58,44 +59,31 @@ layer is being built, but the prototype features are not connected to it yet.
 The current application flow is deliberately small:
 
 1. `src/main.tsx` mounts `App`.
-2. `App` keeps the selected section in local React state.
-3. Opening Plan, Track, or Analyze mounts that feature component.
-4. Closing a section unmounts its feature component and returns to the landing
-   screen.
-5. Login and signup forms call the Firebase authentication service directly.
+2. `AuthProvider` resolves the Firebase session and gates personal features.
+3. `TrainingDataProvider` loads repositories for the signed-in user and keeps
+   one shared plan, workout, run, and shoe snapshot.
+4. Opening Plan, Track, or Analyze mounts a view over that shared snapshot.
+5. Feature mutations persist through repositories and update the shared state,
+   so every open panel observes the same records.
 
 The shared training domain model is documented in
 [`docs/architecture/training-domain-model.md`](docs/architecture/training-domain-model.md).
-The current prototype components have not been connected to that model or to an
-application-wide state container yet. Persistence and feature integration will
-be introduced through the remaining Foundation work.
+Cross-feature behavior is documented in
+[`docs/architecture/training-feature-integration.md`](docs/architecture/training-feature-integration.md).
 
 ## Current data limitations
 
-The visible training experience is not connected to persistent user data yet:
-
-- **Plan:** `Calendar.tsx` generates a sample 20-week schedule by repeating one
-  seven-day week. It is not based on dates, goals, experience, or an account.
-  Personalized plan generation is tracked in
+- Personalized plan generation and plan-creation UI are not implemented yet.
+  Accounts without a plan receive an honest empty state. This work is tracked in
   [issue #29](https://github.com/tulloch022/marathoner/issues/29).
-- **Track:** `ShoeTracker.tsx` keeps shoes and runs in component state. Closing
-  Track, refreshing the page, or opening the app on another device clears that
-  data. Persistent training data is tracked in
-  [issue #12](https://github.com/tulloch022/marathoner/issues/12).
-- **Analyze:** `Analyze.tsx` displays fixed demonstration values. It does not
-  calculate results from Plan or Track. Connecting the three features is
-  tracked in [issue #13](https://github.com/tulloch022/marathoner/issues/13).
-- **Authentication:** Firebase can create and sign in accounts, but the
-  application shell does not currently display the signed-in user, react to
-  authentication-state changes, protect content, or expose sign out.
-  Application-level authentication state is tracked in
-  [issue #5](https://github.com/tulloch022/marathoner/issues/5).
-
-No visible workout, run, shoe, or analytics data is sent to Firestore yet. The
-typed persistence foundation and security model are documented in
-[`docs/architecture/training-data-persistence.md`](docs/architecture/training-data-persistence.md),
-but feature integration remains part of issue #13. Firebase Authentication is
-currently the only remote operation initiated by the visible application.
+- Training data loads as a persisted snapshot. Mutations remain synchronized
+  inside the current session, while real-time cross-device listeners remain a
+  future enhancement.
+- The first Track form captures date, distance, elapsed time, shoe, and optional
+  planned-workout association. Perceived effort and the remaining coaching
+  inputs will be added in later product slices.
+- Firestore structure and security behavior are documented in
+  [`docs/architecture/training-data-persistence.md`](docs/architecture/training-data-persistence.md).
 
 ## Prerequisites
 
@@ -138,17 +126,16 @@ that exactly matches `package-lock.json`.
 
 ## Firebase configuration
 
-Firebase currently performs email/password authentication and supplies the
-Firestore client for the persistence layer under construction. The web client
+Firebase performs email/password authentication and supplies the Firestore
+client for persisted training data. The web client
 configuration is defined in `src/firebaseConfig.ts`. Importing
 `src/services/firebaseClient.ts` initializes one shared Firebase app and creates
 the Authentication instance. The persistence entry point creates Firestore from
 that same app only when training repositories are requested.
 
-The service exports operations for signup, sign in, sign out, reading the
-current user, and subscribing to authentication changes. The current UI uses
-only signup and sign in. Firebase may retain an authenticated browser session,
-but the rest of the application does not consume that session yet.
+The authentication service exports operations for signup, sign in, sign out,
+reading the current user, and subscribing to authentication changes. The
+training-data provider uses the authenticated UID as its ownership boundary.
 
 The committed configuration connects the app to its current Firebase project.
 To use a different project:
@@ -237,8 +224,8 @@ When writing tests:
   that explains the expected outcome.
 
 The current suite covers the shared training model, initial App screen and
-section transitions, calendar week selection and workout details, shoe creation
-and run logging, authentication error states, and the sample analytics summary.
+section transitions, persisted calendar views, shoe and run mutations,
+authentication error states, derived analytics, and cross-feature consistency.
 
 Known testing boundaries remain visible:
 
@@ -246,9 +233,6 @@ Known testing boundaries remain visible:
   [issue #1](https://github.com/tulloch022/marathoner/issues/1).
 - Firestore integration tests require Java and run separately with
   `npm run test:firestore`; they are not part of the fast jsdom unit suite.
-- Analytics assertions currently describe sample values until
-  [issue #13](https://github.com/tulloch022/marathoner/issues/13) connects them
-  to training data.
 
 ## Validate a change
 
