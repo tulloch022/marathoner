@@ -1,0 +1,47 @@
+.analyze-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+  overflow-y: auto;
+  border-radius: 8px;
+  color: #000;
+  text-align: center;
+}
+
+.analyze-cards {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  gap: 20px;
+}
+
+.analyze-card {
+  width: 30%;
+  min-width: 10em;
+  min-height: 5em;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.analyze-card h2 {
+  margin: 0;
+  color: #007bff;
+  font-size: 1.2rem;
+}
+
+.analyze-card p {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .analyze-container {
+    width: 80%;
+    margin: 0 auto;
+  }
+}

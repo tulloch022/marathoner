@@ -1,0 +1,125 @@
+.plan-container {
+  padding: 16px;
+  font-family: sans-serif;
+}
+
+.plan-header {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.plan-header h2 {
+  margin: 0;
+  font-size: 24px;
+}
+
+.plan-header p {
+  margin: 5px 0 0;
+  color: #555;
+}
+
+.week-selector {
+  margin-left: 10px;
+  padding: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: white;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.plan-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 13%);
+  gap: 1vw;
+}
+
+.plan-day {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: center;
+  cursor: pointer;
+  transition: box-shadow 0.3s;
+}
+
+.plan-day:hover {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+}
+
+.plan-day-number {
+  margin-bottom: 5px;
+  color: rgb(116, 115, 115);
+  font-weight: bold;
+}
+
+.plan-day-abbr {
+  color: black;
+  font-size: 2vw;
+}
+
+.long-run {
+  background-color: #fde2e2;
+}
+
+.easy-run {
+  background-color: #e2f7e2;
+}
+
+.tempo-run {
+  background-color: #fff5cc;
+}
+
+.recovery-run {
+  background-color: #e0f0ff;
+}
+
+.rest-day {
+  background-color: #f0f0f0;
+}
+
+.plan-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.plan-modal-content {
+  width: 300px;
+  padding: 20px;
+  border-radius: 6px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  text-align: center;
+}
+
+.plan-modal-content h3 {
+  margin-top: 0;
+}
+
+.plan-modal-content p {
+  margin: 0;
+}
+
+.plan-modal-content button {
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 15px;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.plan-modal-content button:hover {
+  background-color: #0056b3;
+}
